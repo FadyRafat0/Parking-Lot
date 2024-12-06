@@ -4,14 +4,15 @@ import java.util.Scanner;
 import java.util.Vector;
 public class Reservation {
     static int reservationID=0;
-    String ownerID;
-    String ownerName;
-    int resID;
-    int spotID;
-    LocalDate reservationDate;
-    int slotID;
-    boolean status;
-    public Reservation(String ownerID,String ownerName,int spotID,int slotID) {
+    private String ownerID;
+    private String ownerName;
+    private int resID;
+    private int spotID;
+    private LocalDate reservationDate;
+    private int slotID;
+    private boolean status;
+    private int amount;
+    public Reservation(String ownerID,String ownerName,int spotID,int slotID,int amount) {
         this.resID = reservationID++;
         this.ownerName = ownerName;
         this.ownerID = ownerID;
@@ -19,6 +20,7 @@ public class Reservation {
         this.slotID = slotID;
         this.status = true;
         this.reservationDate = LocalDate.now();
+        this.amount = amount;
     }
 
     public boolean isStatus() {
@@ -80,8 +82,7 @@ public class Reservation {
     public static int getReservationID() {
         return reservationID;
     }
-
-    public static void setReservationID(int reservationID) {
-        Reservation.reservationID = reservationID;
+    public int getAmount() {
+        return amount;
     }
 }
