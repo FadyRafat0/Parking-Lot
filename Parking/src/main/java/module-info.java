@@ -10,7 +10,7 @@ module com.example.parking {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
-    requires java.desktop;
+    requires javafx.graphics;
 
     opens com.example.parking to javafx.fxml;
     exports com.example.parking;
