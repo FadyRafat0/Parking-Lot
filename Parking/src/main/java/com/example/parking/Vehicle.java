@@ -4,19 +4,9 @@ import java.util.regex.Pattern;
 class Vehicle {
     private VehicleType Type;
     private String licensePlate;
-    private String brand;
-    public Vehicle(VehicleType Type, String licensePlate, String brand) {
+    public Vehicle(VehicleType Type, String licensePlate) {
         this.Type = Type;
         this.licensePlate = licensePlate;
-        this.brand = brand;
-    }
-
-
-    public String getBrand() {
-        return brand;
-    }
-    public void setBrand(String brand) {
-        this.brand = brand;
     }
 
     public VehicleType getType() {
