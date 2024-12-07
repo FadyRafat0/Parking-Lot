@@ -1,11 +1,13 @@
 package com.example.parking.spot;
 import com.example.parking.*;
+
+import java.util.ArrayList;
 import java.util.Map;
 
 public abstract class Spot {
     protected int spotID;
     protected double hourRate;
-    protected Map<Integer, Slot> slots;
+    protected ArrayList<Slot> slots;
 
     public Spot(int spotID, double hourRate) {
         this.spotID = spotID;
@@ -13,22 +15,14 @@ public abstract class Spot {
     }
 
     public abstract boolean isSuitableFor(VehicleType vehicleType);
-
-    public void addSlot(Slot slot) {
-        slots.put(slot.getSlotID(), slot);
-    }
     public void removeSlot(int slotID) {
         slots.remove(slotID);
     }
-
     public Slot getSlot(int slotID) {
         return slots.get(slotID);
     }
-
-    public void displaySlots() {
-        for (Slot slot : slots.values()) {
-            slot.displaySlot();
-        }
+    public void  addSlot(Slot slot){
+        slots.add(slot);
     }
 
     public int getSpotID() { return spotID; }

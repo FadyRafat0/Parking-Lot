@@ -1,20 +1,18 @@
 package com.example.parking;
-
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Duration;
 public class Slot {
-    private int slotID;
-    private String date;
+    private int spotID;
+    private LocalDateTime startDate,endDate; // 2024-12-07T14:30:00 --> yyyy-MM-dd'T'HH:mm:ss
     private int hours;
     private boolean isAvailable;
-
-    public Slot(int id, String date, int hours) {
-        this.slotID = id;
-        this.date = date;
-        this.hours = hours;
+    public Slot(int spotID,LocalDateTime startDate , LocalDateTime endDate) {
+        this.spotID = spotID;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.hours = (int)Duration.between(startDate,endDate).toHours();
         this.isAvailable = true;
-    }
-
-    public void displaySlot() {
-        System.out.println("Slot ID: " + slotID + ", Date: " + date + ", Hours: " + hours + ", Available: " + isAvailable);
     }
     public void bookSlot() {
         isAvailable = false;
@@ -23,25 +21,17 @@ public class Slot {
         isAvailable = true;
     }
 
-    public int getSlotID() { return slotID; }
+    public int getspotID() { return spotID; }
 
-    public String getDate() {
-        return date;
-    }
-    public void setDate(String date) {
-        this.date = date;
+    public LocalDateTime getStartDate() {
+        return startDate;
     }
 
+    public LocalDateTime getEndDate() {
+        return endDate;
+    }
     public int getHours() {
         return hours;
     }
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
-
-    public void setSlotID(int slotID) {
-        this.slotID = slotID;
-    }
-
     public boolean isAvailable() { return isAvailable; }
 }

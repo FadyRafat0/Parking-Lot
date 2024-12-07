@@ -22,21 +22,10 @@ class Vehicle {
     public VehicleType getType() {
         return Type;
     }
-    public void setType(VehicleType Type) {
-        this.Type = Type;
-    }
-
     public String getLicensePlate() {
         return licensePlate;
     }
-    public void setLicensePlate(String licensePlate) {
-        if (isValidLicensePlate(licensePlate)) {
-            this.licensePlate = licensePlate;
-        } else {
-            throw new IllegalArgumentException("Invalid license plate format");
-        }
-    }
-    private boolean isValidLicensePlate(String plate) {
+    public static boolean isValidLicensePlate(String plate) {
         // Example  1-3 letters, dash, 1-4 digits
         String regex = "^[A-Z]{1,3}-\\d{1,4}$";
         return Pattern.matches(regex, plate);
