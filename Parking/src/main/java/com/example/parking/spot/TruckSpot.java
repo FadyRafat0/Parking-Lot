@@ -11,4 +11,8 @@ public class TruckSpot extends Spot{
     public boolean isSuitableFor(VehicleType vehicleType){
         return vehicleType == VehicleType.Truck;
     }
+    public VehicleType getSpotType() {
+        return VehicleType.Truck;
+    }
+
 }

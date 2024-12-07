@@ -49,14 +49,11 @@ public class Feedback
         return ReservationID;
     }
 
-
-
     private void IDsCheck(int ownerID, int ReservationID)
     {
         if(ownerID<1 || ReservationID<1)
         {
             throw  new IllegalArgumentException("Invalid ID Number! Please try again");
-
         }
     }
 
@@ -90,6 +87,4 @@ public class Feedback
         }
 
     }
-
-
 }

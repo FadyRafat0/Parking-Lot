@@ -50,7 +50,7 @@
                 <Font name="Segoe Script Bold" size="96.0" />
             </font>
         </Label>
-        <Button alignment="CENTER" layoutX="305.0" layoutY="450.0" mnemonicParsing="false" onAction="#signUpButton" prefHeight="63.0" prefWidth="262.0" styleClass="buttonEff" text="Log in" textOverrun="CLIP">
+        <Button alignment="CENTER" layoutX="305.0" layoutY="450.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="262.0" styleClass="buttonEff" text="Log in" textOverrun="CLIP">
             <font>
                 <Font name="SansSerif Bold Italic" size="29.0" />
             </font>

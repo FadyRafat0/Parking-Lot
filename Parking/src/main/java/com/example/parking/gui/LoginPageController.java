@@ -1,6 +1,7 @@
 package com.example.parking.gui;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ public class LoginPageController {
     private Scene scene;
     private Parent root;
 
+    @FXML
     public void signUpButton(ActionEvent event) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SignUpPageFXML.fxml")));
         scene = new Scene(root);
@@ -24,7 +26,7 @@ public class LoginPageController {
         stage.show();
     }
 
-    public void signInButton(ActionEvent event) throws IOException {
+    public void loginButton(ActionEvent event) throws IOException {
 
     }
 }
