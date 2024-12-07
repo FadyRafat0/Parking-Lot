@@ -1,8 +1,6 @@
 package com.example.parking.spot;
 import com.example.parking.*;
-
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Spot {
     protected int spotID;
@@ -15,17 +13,25 @@ public abstract class Spot {
     }
 
     public abstract boolean isSuitableFor(VehicleType vehicleType);
-    public void removeSlot(int slotID) {
-        slots.remove(slotID);
+    public abstract VehicleType getSpotType();
+
+    public void addSlot(Slot slot) {
+        slots.add(slot.getSlotID(), slot);
     }
+    public void removeSlot(int slotID) {
+       slots.removeIf(slot -> slot.getSlotID() == slotID);
+    }
+
     public Slot getSlot(int slotID) {
         return slots.get(slotID);
     }
-    public void  addSlot(Slot slot){
-        slots.add(slot);
+
+    public int getSpotID() {
+        return spotID;
+    }
+    public double getHourRate() {
+        return hourRate;
     }
 
-    public int getSpotID() { return spotID; }
-    public double getHourRate() { return hourRate; }
 }
 

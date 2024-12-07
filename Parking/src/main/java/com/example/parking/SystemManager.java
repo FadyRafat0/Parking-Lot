@@ -1,5 +1,4 @@
 package com.example.parking;
-
 import com.example.parking.spot.*;
 
 import java.util.HashMap;
@@ -9,7 +8,6 @@ public class SystemManager {
     static Map<Integer, Spot> spots;
 
     public SystemManager() {
-
     }
 
     static Spot getSpot(int spotId) {
