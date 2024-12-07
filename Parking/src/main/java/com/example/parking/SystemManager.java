@@ -1,5 +1,5 @@
 package com.example.parking;
-import com.example.parking.spot.Spot;
+import com.example.parking.spot.*;
 
 import java.util.HashMap;
 import java.util.Map;

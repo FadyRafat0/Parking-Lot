@@ -4,12 +4,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class SignUpPageController {
 
@@ -104,22 +98,6 @@ public class SignUpPageController {
         if (username.isEmpty() || password.isEmpty() || licenseNumber.isEmpty()) {
             showAlert("Error", "All fields must be filled, and a vehicle type must be selected.");
             return;
-        }
-    }
-
-    @FXML
-    private void goToLoginPage() {
-        try {
-            // Load the LoginPage FXML
-            Parent loginPage = FXMLLoader.load(getClass().getResource("LoginPageFXML.fxml"));
-
-            // Get the current stage
-            Stage stage = (Stage) loginLink.getScene().getWindow();
-
-            // Set the scene to the login page
-            stage.setScene(new Scene(loginPage));
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }
