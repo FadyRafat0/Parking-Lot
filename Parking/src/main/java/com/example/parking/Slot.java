@@ -7,6 +7,8 @@ public class Slot {
     private LocalDateTime startDate, endDate; // 2024-12-07T14:30:00 --> yyyy-MM-dd'T'HH:mm:ss
     private final int hours;
     private boolean isAvailable;
+
+
     public Slot(int slotID , int spotID, LocalDateTime startDate, LocalDateTime endDate) {
         this.slotID = slotID;
         this.spotID = spotID;
@@ -15,6 +17,8 @@ public class Slot {
         this.hours = (int)Duration.between(startDate,endDate).toHours();
         this.isAvailable = true;
     }
+
+
     public void bookSlot() {
         isAvailable = false;
     }

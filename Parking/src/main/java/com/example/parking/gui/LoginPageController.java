@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class LoginPageController {
 
@@ -52,9 +53,15 @@ public class LoginPageController {
             return;
         }
 
-        // Admin Page
+
+        // Go to Admin Page
         if (username.equals("admin") && password.equals("admin")) {
             showAlert("Success", "Login Successfully!");
+            Parent root = FXMLLoader.load(getClass().getResource("/com/example/parking/AdminPageFXML.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ( ((Node) event.getSource()).getScene().getWindow());
+            stage.setScene(scene);
+            stage.show();
             return;
         }
 

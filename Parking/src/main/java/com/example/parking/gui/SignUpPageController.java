@@ -106,7 +106,11 @@ public class SignUpPageController {
             showAlert("Error", "This Username Is Taken");
             return;
         }
-
+        if(password.length()<5)
+        {
+            showAlert("Error", "Password must be at least 5 charcaters long!");
+            return;
+        }
         // Register Successfully
         showAlert("Success", "signUp Successfully!");
         // SystemManager.register(userName, password, licenseNumber, vehicles, balance);
