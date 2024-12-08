@@ -92,23 +92,26 @@ public class SignUpPageController {
 
     public void signUpButtonClicked(ActionEvent event) {
         // Get input values
-        String username = usernameField.getText().trim();
+        String userName = usernameField.getText().trim();
         String password = passwordField.getText().trim();
         String licenseNumber = licenseNumberField.getText().trim();
 
-        if (username.isEmpty() || password.isEmpty() || licenseNumber.isEmpty()) {
+        if (userName.isEmpty() || password.isEmpty() || licenseNumber.isEmpty()) {
             showAlert("Error", "All fields must be filled");
             return;
         }
 
         // if the Username Taken Error
-        if (SystemManager.isUserNameExist(username)) {
+        if (SystemManager.isUserNameExist(userName)) {
             showAlert("Error", "This Username Is Taken");
             return;
         }
 
-        // LoginPage
+        // Register Successfully
         showAlert("Success", "signUp Successfully!");
+        // SystemManager.register(userName, password, licenseNumber, vehicles, balance);
+
+        // Go LoginPage
         goToLoginPage(event);
     }
 
@@ -122,7 +125,7 @@ public class SignUpPageController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            showAlert("Error", "Failed to load the sign-up page xfml.");
+            showAlert("Error", "Failed to load the login page xfml.");
         }
     }
 }
