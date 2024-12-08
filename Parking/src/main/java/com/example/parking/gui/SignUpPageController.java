@@ -1,8 +1,11 @@
 package com.example.parking.gui;
+import com.example.parking.*;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class SignUpPageController {
 
@@ -86,31 +90,39 @@ public class SignUpPageController {
         alert.showAndWait();
     }
 
-    public void signUpButtonClicked() {
+    public void signUpButtonClicked(ActionEvent event) {
         // Get input values
         String username = usernameField.getText().trim();
         String password = passwordField.getText().trim();
         String licenseNumber = licenseNumberField.getText().trim();
 
         if (username.isEmpty() || password.isEmpty() || licenseNumber.isEmpty()) {
-            showAlert("Error", "All fields must be filled, and a vehicle type must be selected.");
+            showAlert("Error", "All fields must be filled");
             return;
         }
+
+        // if the Username Taken Error
+        if (SystemManager.isUserNameExist(username)) {
+            showAlert("Error", "This Username Is Taken");
+            return;
+        }
+
+        // LoginPage
+        showAlert("Success", "signUp Successfully!");
+        goToLoginPage(event);
     }
 
     @FXML
-    private void goToLoginPage() {
+     public void goToLoginPage(ActionEvent event) {
         try {
-            // Load the LoginPage FXML
-            Parent loginPage = FXMLLoader.load(getClass().getResource("LoginPageFXML.fxml"));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/LoginPageFXML.fxml")));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-            // Get the current stage
-            Stage stage = (Stage) loginLink.getScene().getWindow();
-
-            // Set the scene to the login page
-            stage.setScene(new Scene(loginPage));
+            stage.setScene(scene);
+            stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            showAlert("Error", "Failed to load the sign-up page xfml.");
         }
     }
 }

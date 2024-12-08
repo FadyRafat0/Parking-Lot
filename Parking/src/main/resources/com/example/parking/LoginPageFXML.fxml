@@ -21,23 +21,23 @@
                             <children>
                                 <Label id="headings_login" stylesheets="@style.css" text="Username:">
                                 </Label>
-                                <TextField styleClass="Login_textarea" stylesheets="@style.css" />
+                                <TextField fx:id="usernameField" styleClass="Login_textarea" stylesheets="@style.css" />
                             </children>
                         </VBox>
                         <VBox styleClass="EntryBox_login" stylesheets="@style.css">
                             <children>
                                 <Label id="headings_login" stylesheets="@style.css" text=" Password:">
                                 </Label>
-                                <PasswordField styleClass="Login_textarea" stylesheets="@style.css" />
+                                <PasswordField fx:id="passwordField" styleClass="Login_textarea" stylesheets="@style.css" />
                             </children>
                         </VBox>
                     </children>
                 </VBox>
-                <Hyperlink id="sign-up" layoutX="245.0" layoutY="212.0" stylesheets="@style.css" text="Sign up">
+                <Hyperlink id="sign-up" fx:id="signUpLink" layoutX="245.0" layoutY="212.0" onAction="#goToSignUpPage" stylesheets="@style.css" text="Sign up">
                 </Hyperlink>
             </children>
         </Pane>
-        <Button mnemonicParsing="false" onAction="#signUpButton" styleClass="buttonEff" stylesheets="@style.css" text="Login" textOverrun="CLIP">
+        <Button fx:id="loginButton" mnemonicParsing="false" onAction="#loginButton" styleClass="buttonEff" stylesheets="@style.css" text="Login" textOverrun="CLIP">
         </Button>
     </children>
 </AnchorPane>
