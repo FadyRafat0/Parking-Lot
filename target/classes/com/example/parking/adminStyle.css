@@ -11,10 +11,10 @@
 
 .WelcomeText {
     -fx-alignment: center;
-    -fx-font-size: 32;
+    -fx-font-size: 33;
     -fx-font-weight: bold;
     -fx-text-fill: #6157ed;
-    -
+    -fx-text-decoration: underline;
 }
 
 .logo {
@@ -67,10 +67,15 @@
 
 
 .stack {
-    -fx-background-color: white;
-
+    -fx-background-color: #ededed;
 }
 
+.homeStack {
+    -fx-background-image: url("images/HomeStack.png");
+    -fx-background-size: 700;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
 
 #car {
     -fx-background-image: url("images/car.png");
@@ -91,4 +96,22 @@
     -fx-background-size: 250;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+}
+#car:hover {
+-fx-background-size: 355;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
+    -fx-translate-y: -10;
+    -fx-cursor: hand;
+}
+#bike:hover {
+    -fx-background-size: 250;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
+    -fx-translate-y: -10;
+    -fx-cursor: hand;
+}
+#fbf:hover {
+    -fx-background-size: 250;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
+    -fx-translate-y: -10;
+    -fx-cursor: hand;
 }

@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<GridPane prefHeight="633.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane prefHeight="633.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.parking.gui.AdminPageController">
    <columnConstraints>
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="692.0000366210937" minWidth="10.0" prefWidth="198.13336791992188" />
       <ColumnConstraints hgrow="SOMETIMES" maxWidth="933.6000370025636" minWidth="10.0" prefWidth="757.0666320800781" />
@@ -24,9 +24,9 @@
       <VBox alignment="TOP_CENTER" prefHeight="633.0" prefWidth="160.0" spacing="50.0" styleClass="buttons" stylesheets="@adminStyle.css">
          <children>
             <Pane prefHeight="72.0" prefWidth="181.0" styleClass="logo" stylesheets="@adminStyle.css" />
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" styleClass="btn" stylesheets="@adminStyle.css" text="HOME" />
+                <Button mnemonicParsing="false" onAction="#showHomePane" prefHeight="25.0" prefWidth="82.0" styleClass="btn" stylesheets="@adminStyle.css" text="HOME" />
                 <Button mnemonicParsing="false" styleClass="btn" stylesheets="@adminStyle.css" text="OWNERS" />
-                <Button mnemonicParsing="false" styleClass="btn" stylesheets="@adminStyle.css" text="SPOTS" />
+                <Button mnemonicParsing="false" onAction="#showSpotsPane" styleClass="btn" stylesheets="@adminStyle.css" text="SPOTS" />
                 <Button mnemonicParsing="false" styleClass="btn" stylesheets="@adminStyle.css" text="TOTAL AMOUNT" />
                 <Button mnemonicParsing="false" styleClass="btn" stylesheets="@adminStyle.css" text="DISPLAY FEEDBACK" />
          </children>
@@ -44,8 +44,8 @@
             </AnchorPane>
             <StackPane prefHeight="549.0" prefWidth="758.0" styleClass="stack" stylesheets="@adminStyle.css">
                <children>
-                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="homeStack" stylesheets="@adminStyle.css" />
-                  <Pane prefHeight="417.0" prefWidth="633.0" styleClass="SpotStack" stylesheets="@adminStyle.css" visible="false">
+                  <Pane prefHeight="200.0" prefWidth="200.0" styleClass="homeStack" stylesheets="@adminStyle.css" visible="false" />
+                  <Pane prefHeight="417.0" prefWidth="633.0" styleClass="vehicleType" stylesheets="@adminStyle.css">
                      <children>
                             <Pane id="car" layoutX="9.0" layoutY="146.0" prefHeight="250.0" prefWidth="250.0" styleClass="vehicleType" stylesheets="@adminStyle.css" />
                             <Pane id="bike" layoutX="245.0" layoutY="146.0" prefHeight="250.0" prefWidth="250.0" styleClass="vehicleType" stylesheets="@adminStyle.css" />
