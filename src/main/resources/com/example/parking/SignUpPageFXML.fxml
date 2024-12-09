@@ -34,12 +34,22 @@
                                 <PasswordField fx:id="passwordField" promptText="Password" styleClass="signUp_textarea" stylesheets="@style.css" />
                             </children>
                         </VBox>
-                        <VBox styleClass="EntryBox_signUp" stylesheets="@style.css">
-                            <children>
-                                <Label id="headings_signUp" stylesheets="@style.css" text="License Number:" />
-                                <TextField fx:id="licenseNumberField" promptText="License Number" styleClass="signUp_textarea" stylesheets="@style.css" />
-                            </children>
+                  <HBox prefHeight="54.0" prefWidth="429.0" spacing="30.0">
+                     <children>
+                        <VBox prefHeight="54.0" prefWidth="206.0" styleClass="EntryBox_signUp" stylesheets="@style.css">
+                           <children>
+                              <Label id="headings_signUp" stylesheets="@style.css" text="License Number:" />
+                              <TextField fx:id="licenseNumberField1" promptText="License Number" styleClass="signUp_textarea" stylesheets="@style.css" />
+                           </children>
                         </VBox>
+                              <VBox prefHeight="54.0" prefWidth="232.0" styleClass="EntryBox_signUp" stylesheets="@style.css">
+                                  <children>
+                                      <Label id="headings_signUp" stylesheets="@style.css" text="Balance:" />
+                                      <TextField fx:id="licenseNumberField" prefHeight="28.0" prefWidth="208.0" promptText="License Number" styleClass="signUp_textarea" stylesheets="@style.css" />
+                                  </children>
+                              </VBox>
+                     </children>
+                  </HBox>
                         <VBox prefWidth="150.0" spacing="2.0" stylesheets="@style.css">
                             <children>
                                 <Label id="headings_signUp" stylesheets="@style.css" text="Add Vehicle" />

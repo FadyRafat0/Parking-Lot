@@ -154,6 +154,14 @@ body {
     -fx-transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
+#removeVehicleBtn {
+    -fx-translate-x: 140;
+}
+
+#loginLink {
+    -fx-translate-x: 290;
+}
+
 .Login_textarea:focused, .signUp_textarea:focused, #vehicleTypeComboBox:focused, #licensePlateField:focused
  , #vehicleListView:focused, #removeVehicleBtn:focused, #addVehicleBtn:focused {
     -fx-outline: 0;
