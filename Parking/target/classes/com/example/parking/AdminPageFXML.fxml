@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<VBox xmlns:fx="http://javafx.com/fxml" >
+   <!-- ListView for Spots -->
+   <ListView fx:id="spotsListView"  prefHeight="200" />
+
+   <!-- Display Spot Information -->
+   <Label fx:id="spotIDLabel" text="Spot ID:" />
+   <Label fx:id="hourRateLabel" text="Hourly Rate:" />
+
+   <!-- TableView for Slots -->
+   <TableView fx:id="slotsTableView" prefHeight="200">
+      <columns>
+         <TableColumn fx:id="slotIDColumn" text="Slot ID" />
+         <TableColumn fx:id="slotDataColumn" text="Additional Data" />
+      </columns>
+   </TableView>
+</VBox>
