@@ -10,9 +10,9 @@ body {
     -fx-background-color: rgba(19, 35, 47, 0.9);
     -fx-padding: 40px;
     -fx-max-width: 600px;
-    -fx-margin: 40 40 40 40;
+    -fx-margin: 40px auto;
     -fx-border-radius: 4px;
-    /*-fx-box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);*/
+    -fx-box-shadow: 0 4px 10px 4px rgba(19, 35, 47, 0.3);
 }
 
 .anchor-pane-background {
@@ -69,7 +69,7 @@ body {
 
 #headings_login {
     -fx-position: absolute;
-    -fx-transform-y: 6px;
+    -fx-transform: translateY(6px);
     -fx-padding: 20 0 0 5;
     -fx-fill: rgba(255, 255, 255, 0.5);
     -fx-transition: all 0.25s ease;
@@ -79,7 +79,7 @@ body {
 
 #headings_signUp {
     -fx-position: absolute;
-    -fx-transform-y: 6px;
+    -fx-transform: translateY(6px);
     -fx-padding: 5 0 0 5;
     -fx-fill: rgba(255, 255, 255, 0.5);
     -fx-transition: all 0.25s ease;
@@ -111,7 +111,7 @@ body {
 }
 
 .label.active {
-    -fx-transform-y: 50px;
+    -fx-transform: translateY(50px);
     -fx-left: 2px;
     -fx-font-size: 14px;
     -fx-fill: #ffffff;
@@ -137,7 +137,7 @@ body {
     -fx-background-radius: 12;
     -fx-border-color: #a0b3b0;
     -fx-border-radius: 12;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #00000;
     -fx-transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -150,16 +150,8 @@ body {
     -fx-background-radius: 12;
     -fx-border-color: #a0b3b0;
     -fx-border-radius: 12;
-    -fx-text-fill: #000000;
+    -fx-text-fill: #00000;
     -fx-transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-#removeVehicleBtn {
-    -fx-translate-x: 140;
-}
-
-#loginLink {
-    -fx-translate-x: 290;
 }
 
 .Login_textarea:focused, .signUp_textarea:focused, #vehicleTypeComboBox:focused, #licensePlateField:focused
@@ -214,6 +206,6 @@ body {
 
 /* Forgot Password Link */
 .forgot {
-    -fx-margin: 20 0 0 0;
+    -fx-margin-top: -20px;
     -fx-text-align: right;
 }
