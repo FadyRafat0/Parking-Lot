@@ -47,7 +47,7 @@ public class Admin extends Person {
         double totalAmount = 0;
         for (Reservation reservation : SystemManager.allReservations.values()) {
             if (reservation.isActive()  &&
-                SystemManager.allSpots.get(reservation.getSpotID()).getSpotType() == vehicleType)
+                    SystemManager.allSpots.get(reservation.getSpotID()).getSpotType() == vehicleType)
             {
                 totalAmount += reservation.getTotalAmount();
             }

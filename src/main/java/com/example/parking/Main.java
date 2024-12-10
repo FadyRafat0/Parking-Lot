@@ -1,14 +1,12 @@
 package com.example.parking;
 
+import com.example.parking.gui.LoginPageController;
 import javafx.application.Application;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Objects;
 
 public class Main extends Application {
@@ -22,18 +20,13 @@ public class Main extends Application {
     }
     // Admin
     @Override
-    public void start(Stage primaryStage) {
-            window = primaryStage;
-        try
-        {
-            Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/LoginPageFXML.fxml")));
-            Scene scene = new Scene(root);
+    public void start(Stage primaryStage) throws Exception {
+        window = primaryStage;
+        Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/AdminPageFXML.fxml")));
+        Scene scene = new Scene(root);
 
-            window.setScene(scene);
-            window.show();
-        }
-        catch (IOException e) {
-            System.out.print("Failed To Open Initial File");
-        }
+        window.setScene(scene);
+        window.show();
+
     }
 }

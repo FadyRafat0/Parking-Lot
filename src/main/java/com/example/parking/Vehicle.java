@@ -18,7 +18,7 @@ public class Vehicle {
 
     public static boolean isValidLicensePlate(String plate) {
         // Example  1-3 letters, dash, 1-4 digits
-        String regex = "^[A-Za-z]{1,3}-\\d{1,4}";
+        String regex = "^[A-Z]{1,3}-\\d{1,4}$";
         return Pattern.matches(regex, plate);
     }
 }

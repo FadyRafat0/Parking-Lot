@@ -50,7 +50,12 @@ public class Owner extends Person {
     public ArrayList<Vehicle> getVehicles() {
         return vehicles;
     }
+    public ArrayList<Reservation> getReservations(){ return reservations;}
     public void setVehicles(ArrayList<Vehicle> vehicles) {
         this.vehicles = vehicles;
+    }
+
+    public Payment getPayment() {
+        return payment;
     }
 }
