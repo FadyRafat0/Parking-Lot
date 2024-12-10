@@ -9,7 +9,7 @@ public class Slot {
     private boolean isAvailable;
 
 
-    public Slot(int slotID , int spotID, LocalDateTime startDate, LocalDateTime endDate) {
+    public Slot(int slotID, int spotID, LocalDateTime startDate, LocalDateTime endDate) {
         this.slotID = slotID;
         this.spotID = spotID;
         this.startDate = startDate;
@@ -45,6 +45,10 @@ public class Slot {
     }
     public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
+    }
+
+    public VehicleType getSpotType() {
+        return SystemManager.getSpot(spotID).getSpotType();
     }
 
     public int getHours() {

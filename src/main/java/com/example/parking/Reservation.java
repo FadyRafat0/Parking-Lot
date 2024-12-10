@@ -5,7 +5,6 @@ public class Reservation {
     private final int reservationID, ownerID, baseAmount, totalAmount;
     private final Slot slot;
     private final LocalDateTime reservationDate; // 2024-12-07T14:30:00 --> yyyy-MM-dd'T'HH:mm:ss
-    private LocalDateTime cancelReservationDate;
     private boolean status;
 
     public Reservation(int reservationID, int ownerID, Slot slot, int baseAmount, int totalAmount) {
@@ -37,18 +36,24 @@ public class Reservation {
     public int getSpotID() {
         return slot.getSpotID();
     }
-    public int getHours() {
+    public VehicleType getSpotType() {
+        return slot.getSpotType();
+
+    }
+    public double getHours() {
         return slot.getHours();
     }
     public Slot getSlot() {
         return slot;
+    }
+    public boolean getStatus() {
+        return status;
     }
 
     public boolean isActive() {
         return status;
     }
     public void cancelReservation() {
-        this.cancelReservationDate = LocalDateTime.now();
         this.status = false;
     }
 }

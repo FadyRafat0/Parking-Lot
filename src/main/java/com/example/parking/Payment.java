@@ -6,7 +6,7 @@ public class Payment {
     private final int ownerID;
     private double balance, penalty;
     // Example data: total hours for each VehicleType
-    EnumMap<VehicleType, Integer> totalHours;
+    EnumMap<VehicleType, Double> totalHours;
 
     private final int REWARD_HOURS = 7; // Every 7 Hours Get 1 Hour Free
     private final double PENALTY_AMOUNT = 3; // Three Dollars
@@ -18,7 +18,7 @@ public class Payment {
         this.penalty = 0;
         totalHours = new EnumMap<>(VehicleType.class);
         for (VehicleType type : VehicleType.values()) {
-            totalHours.put(type, 0);
+            totalHours.put(type, 0.0);
         }
     }
 
@@ -32,10 +32,10 @@ public class Payment {
         this.balance -= balance;
     }
 
-    public int getTotalHours(VehicleType vehicleType) {
+    public double getTotalHours(VehicleType vehicleType) {
         return totalHours.get(vehicleType);
     }
-    public void setTotalHours(VehicleType vehicleType, int hours) {
+    public void setTotalHours(VehicleType vehicleType, double hours) {
         this.totalHours.put(vehicleType, hours);
     }
 
@@ -71,7 +71,7 @@ public class Payment {
         double amount = reservation.getTotalAmount();
 
         // Update Data
-        int lastHours = (getTotalHours(spot.getSpotType()) + slot.getHours()) % REWARD_HOURS;
+        double lastHours = (getTotalHours(spot.getSpotType()) + slot.getHours()) % REWARD_HOURS;
         setTotalHours(spot.getSpotType(), lastHours);
         withdraw(amount);
         resetPenalty();
@@ -80,7 +80,7 @@ public class Payment {
         Spot spot = SystemManager.getSpot(reservation.getSpotID());
         Slot slot = reservation.getSlot();
 
-        int lastHours = ((getTotalHours(spot.getSpotType()) % REWARD_HOURS) - (slot.getHours() % REWARD_HOURS) + REWARD_HOURS) % REWARD_HOURS;
+        double lastHours = ((getTotalHours(spot.getSpotType()) % REWARD_HOURS) - (slot.getHours() % REWARD_HOURS) + REWARD_HOURS) % REWARD_HOURS;
         setTotalHours(spot.getSpotType(), lastHours);
 
         deposit(reservation.getBaseAmount());

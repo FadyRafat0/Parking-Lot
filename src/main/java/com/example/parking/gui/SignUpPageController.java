@@ -105,7 +105,7 @@ public class SignUpPageController {
     }
 
     private boolean userNameValid(String userName) {
-        return !(SystemManager.isUserNameExist(userName));
+        return !(SystemManager.isOwnerExist(userName));
     }
     private boolean passwordValid(String password) {
         return (password.length() >= 6);
@@ -153,7 +153,7 @@ public class SignUpPageController {
 
         // Register Successfully
         showAlert("Success", "signUp Successfully!");
-        SystemManager.register(userName, password, licenseNumber, vehicles, balanceDouble);
+        SystemManager.addOwner(userName, password, licenseNumber, vehicles, balanceDouble);
 
         // Go LoginPage
         goToLoginPage(event);

@@ -73,7 +73,7 @@ public class TestController {
     }
     public List<String> getSlotIds(Spot spot) {
         List<String> slotIds = new ArrayList<>();
-        for (Slot slot : spot.getAllSlots()) {
+        for (Slot slot : spot.getSlots()) {
             slotIds.add(String.valueOf(slot.getSlotID()));  // Add slot IDs of the selected spot
         }
         return slotIds;
@@ -115,7 +115,7 @@ public class TestController {
             );
 
             slotTable.getColumns().addAll(slotIdCol, startDateCol, endDateCol, availabilityCol);
-            slotTable.getItems().addAll(spot.getAllSlots());
+            slotTable.getItems().addAll(spot.getSlots());
 
             // Add the TableView to the TitledPane
             titledPane.setContent(slotTable);

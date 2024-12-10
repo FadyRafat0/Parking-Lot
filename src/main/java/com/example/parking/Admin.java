@@ -1,6 +1,8 @@
 package com.example.parking;
 import com.example.parking.spot.*;
 
+import java.time.LocalDateTime;
+
 public class Admin extends Person {
     public Admin() {
         super("Admin", "Admin");
@@ -11,8 +13,10 @@ public class Admin extends Person {
         SystemManager.allOwners.remove(ownerID);
     }
 
-    public void addSlot(int spotID, Slot slot) {
-        SystemManager.allSpots.get(spotID).addSlot(slot);
+    public void addSlot(int spotID, LocalDateTime startDate, LocalDateTime endDate) {
+        Slot slot = new Slot(SystemManager.nextSlotID, spotID, startDate, endDate);
+        SystemManager.allSpots.get(slot.getSpotID()).addSlot(slot);
+        SystemManager.nextSlotID++;
     }
     public void removeSlot(int slotID) {
         for (Spot spot : SystemManager.allSpots.values()) {
@@ -42,8 +46,7 @@ public class Admin extends Person {
         SystemManager.allSpots.remove(spotID);
     }
 
-    public double calculateTotalAmount(VehicleType vehicleType)
-    {
+    public double calculateTotalAmount(VehicleType vehicleType) {
         double totalAmount = 0;
         for (Reservation reservation : SystemManager.allReservations.values()) {
             if (reservation.isActive()  &&

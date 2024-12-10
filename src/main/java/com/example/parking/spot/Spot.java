@@ -25,7 +25,7 @@ public abstract class Spot {
     public abstract boolean isSuitableFor(VehicleType vehicleType);
     public abstract VehicleType getSpotType();
 
-    public ArrayList<Slot> getAllSlots() {
+    public ArrayList<Slot> getSlots() {
         return new ArrayList<>(slots.values());
     }
 
