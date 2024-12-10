@@ -36,11 +36,10 @@ public abstract class Spot {
         slots.put(slot.getSlotID(), slot);
     }
     public void removeSlot(int slotID) {
-       slots.remove(slotID);
+        slots.remove(slotID);
     }
 
     public Slot getSlot(int slotID) {
         return slots.get(slotID);
     }
 }
-
