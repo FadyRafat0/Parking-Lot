@@ -41,9 +41,7 @@ public class FeedBackController {
             int ownerID = Integer.parseInt(OwnerID_field.getText());
             int reservationID = Integer.parseInt(ReservationID_field.getText());
 
-            feedback = new Feedback(ownerID, reservationID);
-
-            int rate = (int) RatingBar.getRating();
+            double rate = (double) RatingBar.getRating();
             String message = txt_field.getText();
 
 
@@ -52,8 +50,7 @@ public class FeedBackController {
                 return;
             }
 
-
-            feedback.setFeedback(rate, message);
+            feedback= new Feedback(ownerID,reservationID,rate,message);
             isFeedbackSubmitted = true;
 
             disableInputs();
