@@ -39,13 +39,13 @@
                         <VBox prefHeight="54.0" prefWidth="206.0" styleClass="EntryBox_signUp" stylesheets="@style.css">
                            <children>
                               <Label id="headings_signUp" stylesheets="@style.css" text="License Number:" />
-                              <TextField fx:id="licenseNumberField" promptText="License Number" styleClass="signUp_textarea" stylesheets="@style.css" />
+                              <TextField fx:id="licenseNumberField1" promptText="License Number" styleClass="signUp_textarea" stylesheets="@style.css" />
                            </children>
                         </VBox>
                               <VBox prefHeight="54.0" prefWidth="232.0" styleClass="EntryBox_signUp" stylesheets="@style.css">
                                   <children>
                                       <Label id="headings_signUp" stylesheets="@style.css" text="Balance:" />
-                                      <TextField fx:id="balanceField" prefHeight="28.0" prefWidth="208.0" promptText="Balance" styleClass="signUp_textarea" stylesheets="@style.css" />
+                                      <TextField fx:id="licenseNumberField" prefHeight="28.0" prefWidth="208.0" promptText="License Number" styleClass="signUp_textarea" stylesheets="@style.css" />
                                   </children>
                               </VBox>
                      </children>
@@ -63,7 +63,7 @@
                                             </FXCollections>
                                         </items>
                                     </ComboBox>
-                                    <TextField id="licensePlateField" fx:id="licensePlateField" prefHeight="26.0" prefWidth="174.0" promptText="License Plate : ABC-1234" />
+                                    <TextField id="licensePlateField" fx:id="licensePlateField" promptText="Enter License Plate" />
                                     <Button id="addVehicleBtn" onAction="#handleAddVehicle" text="Add Vehicle" />
                                 </HBox>
                                 <VBox prefHeight="200.0" prefWidth="100.0" stylesheets="@style.css">
@@ -80,6 +80,6 @@
                 </VBox>
             </children>
         </Pane>
-        <Button id="signUpButton" fx:id="signUpButton" layoutX="33.0" layoutY="110.0" mnemonicParsing="false" onAction="#signUpButton" styleClass="buttonEff" stylesheets="@style.css" text="SignUp" />
+        <Button id="signUpButton" fx:id="signUpButton" layoutX="33.0" layoutY="110.0" mnemonicParsing="false" onAction="#signUpButtonClicked" styleClass="buttonEff" stylesheets="@style.css" text="SignUp" />
     </children>
 </AnchorPane>
