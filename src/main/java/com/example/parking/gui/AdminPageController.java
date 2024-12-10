@@ -1,16 +1,20 @@
 package com.example.parking.gui;
 
 import com.example.parking.spot.*;
-
 import com.example.parking.*;
+import com.sun.javafx.charts.Legend;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.*;
 import javafx.stage.*;
-
+import org.controlsfx.control.Rating;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -28,18 +32,32 @@ public class AdminPageController {
     private Label headerText;
 
     @FXML
-    private Pane homePane, chooseCarPane, ownersPane, totalAmountPane, feedbackPane;
+    private Pane homePane, chooseCarPane, ownersPane, totalAmountPane, feedbackPane,backPane;
     @FXML
     private ScrollPane spotsPane;
 
     @FXML
     private VBox spotContainer;
 
+    @FXML
+    private Rating AvgRatingBar;
+
+    @FXML
+    private Label avgFeedback;
+
+    @FXML
+    private TableView<Feedback> FeedbackTable;
+
+    @FXML
+    private TableView<Owner>OwnersTable;
+
+
     public void initialize() {
         admin = new Admin();
         homePane.setVisible(false);
         chooseCarPane.setVisible(false);
         spotsPane.setVisible(false);
+        backPane.setVisible(false);
 //        ownersPane.setVisible(false);
 //        totalAmountPane.setVisible(false);
 //        feedbackPane.setVisible(false);
@@ -79,6 +97,35 @@ public class AdminPageController {
     public void goToOwnersPage() {
         headerText.setText("Owners");
         switchToPane(ownersPane);
+        OwnersView();
+    }
+    public void OwnersView() {
+        ArrayList<Owner> owners = SystemManager.getOwners();
+        OwnersTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        TableColumn<Owner, String> ownerIdCol = new TableColumn<>("Owner ID");
+        ownerIdCol.setCellValueFactory(param -> new SimpleStringProperty(String.valueOf(param.getValue().getOwnerID())));
+
+        TableColumn<Owner, String> licenseCol = new TableColumn<>("License Number");
+        licenseCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getLicenseNumber()));
+
+        TableColumn<Owner, String> vehiclesCol = new TableColumn<>("Vehicles");
+        vehiclesCol.setCellValueFactory(param -> {
+            ArrayList<Vehicle> vehicles = param.getValue().getVehicles();
+            return new SimpleStringProperty(vehicles.toString()); // Converts the list to a string representation
+        });
+
+        TableColumn<Owner, String> reservationsCol = new TableColumn<>("Reservations");
+        reservationsCol.setCellValueFactory(param -> {
+            ArrayList<Reservation> reservations = param.getValue().getReservations();
+            return new SimpleStringProperty(reservations.toString());
+        });
+
+        TableColumn<Owner, String> paymentCol = new TableColumn<>("Payment");
+        paymentCol.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getPayment().toString()));
+
+        OwnersTable.getColumns().addAll(ownerIdCol, licenseCol, vehiclesCol, reservationsCol, paymentCol);
+        OwnersTable.getItems().addAll(owners);
     }
 
     // Spots Page
@@ -101,9 +148,14 @@ public class AdminPageController {
         currentVehicleType = VehicleType.Truck;
         goToSpotsPage();
     }
+    @FXML
+    private void handleBackButton() {
+        goToChooseCarPage();
+        backPane.setVisible(false);
+    }
     public void goToSpotsPage() {
         switchToPane(spotsPane);
-
+        backPane.setVisible(true);
         refreshSpotView();
     }
     public void addSpot() {
@@ -202,7 +254,50 @@ public class AdminPageController {
     public void goToFeedbackPage() {
         headerText.setText("Feedbacks");
         switchToPane(feedbackPane);
+        FeedbackView();
     }
+
+    public void FeedbackView() {
+        ArrayList<Feedback> feedbacks = SystemManager.GetFeedbacks();
+        FeedbackTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+
+        double avgFeedbackNum = 0;
+        for (Feedback feedback : feedbacks) {
+            avgFeedbackNum += feedback.getRate();
+        }
+        if (!feedbacks.isEmpty()) {
+            avgFeedbackNum /= feedbacks.size();
+        }
+        avgFeedback.setText(String.format("%.1f", avgFeedbackNum));
+        AvgRatingBar.setRating(avgFeedbackNum);
+        AvgRatingBar.setDisable(true);
+
+        // to prevent duplication
+        FeedbackTable.getColumns().clear();
+        FeedbackTable.getItems().clear();
+
+
+        TableColumn<Feedback, String> ownerIdCol = new TableColumn<>("Owner ID");
+        ownerIdCol.setCellValueFactory(param ->
+                new SimpleStringProperty(String.valueOf(param.getValue().getOwenerID())));
+
+        TableColumn<Feedback, String> ResIdCol = new TableColumn<>("Reservation ID");
+        ResIdCol.setCellValueFactory(param ->
+                new SimpleStringProperty(String.valueOf(param.getValue().getReservationID())));
+
+        TableColumn<Feedback, String> RatingCol = new TableColumn<>("Rate");
+        RatingCol.setCellValueFactory(param ->
+                new SimpleStringProperty(String.valueOf(param.getValue().getRate())));
+
+        TableColumn<Feedback, String> CommentCol = new TableColumn<>("Feedback Message");
+        CommentCol.setCellValueFactory(param ->
+                new SimpleStringProperty(param.getValue().getFeedbackMessage()));
+
+        FeedbackTable.getColumns().addAll(ownerIdCol, ResIdCol, RatingCol, CommentCol);
+        FeedbackTable.getItems().addAll(feedbacks);
+    }
+
 
     // Logout
     public void logoutButton(ActionEvent event) {
@@ -217,4 +312,8 @@ public class AdminPageController {
             showAlert("Error", "Failed to load the login page xfml.");
         }
     }
+
+
+
+
 }
