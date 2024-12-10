@@ -117,6 +117,41 @@
     -fx-background-position: center;
 }
 
+#car:hover {
+-fx-background-size: 355;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
+    -fx-translate-y: -10;
+    -fx-cursor: hand;
+}
+#bike:hover {
+    -fx-background-size: 250;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
+    -fx-translate-y: -10;
+    -fx-cursor: hand;
+}
+#fbf:hover {
+    -fx-background-size: 250;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
+    -fx-translate-y: -10;
+    -fx-cursor: hand;
+}
+
+
+#back_btn{
+-fx-background-image: url("images/back_btn.png");
+-fx-background-size: 50;
+-fx-background-repeat: no-repeat;
+-fx-background-position: top-left;
+-fx-color:#6157ed;
+
+}
+#back_btn:hover{
+ -fx-background-size: 50;
+ -fx-effect: dropshadow(gaussian , rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
+ -fx-translate-y: -5;
+ -fx-cursor: hand;
+
+}
 
 .tableHeader {
     -fx-background-color: white;
