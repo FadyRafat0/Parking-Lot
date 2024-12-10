@@ -11,17 +11,23 @@ public class SystemManager {
     public static Map<Integer, Spot> allSpots;
     public static Map<Integer, Owner> allOwners;
     public static Map<Integer, Reservation> allReservations;
-
+    public static  ArrayList<Feedback> feedbacksList;
     public static int nextOwnerID, nextSpotID, nextReservationID, nextSlotID;
 
     public static void initialize() {
         allSpots = new HashMap<>();
         allOwners = new HashMap<>();
         allReservations = new HashMap<>();
+        feedbacksList = new ArrayList<>();
+
         load_data_from_file();
         setIDs();
     }
 
+    public static ArrayList<Owner>getOwners()
+    {
+        return new ArrayList<Owner>(allOwners.values());
+    }
     public static void setIDs() {
         nextOwnerID = nextSpotID = nextReservationID = nextSlotID = 1;
         for (Owner owner : allOwners.values()) {
@@ -80,5 +86,9 @@ public class SystemManager {
         Owner newOwner = new Owner(userName, Password, nextOwnerID, licenceNumber, vehicles, balance);
         allOwners.put(newOwner.getOwnerID(), newOwner);
         nextOwnerID++;
+    }
+
+    public static ArrayList<Feedback>GetFeedbacks(){
+        return feedbacksList;
     }
 }
