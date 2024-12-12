@@ -13,8 +13,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<GridPane prefHeight="633.0" prefWidth="955.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.parking.gui.UserPageController">
+<GridPane prefHeight="633.0" prefWidth="955.0" stylesheets="@adminStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.parking.gui.UserPageController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="692.0000366210937" minWidth="10.0" prefWidth="198.13336791992188" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="933.6000370025636" minWidth="10.0" prefWidth="757.0666320800781" />
@@ -27,8 +28,8 @@
             <children>
                 <Pane prefHeight="72.0" prefWidth="181.0" styleClass="logo" stylesheets="@adminStyle.css" />
                 <Button mnemonicParsing="false" onAction="#goToHomePage" prefHeight="25.0" prefWidth="82.0" styleClass="btn" stylesheets="@adminStyle.css" text="HOME" />
-                <Button mnemonicParsing="false" onAction="#goToReservationPage" styleClass="btn" stylesheets="@adminStyle.css" text="RESERVATIONS" />
-            <Button mnemonicParsing="false" onAction="#goToDepositPage" styleClass="btn" stylesheets="@adminStyle.css" text="DEPOSIT" />
+                <Button mnemonicParsing="false" onAction="#chooseReservations" styleClass="btn" stylesheets="@adminStyle.css" text="RESERVATIONS" />
+                <Button mnemonicParsing="false" onAction="#goToDepositPage" styleClass="btn" stylesheets="@adminStyle.css" text="DEPOSIT" />
                 <Button mnemonicParsing="false" onAction="#goToFeedbackPage" styleClass="btn" stylesheets="@adminStyle.css" text="MAKE FEEDBACK" />
                 <Button mnemonicParsing="false" onAction="#goToUpdateDataPage" styleClass="btn" stylesheets="@adminStyle.css" text="UPDATE DATA" />
             </children>
@@ -36,17 +37,42 @@
                 <Insets top="15.0" />
             </padding>
         </VBox>
-        <VBox prefHeight="200.0" prefWidth="100.0" stylesheets="@adminStyle.css" GridPane.columnIndex="1">
+        <VBox id="v" prefHeight="200.0" prefWidth="100.0" stylesheets="@adminStyle.css" GridPane.columnIndex="1">
             <children>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="783.0" styleClass="headerPane" stylesheets="@adminStyle.css">
                     <children>
                         <Label fx:id="headerText" alignment="CENTER" layoutX="90.0" layoutY="5.0" prefHeight="66.0" prefWidth="561.0" styleClass="WelcomeText" stylesheets="@adminStyle.css" text="Welcome UserName" />
                         <Button layoutX="660.0" layoutY="19.0" mnemonicParsing="false" onAction="#logoutButton" styleClass="Logout-btn" stylesheets="@adminStyle.css" text="LOGOUT" />
+                  <Pane id="back_btn" fx:id="backPane" layoutX="14.0" layoutY="10.0" onMouseClicked="#handleBackButton" prefHeight="54.0" prefWidth="80.0" stylesheets="@adminStyle.css" />
                     </children>
                 </AnchorPane>
                 <StackPane prefHeight="549.0" prefWidth="758.0" styleClass="stack" stylesheets="@adminStyle.css">
                     <children>
                         <Pane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" styleClass="homeStack" stylesheets="@adminStyle.css" visible="false" />
+                        <Pane fx:id="reservationPane" prefHeight="200.0" prefWidth="200.0" styleClass="spotStack" stylesheets="@adminStyle.css">
+                            <children>
+                        <Pane id="reserve" layoutX="10.0" layoutY="10.0" onMouseClicked="#makeReservation" prefHeight="358.0" prefWidth="318.0" styleClass="vehicleType" stylesheets="@adminStyle.css">
+                           <children>
+                              <Label prefHeight="47.0" prefWidth="279.0" styleClass="ReservationLabel" stylesheets="@adminStyle.css" text="Make Reservation" textAlignment="CENTER">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                                <Pane id="view" layoutX="372.0" prefHeight="344.0" prefWidth="393.0" styleClass="vehicleType" stylesheets="@adminStyle.css">
+                           <children>
+                              <Label styleClass="ReservationLabel" stylesheets="@adminStyle.css" text="View Reservations" />
+                           </children></Pane>
+                              <Pane fx:id="displayReservationsPane" prefHeight="550.0" prefWidth="758.0" stylesheets="@adminStyle.css" visible="false">
+                                  <children>
+                                      <TableView fx:id="ReservationTable" layoutY="18.0" prefHeight="456.0" prefWidth="758.0" visible="false" />
+                                      <Button layoutX="172.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="Cancel Reservation" visible="false" />
+                                      <Button layoutX="364.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" text="Update Reservation" visible="false" />
+                                  </children>
+                              </Pane>
+                            </children>
+                        </Pane>
                         <ScrollPane fx:id="spotsPane" fitToHeight="true" fitToWidth="true" styleClass="go_back" stylesheets="@adminStyle.css" visible="false">
                             <VBox alignment="TOP_CENTER" prefHeight="419.0" prefWidth="631.0" spacing="10">
 
@@ -58,26 +84,13 @@
                                 <HBox alignment="CENTER" layoutX="10.0" layoutY="56.0" spacing="10" />
                             </VBox>
                         </ScrollPane>
+                        <Pane fx:id="depositPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
                         <Pane fx:id="feedbackPane" prefHeight="200.0" prefWidth="200.0" styleClass="FeedbackStack" visible="false">
                             <children>
                                 <TableView fx:id="FeedbackTable" layoutX="4.0" layoutY="99.0" prefHeight="467.0" prefWidth="749.0" />
                             </children>
                         </Pane>
-                  <Pane fx:id="depositPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
-                  <Pane fx:id="reservationPane" prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <Pane prefHeight="550.0" prefWidth="354.0" />
-                        <Pane layoutX="359.0" prefHeight="556.0" prefWidth="406.0" />
-                     </children>
-                  </Pane>
-                        <Pane fx:id="displayReservationsPane" prefHeight="550.0" prefWidth="758.0">
-                            <children>
-                                <TableView fx:id="ReservationTable" layoutY="18.0" prefHeight="456.0" prefWidth="758.0" />
-                        <Button layoutX="172.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="Cancel Reservation" />
-                        <Button layoutX="364.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" text="Update Reservation" />
-                            </children>
-                        </Pane>
-                  <Pane fx:id="updateDataPane" prefHeight="470.0" prefWidth="758.0" visible="false" />
+                        <Pane id="UpdataDataStack" fx:id="updateDataPane" prefHeight="470.0" prefWidth="758.0" />
                     </children>
                 </StackPane>
             </children>
