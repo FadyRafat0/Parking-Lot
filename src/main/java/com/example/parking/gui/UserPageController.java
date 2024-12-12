@@ -23,7 +23,7 @@ public class UserPageController {
     private Label headerText;
 
     @FXML
-    private Pane homePane, reservationPane, depositPane, feedbackPane, updateDataPane;
+    private Pane homePane, reservationPane, depositPane, feedbackPane, updateDataPane,backPane;
     @FXML
     private ScrollPane spotsPane;
 
@@ -45,18 +45,23 @@ public class UserPageController {
         depositPane.setVisible(false);
         feedbackPane.setVisible(false);
         updateDataPane.setVisible(false);
+        backPane.setVisible(false);
 
         headerText.setText("Welcome " + owner.getUserName());
         switchToPane(homePane);
     }
 
     private void switchToPane(Pane pane) {
+        backPane.setVisible(false);
+
         lastPane.setVisible(false);
         lastScrollPane.setVisible(false);
         pane.setVisible(true);
         lastPane = pane;
     }
     private  void switchToPane(ScrollPane pane) {
+        backPane.setVisible(false);
+
         lastPane.setVisible(false);
         lastScrollPane.setVisible(false);
         pane.setVisible(true);
@@ -70,6 +75,9 @@ public class UserPageController {
         alert.showAndWait();
     }
 
+    public void handleBackButton() {
+        goToReservationPage();
+    }
     // Left Buttons
     // Home Page
     @FXML
@@ -88,9 +96,17 @@ public class UserPageController {
     }
 
     // Reservations Page
+    public void chooseReservations()
+    {
+        switchToPane(reservationPane);
+    }
     public void goToReservationPage() {
         switchToPane(reservationPane);
+        backPane.setVisible(true);
         reservationView();
+    }
+    public void makeReservation(){
+        //MakereservationView();
     }
     public void reservationView() {
         // to prevent duplication
