@@ -152,7 +152,7 @@ public class SignUpPageController {
         double balanceDouble = Double.parseDouble(balanceText);
 
         // Register Successfully
-        showAlert("Success", "signUp Successfully!");
+        showAlert("Success", "SignUp Successfully!");
         SystemManager.addOwner(userName, password, licenseNumber, vehicles, balanceDouble);
 
         // Go LoginPage

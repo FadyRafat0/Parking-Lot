@@ -46,7 +46,7 @@ public class Admin extends Person {
         SystemManager.allSpots.remove(spotID);
     }
 
-    public double calculateTotalAmount(VehicleType vehicleType) {
+    public double calculateTotalAmountByType(VehicleType vehicleType) {
         double totalAmount = 0;
         for (Reservation reservation : SystemManager.allReservations.values()) {
             if (reservation.isActive()  &&
@@ -54,6 +54,14 @@ public class Admin extends Person {
             {
                 totalAmount += reservation.getTotalAmount();
             }
+        }
+        return totalAmount;
+    }
+    public double calculateTotalAmount() {
+        double totalAmount = 0;
+        for (Reservation reservation : SystemManager.allReservations.values()) {
+            if (reservation.isActive())
+                totalAmount += reservation.getTotalAmount();
         }
         return totalAmount;
     }

@@ -13,15 +13,13 @@ public class Main extends Application {
         SystemManager.initialize();
 
         launch(args);
-
-        SystemManager.save_data_to_file();
     }
     // Admin
     @Override
     public void start(Stage primaryStage) {
         try {
             window = primaryStage;
-            Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/AdminPageFXML.fxml")));
+            Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/LoginPageFXML.fxml")));
             Scene scene = new Scene(root);
 
             window.setScene(scene);

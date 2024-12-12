@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class LoginPageController {
 
@@ -20,6 +19,7 @@ public class LoginPageController {
     private Button loginButton;
     @FXML
     private Hyperlink signUpLink;
+    private static Owner currentOwner;
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -41,7 +41,6 @@ public class LoginPageController {
             showAlert("Error", "Failed to load the sign-up page xfml.");
         }
     }
-
     public void loginButton(ActionEvent event) throws IOException {
         // check the User_name And Password ->
         String username = usernameField.getText().trim();
@@ -56,7 +55,7 @@ public class LoginPageController {
 
         // Go to Admin Page
         if (username.equals("admin") && password.equals("admin")) {
-            showAlert("Success", "Login Successfully!");
+            showAlert("Success", "Welcome Admin!");
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/AdminPageFXML.fxml")));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ( ((Node) event.getSource()).getScene().getWindow());
@@ -66,12 +65,28 @@ public class LoginPageController {
         }
 
         // User Page
-        if (SystemManager.ownerLogin(username, password)) {
-            showAlert("Success", "Login Successfully!");
+        if (SystemManager.isOwnerExist(username, password)) {
+            // Set The Current Owner
+            Owner owner = SystemManager.getOwner(username);
+            setCurrentOwner(owner);
+
+            showAlert("Success", "Welcome " + owner.getUserName() + "!");
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/UserPageFXML.fxml")));
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ( ((Node) event.getSource()).getScene().getWindow());
+            stage.setScene(scene);
+            stage.show();
             return;
         }
 
         // Not Found
-        showAlert("Login failed", "Wrong Username/Password");
+        showAlert("Login Failed", "Wrong Username/Password");
+    }
+    // Current Owner
+    public static Owner getCurrentOwner() {
+        return currentOwner;
+    }
+    public static void setCurrentOwner(Owner currentOwner) {
+        LoginPageController.currentOwner = currentOwner;
     }
 }

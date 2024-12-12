@@ -51,7 +51,7 @@ public class TestController {
     // Get list of spot IDs to be used for the remove spot dialog
     public List<String> getSpotIds() {
         ArrayList<String> ids = new ArrayList<>();
-        ArrayList<Spot> spots = SystemManager.getSpotsWithType(currentVehicleType);
+        ArrayList<Spot> spots = SystemManager.getSpotsByType(currentVehicleType);
 
         for (Spot spot : spots) {
             ids.add(String.valueOf(spot.getSpotID()));
@@ -82,7 +82,7 @@ public class TestController {
     public void refreshSpotView() {
         spotContainer.getChildren().clear();
 
-        ArrayList<Spot> spots = SystemManager.getSpotsWithType(currentVehicleType);
+        ArrayList<Spot> spots = SystemManager.getSpotsByType(currentVehicleType);
         for (Spot spot : spots) {
             TitledPane titledPane = new TitledPane();
             titledPane.setText("Spot ID: " + spot.getSpotID());

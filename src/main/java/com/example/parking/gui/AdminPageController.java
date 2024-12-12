@@ -21,12 +21,12 @@ import java.time.format.*;
 import java.util.*;
 import java.util.function.*;
 
-enum LastClickedPane {
-    ReservationPane,
-    SpotsPane
-}
-
 public class AdminPageController {
+    enum LastClickedPane {
+        ReservationPane,
+        SpotsPane
+    }
+
     private Admin admin;
     private VehicleType currentVehicleType;
     private LastClickedPane lastClickedPane;
@@ -267,7 +267,7 @@ public class AdminPageController {
     }
     public List<String> getSpotIds() {
         ArrayList<String> ids = new ArrayList<>();
-        ArrayList<Spot> spots = SystemManager.getSpotsWithType(currentVehicleType);
+        ArrayList<Spot> spots = SystemManager.getSpotsByType(currentVehicleType);
 
         for (Spot spot : spots) {
             ids.add(String.valueOf(spot.getSpotID()));
@@ -284,7 +284,7 @@ public class AdminPageController {
 
         spotDialog.showAndWait().ifPresent(spotId -> {
             int selectedSpotId = Integer.parseInt(spotId);
-            ArrayList<Slot> slots = SystemManager.getSlots(selectedSpotId);
+            ArrayList<Slot> slots = SystemManager.getSlotsBySpotID(selectedSpotId);
             // Step 2: Show custom dialog to input start and end LocalDateTime
             Dialog<Pair<LocalDateTime, LocalDateTime>> dateTimeDialog = createDateTimeInputDialog(slots);
             dateTimeDialog.showAndWait().ifPresent(dateTimes -> {
@@ -411,7 +411,6 @@ public class AdminPageController {
         return dialog;
     }
 
-
     public void removeSlot() {
         // Step 1: Prompt the user to select a Spot ID
         ChoiceDialog<String> spotDialog = new ChoiceDialog<>(null, getSpotIds());
@@ -454,7 +453,7 @@ public class AdminPageController {
     public void refreshSpotView() {
         spotContainer.getChildren().clear();
 
-        ArrayList<Spot> spots = SystemManager.getSpotsWithType(currentVehicleType);
+        ArrayList<Spot> spots = SystemManager.getSpotsByType(currentVehicleType);
         for (Spot spot : spots) {
             TitledPane titledPane = new TitledPane();
             titledPane.setText("Spot ID: " + spot.getSpotID());
@@ -556,7 +555,8 @@ public class AdminPageController {
 
         double totalAmount = 0;
         for (Reservation reservation : reservations) {
-            totalAmount += reservation.getTotalAmount();
+            if (reservation.isActive())
+                totalAmount += reservation.getTotalAmount();
         }
         totalAmountLabel.setText(String.valueOf(totalAmount));
 
@@ -598,7 +598,7 @@ public class AdminPageController {
     }
 
     public void FeedbackView() {
-        ArrayList<Feedback> feedbacks = SystemManager.GetFeedbacks();
+        ArrayList<Feedback> feedbacks = SystemManager.getAllFeedBacks();
         FeedbackTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 
@@ -637,7 +637,6 @@ public class AdminPageController {
         FeedbackTable.getColumns().addAll(ownerIdCol, ResIdCol, RatingCol, CommentCol);
         FeedbackTable.getItems().addAll(feedbacks);
     }
-
 
     // Logout
     public void logoutButton(ActionEvent event) {

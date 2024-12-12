@@ -6,6 +6,7 @@ public class Owner extends Person {
     private String licenseNumber;
     private ArrayList<Vehicle> vehicles;
     private ArrayList<Reservation> reservations;
+    private ArrayList<Feedback> feedbacks;
     private Payment payment;
 
     Owner(String userName, String password, int ownerID,  String licenseNumber, ArrayList<Vehicle> vehicles,
@@ -18,6 +19,7 @@ public class Owner extends Person {
         this.vehicles = vehicles;
         this.payment = new Payment(ownerID, balance);
         this.reservations = new ArrayList<>();
+        this.feedbacks = new ArrayList<>();
     }
 
     void makeReservation(Reservation reservation) {

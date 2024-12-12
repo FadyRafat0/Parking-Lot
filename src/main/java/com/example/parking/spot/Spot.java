@@ -7,7 +7,7 @@ public abstract class Spot {
     protected double hourRate;
     protected Map<Integer, Slot> slots;
 
-    protected static final double  BIKE_HOUR_RATE = 3, CAR_HOUR_RATE = 5, TRUCK_HOUR_RATE = 7;
+    protected static final double  BIKE_HOUR_RATE = 5, CAR_HOUR_RATE = 7, TRUCK_HOUR_RATE = 10;
 
     public Spot(int spotID, double hourRate) {
         this.spotID = spotID;
