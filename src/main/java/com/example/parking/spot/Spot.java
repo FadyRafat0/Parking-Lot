@@ -1,5 +1,7 @@
 package com.example.parking.spot;
 import com.example.parking.*;
+import com.example.parking.json.JSONUtils;
+
 import java.util.*;
 
 public abstract class Spot {
@@ -22,9 +24,7 @@ public abstract class Spot {
         return hourRate;
     }
 
-    public abstract boolean isSuitableFor(VehicleType vehicleType);
     public abstract VehicleType getSpotType();
-
     public ArrayList<Slot> getSlots() {
         return new ArrayList<>(slots.values());
     }

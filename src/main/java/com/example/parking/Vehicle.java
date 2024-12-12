@@ -1,4 +1,6 @@
 package com.example.parking;
+import com.google.gson.Gson;
+
 import java.util.regex.Pattern;
 
 public class Vehicle {
@@ -20,5 +22,15 @@ public class Vehicle {
         // Example  1-3 letters, dash, 1-4 digits
         String regex = "^[A-Z]{1,3}-\\d{1,4}$";
         return Pattern.matches(regex, plate);
+    }
+
+    // Serialize a single Vehicle
+    public String toJson() {
+        return new Gson().toJson(this);
+    }
+
+    // Deserialize a single Vehicle
+    public static Vehicle fromJson(String json) {
+        return new Gson().fromJson(json, Vehicle.class);
     }
 }

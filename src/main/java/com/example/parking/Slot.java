@@ -1,6 +1,11 @@
 package com.example.parking;
+import com.example.parking.json.JSONUtils;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.Duration;
+import java.util.ArrayList;
 
 public class Slot {
     private final int slotID, spotID;
@@ -55,4 +60,15 @@ public class Slot {
         return hours;
     }
     public boolean isAvailable() { return isAvailable; }
+
+    // Save all Slots to a JSON file
+    public static void saveSlots(ArrayList<Slot> slots) {
+        JSONUtils.saveToFile(slots, "slots.json");
+    }
+
+    // Load all Slots from a JSON file
+    public static ArrayList<Slot> loadSlots() {
+        Type slotListType = new TypeToken<ArrayList<Slot>>() {}.getType();
+        return JSONUtils.loadFromFile("slots.json", slotListType);
+    }
 }

@@ -1,4 +1,8 @@
 package com.example.parking;
+import com.example.parking.json.JSONUtils;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class Owner extends Person {
@@ -59,5 +63,15 @@ public class Owner extends Person {
 
     public Payment getPayment() {
         return payment;
+    }
+
+    // Save all Owners to a JSON file
+    public static void saveOwners(ArrayList<Owner> owners) {
+        JSONUtils.saveToFile(owners, "owners.json");
+    }
+    // Load all Owners from a JSON file
+    public static ArrayList<Owner> loadOwners() {
+        Type ownerListType = new TypeToken<ArrayList<Owner>>() {}.getType();
+        return JSONUtils.loadFromFile("owners.json", ownerListType);
     }
 }

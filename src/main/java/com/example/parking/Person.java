@@ -1,6 +1,6 @@
 package com.example.parking;
 
-public class Person {
+public abstract class Person {
     private String userName, password;
     public Person(String userName, String password) {
         this.userName = userName;

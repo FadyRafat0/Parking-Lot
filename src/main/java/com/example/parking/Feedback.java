@@ -1,8 +1,11 @@
 package com.example.parking;
 
+import com.example.parking.json.JSONUtils;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 
 public class Feedback
 {
@@ -19,66 +22,28 @@ public class Feedback
         this.feedbackMessage=feedbackMessage;
     }
 
-    public void setFeedback(int rate, String feedbackMessage)
-    {
-        this.rate=rate;
-        this.feedbackMessage=feedbackMessage;
-        //saveFeedbackToFile();
-
-
-    }
-
-    public void displayFeedbacks()
-    {
-        System.out.println("Feedback: ");
-        System.out.println("Rating: "+rate+" out of 5");
-        System.out.println("Feedback comment: "+ feedbackMessage);
-    }
     public double getRate() {
         return rate;
     }
-
     public String getFeedbackMessage() {
         return feedbackMessage;
     }
-
     public int getOwenerID() {
         return ownerID;
     }
-
     public int getReservationID() {
         return ReservationID;
     }
 
-
-
-//    private void saveFeedbackToFile() {
-//        String fileName = "feedbacks.txt";
-//        FileOutputStream myFile = null;
-//        PrintStream print =null;
-//        try{
-//           myFile= new FileOutputStream(fileName,true);
-//           print = new PrintStream(myFile);
-//            print.println("Owner ID: "+ownerID + " ,Reservation ID: "+ ReservationID);
-//            print.println("Rating: "+ rate +" Out of 5");
-//            print.println("Feedback comment: "+ feedbackMessage);
-//            System.out.println("========================================");
-//
-//        }catch (IOException e){
-//            System.out.println("Error saving feedback to file: " + e.getMessage());
-//
-//        }
-//        finally {
-//
-//               try {
-//                   if(myFile!= null)
-//                      myFile.close();
-//                   if (print != null)
-//                       print.close();
-//               }catch(Exception ex){
-//                   System.out.println("Error closing file, "+ex.getMessage());
-//            }
-//        }
-//
-//    }
+    // Save the feedback to feedbacks.json
+    public static void saveFeedbackToFile() {
+        // Load existing feedbacks
+        ArrayList<Feedback> feedbacks = SystemManager.getAllFeedBacks();
+        // Save the updated list of feedbacks
+        JSONUtils.saveToFile(feedbacks, "feedbacks.json");
+    }
+    // Load all feedbacks from feedbacks.json
+    public static ArrayList<Feedback> loadFeedbacks() {
+        return JSONUtils.loadFromFile("feedbacks.json", new com.google.gson.reflect.TypeToken<ArrayList<Feedback>>() {}.getType());
+    }
 }

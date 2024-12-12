@@ -1,4 +1,5 @@
 package com.example.parking;
+import com.example.parking.json.JSONUtils;
 import com.example.parking.spot.Spot;
 import java.util.*;
 
@@ -85,5 +86,15 @@ public class Payment {
 
         deposit(reservation.getBaseAmount());
         addPenalty(PENALTY_AMOUNT);
+    }
+
+    // Save all payments to a file (using ArrayList)
+    public static void savePayments(ArrayList<Payment> payments) {
+        JSONUtils.saveToFile(payments, "payments.json");
+    }
+
+    // Load all payments from a file
+    public static ArrayList<Payment> loadPayments() {
+        return JSONUtils.loadFromFile("payments.json", new com.google.gson.reflect.TypeToken<ArrayList<Payment>>() {}.getType());
     }
 }

@@ -1,5 +1,8 @@
 package com.example.parking;
+import com.example.parking.json.JSONUtils;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Reservation {
     private final int reservationID, ownerID, baseAmount, totalAmount;
@@ -55,5 +58,15 @@ public class Reservation {
     }
     public void cancelReservation() {
         this.status = false;
+    }
+
+    // Save all reservations to a file
+    public static void saveReservations(ArrayList<Reservation> reservations) {
+        JSONUtils.saveToFile(reservations, "reservations.json");
+    }
+
+    // Load reservations from a file
+    public static ArrayList<Reservation> loadReservations() {
+        return JSONUtils.loadFromFile("reservations.json", new com.google.gson.reflect.TypeToken<ArrayList<Reservation>>() {}.getType());
     }
 }

@@ -163,7 +163,7 @@ body {
 }
 
 .Login_textarea:focused, .signUp_textarea:focused, #vehicleTypeComboBox:focused, #licensePlateField:focused
- , #vehicleListView:focused, #removeVehicleBtn:focused, #addVehicleBtn:focused {
+, #vehicleListView:focused, #removeVehicleBtn:focused, #addVehicleBtn:focused {
     -fx-outline: 0;
     -fx-border-color: #6157ed;
 }
