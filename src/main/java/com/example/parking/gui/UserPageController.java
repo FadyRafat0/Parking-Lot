@@ -8,6 +8,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
+import org.controlsfx.control.Rating;
 
 import java.io.*;
 import java.time.format.*;
@@ -23,9 +24,11 @@ public class UserPageController {
     private Label headerText;
 
     @FXML
-    private Pane homePane, reservationPane, depositPane, feedbackPane, updateDataPane,backPane;
+    private Pane homePane, reservationPane, depositPane, updateDataPane,backPane, displayReservationsPane, makeReservationPane;
     @FXML
     private ScrollPane spotsPane;
+    @FXML
+    private BorderPane feedbackPane;
 
     @FXML
     private TableView<Feedback> FeedbackTable;
@@ -35,6 +38,22 @@ public class UserPageController {
 
     @FXML
     private Label totalAmountLabel;
+
+    //feedback
+    @FXML
+    private Label submit_msg;
+    @FXML
+    private TextField OwnerID_field;
+    @FXML
+    private TextField ReservationID_field;
+    @FXML
+    private Rating RatingBar;
+    @FXML
+    private TextArea txt_field;
+    @FXML
+    private Button submit_btn;
+    private Feedback feedback;
+    private boolean isFeedbackSubmitted = false;
 
 
     public void initialize() {
@@ -46,6 +65,8 @@ public class UserPageController {
         feedbackPane.setVisible(false);
         updateDataPane.setVisible(false);
         backPane.setVisible(false);
+        displayReservationsPane.setVisible(false);
+        makeReservationPane.setVisible(false);
 
         headerText.setText("Welcome " + owner.getUserName());
         switchToPane(homePane);
@@ -76,8 +97,10 @@ public class UserPageController {
     }
 
     public void handleBackButton() {
-        goToReservationPage();
+        switchToPane(reservationPane);
+        backPane.setVisible(false);
     }
+
     // Left Buttons
     // Home Page
     @FXML
@@ -98,15 +121,14 @@ public class UserPageController {
     // Reservations Page
     public void chooseReservations()
     {
+        headerText.setText("Reservation Management");
         switchToPane(reservationPane);
     }
-    public void goToReservationPage() {
-        switchToPane(reservationPane);
+    public void goToDisplayReservationPage() {
+        switchToPane(displayReservationsPane);
+        headerText.setText("Reservations History");
         backPane.setVisible(true);
         reservationView();
-    }
-    public void makeReservation(){
-        //MakereservationView();
     }
     public void reservationView() {
         // to prevent duplication
@@ -153,6 +175,18 @@ public class UserPageController {
         ReservationTable.getItems().addAll(reservations);
     }
 
+    public void makeReservation(){
+        switchToPane(makeReservationPane);
+        headerText.setText("Make a New Reservation");
+        backPane.setVisible(true);
+        makeReservationView();
+    }
+
+    public void makeReservationView()
+    {
+
+    }
+
     // Deposit Page
     public void goToDepositPage() {
         switchToPane(depositPane);
@@ -165,44 +199,59 @@ public class UserPageController {
     public void goToFeedbackPage() {
         headerText.setText("Make FeedBack");
         switchToPane(feedbackPane);
-        FeedbackView();
+      //  FeedbackView();
     }
     public void FeedbackView() {
-        ArrayList<Feedback> feedbacks = SystemManager.getAllFeedBacks();
-        FeedbackTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-
-        double avgFeedbackNum = 0;
-        for (Feedback feedback : feedbacks) {
-            avgFeedbackNum += feedback.getRate();
-        }
-        if (!feedbacks.isEmpty()) {
-            avgFeedbackNum /= feedbacks.size();
+        if (isFeedbackSubmitted) {
+            return;
         }
 
-        // to prevent duplication
-        FeedbackTable.getColumns().clear();
-        FeedbackTable.getItems().clear();
+        try {
+
+            String ownerIdText = OwnerID_field.getText();
+            String reservationIdText = ReservationID_field.getText();
+
+            if (ownerIdText.isEmpty() || reservationIdText.isEmpty()) {
+                submit_msg.setText("Owner ID and Reservation ID cannot be empty!");
+                return;
+            }
 
 
-        TableColumn<Feedback, String> ownerIdCol = new TableColumn<>("Owner ID");
-        ownerIdCol.setCellValueFactory(param ->
-                new SimpleStringProperty(String.valueOf(param.getValue().getOwenerID())));
+            int ownerID = Integer.parseInt(ownerIdText);
+            int reservationID = Integer.parseInt(reservationIdText);
 
-        TableColumn<Feedback, String> ResIdCol = new TableColumn<>("Reservation ID");
-        ResIdCol.setCellValueFactory(param ->
-                new SimpleStringProperty(String.valueOf(param.getValue().getReservationID())));
 
-        TableColumn<Feedback, String> RatingCol = new TableColumn<>("Rate");
-        RatingCol.setCellValueFactory(param ->
-                new SimpleStringProperty(String.valueOf(param.getValue().getRate())));
+            String message = txt_field.getText();
+            if (message.isEmpty()) {
+                submit_msg.setText("Feedback message cannot be empty!");
+                return;
+            }
 
-        TableColumn<Feedback, String> CommentCol = new TableColumn<>("Feedback Message");
-        CommentCol.setCellValueFactory(param ->
-                new SimpleStringProperty(param.getValue().getFeedbackMessage()));
 
-        FeedbackTable.getColumns().addAll(ownerIdCol, ResIdCol, RatingCol, CommentCol);
-        FeedbackTable.getItems().addAll(feedbacks);
+            double rate = RatingBar.getRating();
+
+
+            feedback = new Feedback(ownerID, reservationID, rate, message);
+            isFeedbackSubmitted = true;
+
+
+            disableInputs();
+            submit_msg.setText("Your feedback has been submitted successfully!");
+
+        } catch (NumberFormatException e) {
+            submit_msg.setText("Invalid ID Number! Please enter valid numeric values.");
+        } catch (IllegalArgumentException e) {
+            submit_msg.setText(e.getMessage());
+        }
+    }
+
+    private void disableInputs() {
+        OwnerID_field.setDisable(true);
+        ReservationID_field.setDisable(true);
+        RatingBar.setDisable(true);
+        txt_field.setDisable(true);
+        submit_btn.setDisable(true);
     }
 
     // Update Page
