@@ -19,29 +19,26 @@ public class SystemManager {
         allReservations = new HashMap<>();
         feedbacksList = new ArrayList<>();
 //
-//        Spot spot = new CarSpot(10);
-//        Spot spot2 = new BikeSpot(12);
-//
-//        spot.addSlot(new Slot(1, 10, LocalDateTime.now(), LocalDateTime.now()));
-//        spot.addSlot(new Slot(13, 10, LocalDateTime.now(), LocalDateTime.now()));
-//        spot2.addSlot(new Slot(15, 12, LocalDateTime.now(), LocalDateTime.now()));
-//
-//        ArrayList<Vehicle> vehicles = new ArrayList<>();
-//        vehicles.add(new Vehicle(VehicleType.Car, "AD-456"));
-//        Owner owner = new Owner("Fady", "123456", 1, "ASDA", vehicles, 1000);
-//        allOwners.put(owner.getOwnerID(), owner);
-//        owner = new Owner("Bousy", "123456", 3, "ASDA", vehicles, 1000);
-//        allOwners.put(owner.getOwnerID(), owner);
+        Spot spot = new CarSpot(10);
+        Spot spot2 = new BikeSpot(12);
+
+        for (int i = 1; i < 20; ++i)
+            spot.addSlot(new Slot(i, 10, LocalDateTime.now(), LocalDateTime.now()));
+        spot2.addSlot(new Slot(15, 12, LocalDateTime.now(), LocalDateTime.now()));
+        allSpots.put(spot.getSpotID(), spot);
+        allSpots.put(spot2.getSpotID(), spot2);
+
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        vehicles.add(new Vehicle(VehicleType.Car, "AD-456"));
+        Owner owner = new Owner("Fady", "123456", 1, "ASDA", vehicles, 1000);
+        allOwners.put(owner.getOwnerID(), owner);
+        owner = new Owner("Bousy", "123456", 3, "ASDA", vehicles, 1000);
+        allOwners.put(owner.getOwnerID(), owner);
 //
 //        Reservation res = new Reservation(1, 1, spot.getSlot(1),  10, 15);
 //        allReservations.put(res.getReservationID(), res);
 //        res = new Reservation(2, 3, spot2.getSlot(15),  100, 155);
 //        allReservations.put(res.getReservationID(), res);
-//
-
-//
-//        allSpots.put(spot.getSpotID(), spot);
-//        allSpots.put(spot2.getSpotID(), spot2);
 
         setIDs();
     }
@@ -88,6 +85,24 @@ public class SystemManager {
             allSlots.addAll(spot.getSlots()); // assuming getSlots() returns a map
         }
         return allSlots;
+    }
+    // Get All Slots For Owner
+    public static ArrayList<Slot> getAllAvaiableSlots(Owner owner) {
+        Map<VehicleType, Boolean> currentVehicles = new HashMap<>();
+        for (Vehicle vehicle : owner.getVehicles())
+            currentVehicles.put(vehicle.getType(), true);
+
+        ArrayList<Slot> slots = new ArrayList<>();
+        for (Spot spot : allSpots.values()) {
+            if (currentVehicles.containsKey(spot.getSpotType())) {
+                for (Slot slot : spot.getSlots()) {
+                    if (slot.isAvailable()) {
+                        slots.add(slot);
+                    }
+                }
+            }
+        }
+        return slots;
     }
 
     // Owners
@@ -144,7 +159,12 @@ public class SystemManager {
         }
         return reservations;
     }
-
+    public static void addNewReservation(int ownerID, Slot slot, double baseAmount, double totalAmount) {
+        Reservation reservation = new Reservation(nextReservationID, ownerID, slot, baseAmount, totalAmount);
+        allReservations.put(reservation.getReservationID(), reservation);
+        allOwners.get(ownerID).makeReservation(reservation);
+        nextReservationID++;
+    }
 
     // Files
     // Save all data to file

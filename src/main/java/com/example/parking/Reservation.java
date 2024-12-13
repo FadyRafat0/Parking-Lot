@@ -5,12 +5,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Reservation {
-    private final int reservationID, ownerID, baseAmount, totalAmount;
+    private final int reservationID, ownerID;
+    private final double baseAmount, totalAmount;
     private final Slot slot;
     private final LocalDateTime reservationDate; // 2024-12-07T14:30:00 --> yyyy-MM-dd'T'HH:mm:ss
     private boolean status;
 
-    public Reservation(int reservationID, int ownerID, Slot slot, int baseAmount, int totalAmount) {
+    public Reservation(int reservationID, int ownerID, Slot slot, double baseAmount, double totalAmount) {
         this.reservationID = reservationID;
         this.ownerID = ownerID;
         this.slot = slot;
@@ -30,10 +31,10 @@ public class Reservation {
     public int getReservationID() {
         return reservationID;
     }
-    public int getBaseAmount() {
+    public double getBaseAmount() {
         return baseAmount;
     }
-    public int getTotalAmount() {
+    public double getTotalAmount() {
         return totalAmount;
     }
     public int getSpotID() {

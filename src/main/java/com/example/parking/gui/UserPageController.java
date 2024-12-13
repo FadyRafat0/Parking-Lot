@@ -4,6 +4,7 @@ import com.example.parking.*;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -11,6 +12,7 @@ import javafx.stage.*;
 import org.controlsfx.control.Rating;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.time.format.*;
 import java.util.*;
 
@@ -24,20 +26,12 @@ public class UserPageController {
     private Label headerText;
 
     @FXML
-    private Pane homePane, reservationPane, depositPane, updateDataPane,backPane, displayReservationsPane, makeReservationPane;
-    @FXML
-    private ScrollPane spotsPane;
+    private Pane homePane, reservationPane, depositPane, updateDataPane,backPane, updateReservationPane;
     @FXML
     private BorderPane feedbackPane;
-
     @FXML
-    private TableView<Feedback> FeedbackTable;
+    private ScrollPane makeReservationPane;
 
-    @FXML
-    private TableView<Reservation> ReservationTable;
-
-    @FXML
-    private Label totalAmountLabel;
 
     //feedback
     @FXML
@@ -55,18 +49,22 @@ public class UserPageController {
     private Feedback feedback;
     private boolean isFeedbackSubmitted = false;
 
+    // Reservations
+    @FXML
+    private TableView<Reservation> ReservationTable;
+    @FXML
+    private GridPane gridPaneSlots;
 
     public void initialize() {
         owner = LoginPageController.getCurrentOwner();
         homePane.setVisible(false);
-        spotsPane.setVisible(false);
         reservationPane.setVisible(false);
         depositPane.setVisible(false);
         feedbackPane.setVisible(false);
         updateDataPane.setVisible(false);
         backPane.setVisible(false);
-        displayReservationsPane.setVisible(false);
         makeReservationPane.setVisible(false);
+        updateReservationPane.setVisible(false);
 
         headerText.setText("Welcome " + owner.getUserName());
         switchToPane(homePane);
@@ -109,41 +107,24 @@ public class UserPageController {
         switchToPane(homePane);
     }
 
-    // Spots Page
-    public void goToSpotsPage() {
-        switchToPane(spotsPane);
-        refreshSpotView();
-    }
-    public void refreshSpotView() {
-
-    }
-
     // Reservations Page
-    public void chooseReservations()
-    {
+    public void chooseReservations() {
         headerText.setText("Reservation Management");
         switchToPane(reservationPane);
     }
-    public void goToDisplayReservationPage() {
-        switchToPane(displayReservationsPane);
+    public void goToUpdateReservationPane() {
+        switchToPane(updateReservationPane);
         headerText.setText("Reservations History");
         backPane.setVisible(true);
-        reservationView();
+        updateReservationView();
     }
-    public void reservationView() {
+    public void updateReservationView() {
         // to prevent duplication
         ReservationTable.getColumns().clear();
         ReservationTable.getItems().clear();
         ReservationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         ArrayList<Reservation> reservations = owner.getReservations();
-
-        double totalAmount = 0;
-        for (Reservation reservation : reservations) {
-            if (reservation.isActive())
-                totalAmount += reservation.getTotalAmount();
-        }
-        totalAmountLabel.setText(String.valueOf(totalAmount));
 
         TableColumn<Reservation, String> ownerIdCol = new TableColumn<>("Owner ID");
         ownerIdCol.setCellValueFactory(param ->
@@ -175,17 +156,160 @@ public class UserPageController {
         ReservationTable.getItems().addAll(reservations);
     }
 
-    public void makeReservation(){
+    public void goToMakeReservation(){
         switchToPane(makeReservationPane);
         headerText.setText("Make a New Reservation");
         backPane.setVisible(true);
         makeReservationView();
     }
 
-    public void makeReservationView()
-    {
+    private List<Slot> selectedSlots = new ArrayList<>();
+    private double currentTotalAmount = 0;
+    public void makeReservationView() {
+        ArrayList<Slot> slots = SystemManager.getAllAvaiableSlots(owner);
+        int columns = 4; // Slots per row
 
+        // Create a label to display the Total Amount
+        Label totalAmountLabel = new Label("Total Amount: $0.00");
+        totalAmountLabel.getStyleClass().add("total-amount-label");
+        gridPaneSlots.add(totalAmountLabel, 0, 0, columns, 1); // Add the total amount label above the slots
+
+        for (int i = 0; i < slots.size(); ++i) {
+            Slot slot = slots.get(i);
+            VBox slotBox = createSlotBox(
+                    slot.getSpotType() + " Spot",
+                    slot.getSpotID(),
+                    slot.getStartDate(),
+                    slot.getEndDate(),
+                    slot.getHours(),
+                    5.5,
+                    totalAmountLabel, // Pass totalAmountLabel to track the total
+                    slot
+            );
+            slotBox.setAlignment(Pos.CENTER); // Centers content within the VBox
+            slotBox.setSpacing(10);
+            slotBox.getStyleClass().add("slot-box");
+
+            int row = i / columns;
+            int col = i % columns;
+            gridPaneSlots.add(slotBox, col, row + 1); // Offset by 1 to leave space for the total amount label
+        }
+
+        // Create a button to confirm reservation
+        Button makeReservationButton = new Button("Make Reservation");
+        makeReservationButton.setOnAction(event -> showConfirmationDialog(totalAmountLabel.getText()));
+
+        // Add the button below the ScrollPane
+        HBox buttonContainer = new HBox(10, makeReservationButton);
+        buttonContainer.setAlignment(Pos.CENTER);
+        gridPaneSlots.add(buttonContainer, 0, slots.size() / 4 + 2, 4, 1); // Add below grid
     }
+    private VBox createSlotBox(String spotId, int slotId, LocalDateTime startDate, LocalDateTime endDate,
+                               int hours, double amount, Label totalAmountLabel, Slot slot) {
+        // Header (Spot ID)
+        Label labelSpotId = new Label(spotId);
+        labelSpotId.setMaxWidth(Double.MAX_VALUE);
+        labelSpotId.setAlignment(Pos.CENTER);
+        labelSpotId.getStyleClass().add("slot-header");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"); // Adjust format as needed
+        String formattedStartDate = startDate.format(formatter);
+        String formattedEndDate = endDate.format(formatter);
+
+        // Body Rows
+        HBox slotRow = createDetailRow("Spot:", String.valueOf(slotId));
+        HBox startDateRow = createDetailRow("Start:", formattedStartDate);
+        HBox endDateRow = createDetailRow("End:", formattedEndDate);
+        HBox hoursRow = createDetailRow("Hours:", String.valueOf(hours));
+
+        VBox body = new VBox(5, slotRow, startDateRow, endDateRow, hoursRow);
+
+        // Footer (Amount on the left, Checkbox on the right)
+        Label amountLabel = new Label("Amount: $" + amount);
+        amountLabel.getStyleClass().add("amount-label");
+
+        CheckBox checkBox = new CheckBox();
+        checkBox.getStyleClass().add("slot-checkbox");
+        checkBox.setOnAction(e -> {
+            if (checkBox.isSelected()) {
+                selectedSlots.add(slot);
+                currentTotalAmount += amount;
+            }
+            else {
+                selectedSlots.remove(slot);
+                currentTotalAmount -= amount;
+            }
+            totalAmountLabel.setText("Total Amount: $" + currentTotalAmount);
+        });
+
+        // Spacer to separate amount and checkbox
+        Region spacer = new Region();
+        spacer.setMinWidth(10); // Adjust spacing as needed
+        HBox.setHgrow(spacer, Priority.ALWAYS); // Expands to push elements apart
+
+        HBox footer = new HBox(10, amountLabel, spacer, checkBox);
+        footer.getStyleClass().add("slot-footer");
+
+        // Slot Box Layout
+        VBox slotBox = new VBox(labelSpotId, body, footer);
+        slotBox.getStyleClass().add("slot-box");
+
+        return slotBox;
+    }
+
+    private HBox createDetailRow(String label, String value) {
+        Label labelNode = new Label(label);
+        labelNode.getStyleClass().add("slot-label");
+
+        Label valueNode = new Label(value);
+        valueNode.getStyleClass().add("slot-value");
+
+        HBox row = new HBox(10, labelNode, valueNode);
+        row.getStyleClass().add("slot-row");
+
+        return row;
+    }
+
+    private void showConfirmationDialog(String totalAmountText) {
+        double penalty = owner.getPayment().getPenalty();  // Your logic for penalty calculation
+        double baseAmount = 0;
+        for (Slot slot : selectedSlots) {
+            baseAmount += owner.getPayment().reservationBaseAmount(slot.getSpotID(), slot.getSlotID());
+        }
+        double balance = owner.getPayment().getBalance(); // Assuming you have a method to get the balance
+
+        double totalAmount = baseAmount + penalty;
+        if (balance < totalAmount) {
+            // Handle insufficient balance
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Insufficient balance. Please add more funds.");
+            alert.getDialogPane().getStyleClass().add("dialog-content"); // Apply dialog content CSS
+            alert.showAndWait();
+        } else {
+            // Proceed with reservation
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Reservation Confirmation");
+            alert.setHeaderText("Reservation Details");
+            alert.setContentText(String.format("Base Amount: $%.2f\nPenalty: $%.2f\nFinal Amount: $%.2f\nBalance: $%.2f",
+                    baseAmount, penalty, totalAmount, balance));
+
+            // Apply the dialog's custom CSS
+            alert.getDialogPane().getStyleClass().add("dialog-content");
+            ButtonType okButton = ButtonType.OK;
+            ButtonType cancelButton = ButtonType.CANCEL;
+            alert.getButtonTypes().setAll(okButton, cancelButton);
+
+            alert.showAndWait().ifPresent(response -> {
+                if (response == okButton) {
+                    for (Slot slot : selectedSlots) {
+                        SystemManager.addNewReservation(owner.getOwnerID(), slot,
+                        owner.getPayment().reservationBaseAmount(slot.getSpotID(), slot.getSlotID()),
+                        owner.getPayment().reservationTotalAmount(slot.getSpotID(), slot.getSlotID()));
+                    }
+                }
+            });
+        }
+    }
+
 
     // Deposit Page
     public void goToDepositPage() {
@@ -206,7 +330,6 @@ public class UserPageController {
         if (isFeedbackSubmitted) {
             return;
         }
-
         try {
 
             String ownerIdText = OwnerID_field.getText();
@@ -245,7 +368,6 @@ public class UserPageController {
             submit_msg.setText(e.getMessage());
         }
     }
-
     private void disableInputs() {
         OwnerID_field.setDisable(true);
         ReservationID_field.setDisable(true);

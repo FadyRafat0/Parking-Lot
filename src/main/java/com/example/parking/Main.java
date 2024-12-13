@@ -16,6 +16,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         SystemManager.initialize();
 //        SystemManager.load_data_from_file();
+
         launch(args);
 
 //        SystemManager.save_data_to_file();

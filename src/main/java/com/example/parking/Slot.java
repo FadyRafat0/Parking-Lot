@@ -13,7 +13,6 @@ public class Slot {
     private final int hours;
     private boolean isAvailable;
 
-
     public Slot(int slotID, int spotID, LocalDateTime startDate, LocalDateTime endDate) {
         this.slotID = slotID;
         this.spotID = spotID;
