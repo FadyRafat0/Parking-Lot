@@ -443,6 +443,12 @@ public class UserPageController {
             return;
         }
 
+        if(newPassword.length()<6)
+        {
+            showAlert("Error","Password must be at least 6 characters long!");
+            return;
+        }
+
         if (!newPassword.equals(confirmPassword)) {
             showAlert("Error", "Passwords do not match.");
             return;
