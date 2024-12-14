@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -19,7 +20,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.controlsfx.control.Rating?>
 
-<GridPane prefHeight="633.0" prefWidth="955.0" stylesheets="@adminStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.parking.gui.UserPageController">
+<GridPane prefHeight="633.0" prefWidth="955.0" stylesheets="@../../../css/adminStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.parking.gui.UserPageController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="692.0000366210937" minWidth="10.0" prefWidth="198.13336791992188" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="933.6000370025636" minWidth="10.0" prefWidth="757.0666320800781" />
@@ -28,101 +29,115 @@
         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <VBox alignment="TOP_CENTER" prefHeight="633.0" prefWidth="160.0" spacing="50.0" styleClass="buttons" stylesheets="@adminStyle.css">
+        <VBox alignment="TOP_CENTER" prefHeight="633.0" prefWidth="160.0" spacing="50.0" styleClass="buttons" stylesheets="@../../../css/adminStyle.css">
             <children>
-                <Pane prefHeight="72.0" prefWidth="181.0" styleClass="logo" stylesheets="@adminStyle.css" />
-                <Button mnemonicParsing="false" onAction="#goToHomePage" prefHeight="25.0" prefWidth="82.0" styleClass="btn" stylesheets="@adminStyle.css" text="HOME" />
-                <Button mnemonicParsing="false" onAction="#chooseReservations" styleClass="btn" stylesheets="@adminStyle.css" text="RESERVATIONS" />
-                <Button mnemonicParsing="false" onAction="#goToDepositPage" styleClass="btn" stylesheets="@adminStyle.css" text="DEPOSIT" />
-                <Button mnemonicParsing="false" onAction="#goToFeedbackPage" styleClass="btn" stylesheets="@adminStyle.css" text="MAKE FEEDBACK" />
-                <Button mnemonicParsing="false" onAction="#goToUpdateDataPage" styleClass="btn" stylesheets="@adminStyle.css" text="UPDATE DATA" />
+                <Pane prefHeight="72.0" prefWidth="181.0" styleClass="logo" stylesheets="@../../../css/adminStyle.css" />
+                <Button mnemonicParsing="false" onAction="#goToHomePage" prefHeight="25.0" prefWidth="82.0" styleClass="btn" stylesheets="@../../../css/adminStyle.css" text="HOME" />
+                <Button mnemonicParsing="false" onAction="#chooseReservations" styleClass="btn" stylesheets="@../../../css/adminStyle.css" text="RESERVATIONS" />
+                <Button mnemonicParsing="false" onAction="#goToDepositPage" styleClass="btn" stylesheets="@../../../css/adminStyle.css" text="DEPOSIT" />
+                <Button mnemonicParsing="false" onAction="#goToFeedbackPage" styleClass="btn" stylesheets="@../../../css/adminStyle.css" text="MAKE FEEDBACK" />
+                <Button mnemonicParsing="false" onAction="#goToUpdateDataPage" styleClass="btn" stylesheets="@../../../css/adminStyle.css" text="UPDATE DATA" />
             </children>
             <padding>
                 <Insets top="15.0" />
             </padding>
         </VBox>
-        <VBox id="v" prefHeight="200.0" prefWidth="100.0" stylesheets="@adminStyle.css" GridPane.columnIndex="1">
+        <VBox id="v" prefHeight="200.0" prefWidth="100.0" stylesheets="@../../../css/adminStyle.css" GridPane.columnIndex="1">
             <children>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="783.0" styleClass="headerPane" stylesheets="@adminStyle.css">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="783.0" styleClass="headerPane" stylesheets="@../../../css/adminStyle.css">
                     <children>
-                        <Label fx:id="headerText" alignment="CENTER" layoutX="90.0" layoutY="5.0" prefHeight="66.0" prefWidth="561.0" styleClass="WelcomeText" stylesheets="@adminStyle.css" text="Welcome UserName" />
-                        <Button layoutX="660.0" layoutY="19.0" mnemonicParsing="false" onAction="#logoutButton" styleClass="Logout-btn" stylesheets="@adminStyle.css" text="LOGOUT" />
-                  <Pane id="back_btn" fx:id="backPane" layoutX="14.0" layoutY="10.0" onMouseClicked="#handleBackButton" prefHeight="54.0" prefWidth="80.0" stylesheets="@adminStyle.css" />
+                        <Label fx:id="headerText" alignment="CENTER" layoutX="90.0" layoutY="5.0" prefHeight="66.0" prefWidth="561.0" styleClass="WelcomeText" stylesheets="@../../../css/adminStyle.css" text="Welcome UserName" />
+                        <Button layoutX="660.0" layoutY="19.0" mnemonicParsing="false" onAction="#logoutButton" styleClass="Logout-btn" stylesheets="@../../../css/adminStyle.css" text="LOGOUT" />
+                  <Pane fx:id="backPane" layoutX="14.0" layoutY="10.0" prefHeight="54.0" prefWidth="53.0" stylesheets="@../../../css/adminStyle.css">
+                  <Button layoutX="10.0" layoutY="9.0" mnemonicParsing="false" onAction="#handleBackButton" styleClass="back-btn" stylesheets="@../../../css/adminStyle.css" text="↩" />
+                  </Pane>
                     </children>
                 </AnchorPane>
-                <StackPane prefHeight="549.0" prefWidth="758.0" styleClass="stack" stylesheets="@adminStyle.css">
+                <StackPane prefHeight="549.0" prefWidth="758.0" styleClass="stack">
                     <children>
-                        <Pane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" styleClass="homeStack" stylesheets="@adminStyle.css" visible="false" />
-                        <Pane fx:id="reservationPane" prefHeight="200.0" prefWidth="200.0" styleClass="spotStack" stylesheets="@adminStyle.css" visible="false">
+                        <Pane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" styleClass="homeStack" stylesheets="@../../../css/adminStyle.css" visible="false" />
+                        <Pane fx:id="reservationPane" prefHeight="200.0" prefWidth="200.0" styleClass="spotStack" stylesheets="@../../../css/adminStyle.css" visible="false">
                             <children>
-                        <Pane id="reserve" onMouseClicked="#goToMakeReservation" prefHeight="550.0" prefWidth="341.0" styleClass="vehicleType" stylesheets="@adminStyle.css">
+                        <Pane id="reserve" onMouseClicked="#goToMakeReservation" prefHeight="550.0" prefWidth="374.0" styleClass="vehicleType" stylesheets="@../../../css/adminStyle.css">
                            <children>
-                              <Label layoutX="31.0" layoutY="30.0" prefHeight="47.0" prefWidth="279.0" styleClass="ReservationLabel" stylesheets="@adminStyle.css" text="Make Reservation" textAlignment="CENTER">
+                              <Label alignment="CENTER" layoutX="48.0" layoutY="30.0" prefHeight="47.0" prefWidth="279.0" styleClass="VehicleLabel" stylesheets="@../../../css/adminStyle.css" text="Make Reservation" textAlignment="CENTER">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </Label>
                            </children>
                         </Pane>
-                                <Pane id="view" layoutX="357.0" onMouseClicked="#goToUpdateReservationPane" prefHeight="550.0" prefWidth="408.0" styleClass="vehicleType" stylesheets="@adminStyle.css">
+                                <Pane id="view" layoutX="391.0" onMouseClicked="#goToUpdateReservationPane" prefHeight="550.0" prefWidth="374.0" styleClass="vehicleType" stylesheets="@../../../css/adminStyle.css">
                            <children>
-                              <Label layoutX="79.0" layoutY="34.0" prefHeight="40.0" prefWidth="251.0" styleClass="ReservationLabel" stylesheets="@adminStyle.css" text="View Reservations" />
+                              <Label alignment="CENTER" layoutX="40.0" layoutY="32.0" prefHeight="47.0" prefWidth="294.0" styleClass="VehicleLabel" stylesheets="@../../../css/adminStyle.css" text="View Reservations" />
                            </children></Pane>
                             </children>
                         </Pane>
-                  <ScrollPane fx:id="makeReservationPane" prefHeight="550.0" prefWidth="469.0" stylesheets="@userStyle.css" visible="false">
+                  <ScrollPane fx:id="makeReservationPane" prefHeight="550.0" prefWidth="469.0" styleClass="total-amount-label">
                      <content>
-                        <GridPane fx:id="gridPaneSlots" alignment="CENTER" hgap="20" prefHeight="489.0" prefWidth="747.0" stylesheets="@userStyle.css" vgap="20" />
+                        <GridPane fx:id="gridPaneSlots" alignment="CENTER" hgap="20" prefHeight="489.0" prefWidth="747.0" stylesheets="@../../../css/userStyle.css" vgap="20" />
                      </content>
+                     <stylesheets>
+                        <URL value="@../../../css/userStyle.css" />
+                        <URL value="@userStyle.css" />
+                     </stylesheets>
                   </ScrollPane>
-                        <Pane fx:id="updateReservationPane" prefHeight="550.0" prefWidth="758.0" stylesheets="@adminStyle.css" visible="false">
+                        <Pane fx:id="updateReservationPane" prefHeight="550.0" prefWidth="758.0" stylesheets="@../../../css/adminStyle.css" visible="false">
                             <children>
-                                <TableView fx:id="ReservationTable" layoutY="18.0" prefHeight="456.0" prefWidth="758.0" />
-                                <Button layoutX="172.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" text="Cancel Reservation" />
-                                <Button layoutX="364.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" text="Update Reservation" />
+                                <TableView fx:id="ReservationTable" layoutY="18.0" prefHeight="456.0" prefWidth="758.0" styleClass="AdminStacksTables" stylesheets="@../../../css/adminStyle.css" />
+                                <Button layoutX="175.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" stylesheets="@../../../css/adminStyle.css" text="Cancel Reservation" />
+                                <Button layoutX="493.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" stylesheets="@../../../css/adminStyle.css" text="Update Reservation" />
                             </children>
                         </Pane>
-                        <Pane fx:id="depositPane" prefHeight="200.0" prefWidth="200.0" visible="false" />
-                        <Pane id="UpdataDataStack" fx:id="updateDataPane" prefHeight="470.0" prefWidth="758.0" visible="false" />
-                  <BorderPane fx:id="feedbackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="721.0" visible="false">
+                        <Pane fx:id="depositPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../css/adminStyle.css" visible="false" />
+                        <Pane id="UpdataDataStack" fx:id="updateDataPane" prefHeight="470.0" prefWidth="758.0" visible="false">
+                     <stylesheets>
+                        <URL value="@../../../css/adminStyle.css" />
+                        <URL value="@userStyle.css" />
+                     </stylesheets></Pane>
+                  <BorderPane fx:id="feedbackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="721.0" stylesheets="@userStyle.css">
                      <top>
-                        <AnchorPane prefHeight="77.0" prefWidth="687.0" BorderPane.alignment="CENTER" />
+                        <AnchorPane prefHeight="77.0" prefWidth="687.0" stylesheets="@userStyle.css" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label fx:id="ownerID_label" layoutX="44.0" prefHeight="36.0" prefWidth="198.0" styleClass="form-label" stylesheets="@userStyle.css" text="Enter your ID Number:">
+                                 <font>
+                                    <Font name="Times New Roman Bold Italic" size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="OwnerID_field" layoutX="44.0" layoutY="34.0" promptText="User ID" styleClass="form-textfield" stylesheets="@userStyle.css" />
+                              <TextField fx:id="ReservationID_field" layoutX="403.0" layoutY="34.0" promptText="Reservation ID" styleClass="form-textfield" stylesheets="@userStyle.css" />
+                              <Label fx:id="reservationID_label" layoutX="403.0" layoutY="5.0" styleClass="form-label" stylesheets="@userStyle.css" text="Enter your reservation ID:">
+                                 <font>
+                                    <Font name="Times New Roman Bold Italic" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children></AnchorPane>
                      </top>
                      <left>
-                        <AnchorPane prefHeight="302.0" prefWidth="186.0" BorderPane.alignment="CENTER">
+                        <AnchorPane prefHeight="302.0" prefWidth="186.0" stylesheets="@userStyle.css" BorderPane.alignment="CENTER">
                            <children>
-                              <Label fx:id="Rate_label" layoutX="14.0" layoutY="104.0" prefHeight="46.0" prefWidth="162.0" text="Rate your Experience:">
+                              <Label fx:id="Rate_label" layoutX="2.0" layoutY="70.0" prefHeight="46.0" prefWidth="162.0" styleClass="form-label" stylesheets="@userStyle.css" text="Rate your Experience:">
                                  <font>
                                     <Font name="Times New Roman Bold Italic" size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="Msg_label" layoutX="17.0" layoutY="191.0" text="Comment your feedback:">
+                              <Label fx:id="Msg_label" layoutY="164.0" styleClass="form-label" stylesheets="@userStyle.css" text="Comment your feedback:">
                                  <font>
                                     <Font name="Times New Roman Bold Italic" size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="ownerID_label" layoutX="16.0" layoutY="33.0" text="Enter your ID Number:">
-                                 <font>
-                                    <Font name="Times New Roman Bold Italic" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="reservationID_label" layoutX="13.0" layoutY="75.0" text="Enter your reservation ID:">
-                                 <font>
-                                    <Font name="Times New Roman Bold Italic" size="16.0" />
                                  </font>
                               </Label>
                            </children>
                         </AnchorPane>
                      </left>
                      <center>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@userStyle.css" BorderPane.alignment="CENTER">
                            <children>
-                              <Rating fx:id="RatingBar" layoutX="8.0" layoutY="112.0" prefHeight="32.0" prefWidth="198.0">
+                              <Rating fx:id="RatingBar" layoutX="1.0" layoutY="74.0" prefHeight="35.0" prefWidth="208.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Rating>
-                              <Button fx:id="submit_btn" layoutX="56.0" layoutY="262.0" mnemonicParsing="false" onAction="#FeedbackView" prefHeight="25.0" prefWidth="94.0" text="Submit">
+                              <Button fx:id="submit_btn" layoutX="56.0" layoutY="262.0" mnemonicParsing="false" onAction="#FeedbackView" prefHeight="36.0" prefWidth="120.0" styleClass="dialog-button" stylesheets="@userStyle.css" text="Submit">
                                  <font>
                                     <Font name="Times New Roman Bold Italic" size="14.0" />
                                  </font>
@@ -130,19 +145,17 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <TextArea fx:id="txt_field" layoutX="8.0" layoutY="168.0" prefHeight="86.0" prefWidth="191.0" />
-                              <TextField fx:id="OwnerID_field" layoutX="8.0" layoutY="34.0" />
-                              <TextField fx:id="ReservationID_field" layoutX="8.0" layoutY="74.0" />
+                              <TextArea fx:id="txt_field" layoutX="1.0" layoutY="133.0" prefHeight="97.0" prefWidth="218.0" promptText="Leave a message" styleClass="form-textfield" stylesheets="@userStyle.css" />
                            </children>
                         </AnchorPane>
                      </center>
                      <right>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@userStyle.css" BorderPane.alignment="CENTER" />
                      </right>
                      <bottom>
-                        <AnchorPane prefHeight="77.0" prefWidth="687.0" BorderPane.alignment="CENTER">
+                        <AnchorPane prefHeight="77.0" prefWidth="687.0" stylesheets="@userStyle.css" BorderPane.alignment="CENTER">
                            <children>
-                              <Label fx:id="submit_msg" layoutX="160.0" layoutY="23.0" prefHeight="16.0" prefWidth="314.0">
+                              <Label fx:id="submit_msg" layoutX="160.0" layoutY="23.0" prefHeight="16.0" prefWidth="314.0" stylesheets="@userStyle.css">
                                  <font>
                                     <Font name="Times New Roman Bold Italic" size="14.0" />
                                  </font>
@@ -152,6 +165,10 @@
                      </bottom>
                   </BorderPane>
                     </children>
+               <stylesheets>
+                  <URL value="@../../../css/adminStyle.css" />
+                  <URL value="@userStyle.css" />
+               </stylesheets>
                 </StackPane>
             </children>
         </VBox>
