@@ -1,0 +1,97 @@
+[
+  {
+    "ownerID": 1,
+    "licenseNumber": "ASDA",
+    "vehicles": [
+      {
+        "Type": "Car",
+        "licensePlate": "AD-456"
+      }
+    ],
+    "reservations": [],
+    "feedbacks": [],
+    "payment": {
+      "ownerID": 1,
+      "balance": 1000.0,
+      "penalty": 0.0,
+      "totalHours": {
+        "Car": 0.0,
+        "Bike": 0.0,
+        "Truck": 0.0
+      },
+      "REWARD_HOURS": 7,
+      "PENALTY_AMOUNT": 3.0
+    },
+    "userName": "Fady",
+    "password": "123456"
+  },
+  {
+    "ownerID": 3,
+    "licenseNumber": "ASDA",
+    "vehicles": [
+      {
+        "Type": "Car",
+        "licensePlate": "AD-456"
+      }
+    ],
+    "reservations": [],
+    "feedbacks": [],
+    "payment": {
+      "ownerID": 3,
+      "balance": 1000.0,
+      "penalty": 0.0,
+      "totalHours": {
+        "Car": 0.0,
+        "Bike": 0.0,
+        "Truck": 0.0
+      },
+      "REWARD_HOURS": 7,
+      "PENALTY_AMOUNT": 3.0
+    },
+    "userName": "Bousy",
+    "password": "123456"
+  },
+  {
+    "ownerID": 4,
+    "licenseNumber": "029320392",
+    "vehicles": [
+      {
+        "Type": "Car",
+        "licensePlate": "L-2"
+      }
+    ],
+    "reservations": [
+      {
+        "reservationID": 1,
+        "ownerID": 4,
+        "baseAmount": 0.0,
+        "totalAmount": 0.0,
+        "slot": {
+          "slotID": 1,
+          "spotID": 10,
+          "startDate": "2024-12-14T00:39:09.1651126",
+          "endDate": "2024-12-14T00:39:09.1661107",
+          "hours": 0,
+          "isAvailable": true
+        },
+        "reservationDate": "2024-12-14T18:38:02.7163118",
+        "status": true
+      }
+    ],
+    "feedbacks": [],
+    "payment": {
+      "ownerID": 4,
+      "balance": 2323.0,
+      "penalty": 0.0,
+      "totalHours": {
+        "Car": 0.0,
+        "Bike": 0.0,
+        "Truck": 0.0
+      },
+      "REWARD_HOURS": 7,
+      "PENALTY_AMOUNT": 3.0
+    },
+    "userName": "zamel",
+    "password": "123456"
+  }
+]

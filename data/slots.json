@@ -1,0 +1,186 @@
+[
+  {
+    "slotID": 1,
+    "spotID": 1,
+    "startDate": "2024-12-14T00:00:00",
+    "endDate": "2024-12-20T00:00:00",
+    "hours": 144,
+    "isAvailable": true
+  },
+  {
+    "slotID": 1,
+    "spotID": 2,
+    "startDate": "2024-12-14T00:00:00",
+    "endDate": "2024-12-20T00:00:00",
+    "hours": 144,
+    "isAvailable": true
+  },
+  {
+    "slotID": 1,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0863725",
+    "endDate": "2024-12-14T18:40:06.0873737",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 2,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 3,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 4,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 5,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 6,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 7,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 8,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 9,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 10,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 11,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 12,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 13,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 14,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 15,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 16,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 17,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 18,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 19,
+    "spotID": 10,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 15,
+    "spotID": 12,
+    "startDate": "2024-12-14T18:40:06.0883744",
+    "endDate": "2024-12-14T18:40:06.0883744",
+    "hours": 0,
+    "isAvailable": true
+  },
+  {
+    "slotID": 21,
+    "spotID": 15,
+    "startDate": "2024-12-14T00:00:00",
+    "endDate": "2024-12-28T00:00:00",
+    "hours": 336,
+    "isAvailable": true
+  }
+]
