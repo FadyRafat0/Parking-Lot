@@ -321,7 +321,7 @@ public class UserPageController {
 
     // Feedback Page
     public void goToFeedbackPage() {
-        headerText.setText("Make FeedBack");
+        headerText.setText("Make Feedback");
         switchToPane(feedbackPane);
       //  FeedbackView();
     }
@@ -354,10 +354,8 @@ public class UserPageController {
 
             double rate = RatingBar.getRating();
 
-
             feedback = new Feedback(ownerID, reservationID, rate, message);
             isFeedbackSubmitted = true;
-
 
             disableInputs();
             submit_msg.setText("Your feedback has been submitted successfully!");
@@ -377,12 +375,85 @@ public class UserPageController {
     }
 
     // Update Page
-    public void goToUpdateDataPage() {
+
+    public void goToUpdateDataPage(){
         switchToPane(updateDataPane);
-        updateDataView();
+        UpdateDataView();
+
     }
-    public void updateDataView() {
+    public void UpdateDataView() {
+        // Prevent duplication
+        updateDataPane.getChildren().clear();
+
+        // Username
+        Label userNameLabel = new Label("Username:");
+        userNameLabel.getStyleClass().add("form-label");
+
+        TextField userNameField = new TextField(owner.getUserName());
+        userNameField.setPromptText("Enter new username");
+        userNameField.getStyleClass().add("form-textfield");
+
+        // Old Password
+        Label passwordLabel = new Label("Password:");
+        passwordLabel.getStyleClass().add("form-label");
+
+        PasswordField oldPasswordField = new PasswordField();
+        oldPasswordField.setPromptText("Enter your old password");
+        oldPasswordField.getStyleClass().add("form-textfield");
+
+        // New Password
+        PasswordField passwordField = new PasswordField();
+        passwordField.setPromptText("Enter new password");
+        passwordField.getStyleClass().add("form-textfield");
+
+        //Confirm Password
+        Label confirmPasswordLabel = new Label("Confirm Password:");
+        confirmPasswordLabel.getStyleClass().add("form-label");
+
+        PasswordField confirmPasswordField = new PasswordField();
+        confirmPasswordField.setPromptText("Confirm new password");
+        confirmPasswordField.getStyleClass().add("form-textfield");
+
+        //Update Profile
+        Button updateButton = new Button("Update Profile");
+        updateButton.setOnAction(event -> handleUpdateProfile(userNameField, oldPasswordField, passwordField, confirmPasswordField));
+        updateButton.getStyleClass().add("update-button");
+
+        //Form
+        VBox updateForm = new VBox(10, userNameLabel, userNameField, passwordLabel, oldPasswordField, passwordField, confirmPasswordLabel, confirmPasswordField, updateButton);
+        updateForm.setAlignment(Pos.CENTER);
+        updateForm.getStyleClass().add("form-container");
+        updateDataPane.getChildren().add(updateForm);
     }
+
+
+    private void handleUpdateProfile(TextField userNameField, PasswordField oldPasswordField, PasswordField passwordField,PasswordField confirmPasswordField) {
+        String newUserName = userNameField.getText().trim();
+        String oldPassword = oldPasswordField.getText().trim();
+        String newPassword = passwordField.getText().trim();
+        String confirmPassword = confirmPasswordField.getText().trim();
+
+        if (newUserName.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+            showAlert("Error", "All fields must be filled out.");
+            return;
+        }
+
+        if(!oldPassword.equals(owner.getPassword())){
+            showAlert("Erorr", "You have entered wrong password, try again!");
+            return;
+        }
+
+        if (!newPassword.equals(confirmPassword)) {
+            showAlert("Error", "Passwords do not match.");
+            return;
+        }
+
+        owner.setUserName(newUserName);
+        owner.setPassword(newPassword);
+
+        showAlert("Success", "Profile updated successfully.");
+    }
+
 
 
     // Logout
