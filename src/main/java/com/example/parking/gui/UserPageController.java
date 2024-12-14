@@ -1,12 +1,15 @@
 package com.example.parking.gui;
 
 import com.example.parking.*;
+import com.sun.javafx.charts.Legend;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
+
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
+
 import javafx.scene.layout.*;
 import javafx.stage.*;
 import org.controlsfx.control.Rating;
@@ -49,11 +52,19 @@ public class UserPageController {
     private Feedback feedback;
     private boolean isFeedbackSubmitted = false;
 
+    @FXML
+    private TextField depositAmountField;
+    @FXML
+    private Label  balanceLabel;
+    @FXML
+    private Button depositButton;
+
     // Reservations
     @FXML
     private TableView<Reservation> ReservationTable;
     @FXML
     private GridPane gridPaneSlots;
+
 
     public void initialize() {
         owner = LoginPageController.getCurrentOwner();
@@ -314,10 +325,40 @@ public class UserPageController {
     // Deposit Page
     public void goToDepositPage() {
         switchToPane(depositPane);
+        headerText.setText("Deposit Management");
         depositView();
     }
     public void depositView() {
+        try {
+            double balance = owner.getPayment().getBalance();
+            balanceLabel.setText("Current Balance: $" + String.format("%.2f", balance));
+
+            depositAmountField.clear();
+            depositButton.setOnAction(event -> {
+                String depositAmountText = depositAmountField.getText().trim();
+                if (depositAmountText.isEmpty()) {
+                    showAlert("Error", "Deposit amount cannot be empty.");
+                    return;
+                }
+                try {
+                    double depositAmount = Double.parseDouble(depositAmountText);
+                    if (depositAmount <= 0) {
+                        showAlert("Error", "Deposit amount must be greater than zero.");
+                        return;
+                    }
+                    owner.getPayment().deposit(depositAmount);
+                    balanceLabel.setText("Current Balance: $" + String.format("%.2f", owner.getPayment().getBalance()));
+                    showAlert("Success", "Funds added successfully.");
+                    depositAmountField.clear();
+                } catch (NumberFormatException e) {
+                    showAlert("Error", "Invalid amount entered. Please enter a valid number.");
+                }
+            });
+        } catch (Exception e) {
+            showAlert("Error", "An error occurred while loading the deposit view.");
+        }
     }
+
 
     // Feedback Page
     public void goToFeedbackPage() {
