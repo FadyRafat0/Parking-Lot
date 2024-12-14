@@ -208,3 +208,33 @@
     -fx-padding: 30px;
 }
 
+#add_funds{
+  -fx-background-image: url("images/add_funds.png");
+  -fx-background-size: contain;
+  -fx-background-repeat: no-repeat;
+  -fx-background-position: center;
+}
+.balance-label {
+ -fx-alignment: center;
+ -fx-font-size: 33;
+ -fx-font-weight: bold;
+ -fx-text-fill: black;
+ -fx-text-decoration: underline;
+}
+
+.deposit-button {
+    -fx-background-color: #6157ed;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10px;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+    -fx-cursor: hand;
+    -fx-background-insets: 0;
+}
+
+.deposit-button:hover {
+    -fx-background-color: #5347c6;
+}
+
+
