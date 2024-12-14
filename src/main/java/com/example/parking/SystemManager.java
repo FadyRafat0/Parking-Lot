@@ -19,21 +19,21 @@ public class SystemManager {
         allReservations = new HashMap<>();
         feedbacksList = new ArrayList<>();
 //
-        Spot spot = new CarSpot(10);
-        Spot spot2 = new BikeSpot(12);
-
-        for (int i = 1; i < 20; ++i)
-            spot.addSlot(new Slot(i, 10, LocalDateTime.now(), LocalDateTime.now()));
-        spot2.addSlot(new Slot(15, 12, LocalDateTime.now(), LocalDateTime.now()));
-        allSpots.put(spot.getSpotID(), spot);
-        allSpots.put(spot2.getSpotID(), spot2);
-
-        ArrayList<Vehicle> vehicles = new ArrayList<>();
-        vehicles.add(new Vehicle(VehicleType.Car, "AD-456"));
-        Owner owner = new Owner("Fady", "123456", 1, "ASDA", vehicles, 1000);
-        allOwners.put(owner.getOwnerID(), owner);
-        owner = new Owner("Bousy", "123456", 3, "ASDA", vehicles, 1000);
-        allOwners.put(owner.getOwnerID(), owner);
+//        Spot spot = new CarSpot(10);
+//        Spot spot2 = new BikeSpot(12);
+//
+//        for (int i = 1; i < 20; ++i)
+//            spot.addSlot(new Slot(i, 10, LocalDateTime.now(), LocalDateTime.now()));
+//        spot2.addSlot(new Slot(15, 12, LocalDateTime.now(), LocalDateTime.now()));
+//        allSpots.put(spot.getSpotID(), spot);
+//        allSpots.put(spot2.getSpotID(), spot2);
+//
+//        ArrayList<Vehicle> vehicles = new ArrayList<>();
+//        vehicles.add(new Vehicle(VehicleType.Car, "AD-456"));
+//        Owner owner = new Owner("Fady", "123456", 1, "ASDA", vehicles, 1000);
+//        allOwners.put(owner.getOwnerID(), owner);
+//        owner = new Owner("Bousy", "123456", 3, "ASDA", vehicles, 1000);
+//        allOwners.put(owner.getOwnerID(), owner);
 //
 //        Reservation res = new Reservation(1, 1, spot.getSlot(1),  10, 15);
 //        allReservations.put(res.getReservationID(), res);
@@ -169,39 +169,53 @@ public class SystemManager {
     // Files
     // Save all data to file
     public static void save_data_to_file() {
-        // Save all spots, owners, and reservations
-        ArrayList<Spot> carSpots, bikeSpots, truckSpots;
-        carSpots = bikeSpots = truckSpots = new ArrayList<>();
+        ArrayList<CarSpot> carSpots = new ArrayList<>();
+        ArrayList<BikeSpot> bikeSpots = new ArrayList<>();
+        ArrayList<TruckSpot> truckSpots = new ArrayList<>();
+
         for (Spot spot : allSpots.values()) {
-            if (spot.getSpotType() == VehicleType.Car)
-                carSpots.add(spot);
-            else if (spot.getSpotType() == VehicleType.Bike)
-                bikeSpots.add(spot);
-            else
-                truckSpots.add(spot);
+            if (spot instanceof CarSpot) {
+                carSpots.add((CarSpot) spot);
+            } else if (spot instanceof BikeSpot) {
+                bikeSpots.add((BikeSpot) spot);
+            } else if (spot instanceof TruckSpot) {
+                truckSpots.add((TruckSpot) spot);
+            }
         }
 
+        // Save each type of spot
         CarSpot.saveSpots(carSpots);
         BikeSpot.saveSpots(bikeSpots);
         TruckSpot.saveSpots(truckSpots);
-        Owner.saveOwners(new ArrayList<>(allOwners.values()));  // Convert Map to List for owners
-        Reservation.saveReservations(new ArrayList<>(allReservations.values()));  // Convert Map to List for reservations
-        Slot.saveSlots(new ArrayList<>(getAllSlots()));  // Convert all slots to List
+
+        // Save other components
+        Owner.saveOwners(new ArrayList<>(allOwners.values()));
+        Reservation.saveReservations(new ArrayList<>(allReservations.values()));
+        Slot.saveSlots(new ArrayList<>(getAllSlots()));
         Feedback.saveFeedbackToFile();
     }
 
+
     public static void load_data_from_file() {
-        // Load data from JSON files
-        ArrayList<Spot> spots = CarSpot.loadSpots(); // Load as List
-        spots.addAll(BikeSpot.loadSpots());
-        spots.addAll(TruckSpot.loadSpots());
-        // Populate maps from the lists
-        for (Spot spot : spots) {
-            allSpots.put(spot.getSpotID(), spot);
+        // Load spots by type
+        ArrayList<CarSpot> carSpots = CarSpot.loadSpots();
+        ArrayList<BikeSpot> bikeSpots = BikeSpot.loadSpots();
+        ArrayList<TruckSpot> truckSpots = TruckSpot.loadSpots();
+
+        // Merge all spots into allSpots
+        for (CarSpot carSpot : carSpots) {
+            allSpots.put(carSpot.getSpotID(), carSpot);
+        }
+        for (BikeSpot bikeSpot : bikeSpots) {
+            allSpots.put(bikeSpot.getSpotID(), bikeSpot);
+        }
+        for (TruckSpot truckSpot : truckSpots) {
+            allSpots.put(truckSpot.getSpotID(), truckSpot);
         }
 
-        ArrayList<Owner> owners = Owner.loadOwners();  // Load as List
-        ArrayList<Reservation> reservations = Reservation.loadReservations();  // Load as List
+        // Load other components
+        ArrayList<Owner> owners = Owner.loadOwners();
+        ArrayList<Reservation> reservations = Reservation.loadReservations();
 
         for (Owner owner : owners) {
             allOwners.put(owner.getOwnerID(), owner);
@@ -209,8 +223,9 @@ public class SystemManager {
         for (Reservation reservation : reservations) {
             allReservations.put(reservation.getReservationID(), reservation);
         }
-        // Load slots and feedback
-        Slot.loadSlots();  // Assuming slots are loaded correctly
-        feedbacksList = Feedback.loadFeedbacks();  // Assuming feedbacks are loaded correctly
+
+        // Reload feedbacks
+        feedbacksList = Feedback.loadFeedbacks();
     }
+
 }

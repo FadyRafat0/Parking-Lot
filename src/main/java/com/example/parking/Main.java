@@ -7,6 +7,7 @@ import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -14,12 +15,11 @@ import java.util.Objects;
 public class Main extends Application {
     Stage window;
     public static void main(String[] args) {
+        System.out.println((System.getProperty("user.dir")));
         SystemManager.initialize();
-//        SystemManager.load_data_from_file();
-
+        SystemManager.load_data_from_file();
         launch(args);
-
-//        SystemManager.save_data_to_file();
+        SystemManager.save_data_to_file();
     }
     // Admin
     @Override

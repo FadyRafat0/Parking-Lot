@@ -4,7 +4,6 @@ import com.example.parking.VehicleType;
 import com.example.parking.json.JSONUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CarSpot extends Spot {
     public CarSpot(int id) {
@@ -14,10 +13,10 @@ public class CarSpot extends Spot {
         return VehicleType.Car;
     }
 
-    public static void saveSpots(ArrayList<Spot> spots) {
+    public static void saveSpots(ArrayList<CarSpot> spots) {
         JSONUtils.saveToFile(spots, "carSpots.json");
     }
-    public static ArrayList<Spot> loadSpots() {
-        return JSONUtils.loadFromFile("carSpots.json", new com.google.gson.reflect.TypeToken<ArrayList<Spot>>() {}.getType());
+    public static ArrayList<CarSpot> loadSpots() {
+        return JSONUtils.loadFromFile("carSpots.json", new com.google.gson.reflect.TypeToken<ArrayList<CarSpot>>() {}.getType());
     }
 }

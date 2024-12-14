@@ -1,5 +1,6 @@
 package com.example.parking;
 import com.example.parking.json.JSONUtils;
+import com.example.parking.spot.Spot;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -66,8 +67,15 @@ public class Slot {
     }
 
     // Load all Slots from a JSON file
-    public static ArrayList<Slot> loadSlots() {
-        Type slotListType = new TypeToken<ArrayList<Slot>>() {}.getType();
-        return JSONUtils.loadFromFile("slots.json", slotListType);
+    public static void loadSlots() {
+        ArrayList<Slot> loadedSlots = JSONUtils.loadFromFile("slots.json", new com.google.gson.reflect.TypeToken<ArrayList<Slot>>() {}.getType());
+
+        for (Slot slot : loadedSlots) {
+            Spot spot = SystemManager.getSpot(slot.getSpotID());
+            if (spot != null) {
+                spot.addSlot(slot);
+            }
+        }
     }
+
 }

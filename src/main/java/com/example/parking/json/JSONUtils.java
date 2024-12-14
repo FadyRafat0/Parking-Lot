@@ -1,7 +1,9 @@
 package com.example.parking.json;
 
+import com.example.parking.spot.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
@@ -9,12 +11,23 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class JSONUtils {
-    private static final Gson gson = new GsonBuilder()
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())  // Register serializer
-            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer()) // Register deserializer
-            .setPrettyPrinting()
-            .create();
-    private static final String DATA_DIRECTORY = "src/com/example/parking/data/";
+    private static final Gson gson;
+
+    static {
+        // Create a RuntimeTypeAdapterFactory for the Spot class
+        RuntimeTypeAdapterFactory<Spot> spotAdapterFactory = RuntimeTypeAdapterFactory.of(Spot.class, "type")
+                .registerSubtype(CarSpot.class, "CarSpot")
+                .registerSubtype(BikeSpot.class, "BikeSpot")
+                .registerSubtype(TruckSpot.class, "TruckSpot");
+
+        gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())  // Register LocalDateTime serializer
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer()) // Register LocalDateTime deserializer
+                .registerTypeAdapterFactory(spotAdapterFactory)  // Register polymorphic adapter
+                .setPrettyPrinting()
+                .create();
+    }
+    private static final String DATA_DIRECTORY = "ZAMEL/data/";
 
     private static void ensureFileExists(String fileName) throws IOException {
         File file = new File(DATA_DIRECTORY + fileName);
