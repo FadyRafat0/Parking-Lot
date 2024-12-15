@@ -7,7 +7,6 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Objects;
 
 public class LoginPageController {
@@ -22,20 +21,10 @@ public class LoginPageController {
     private Hyperlink signUpLink;
     private static Owner currentOwner;
 
-    private void showAlert(String title,String header, String message) {
+    private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
-        alert.setHeaderText(header);
         alert.setContentText(message);
-
-        alert.getDialogPane().getStyleClass().add("login-alert");
-
-        URL cssFile = getClass().getResource("/css/style.css");
-        if (cssFile != null) {
-            alert.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
-        } else {
-            System.out.println("CSS file not found.");
-        }
         alert.showAndWait();
     }
 
@@ -49,7 +38,7 @@ public class LoginPageController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            showAlert("Message", "Error","Failed to load the sign-up page xfml.");
+            showAlert("Error", "Failed to load the sign-up page xfml.");
         }
     }
     public void loginButton(ActionEvent event) throws IOException {
@@ -59,14 +48,14 @@ public class LoginPageController {
 
         // Validation: Check if username or password are empty
         if (username.isEmpty() || password.isEmpty()) {
-            showAlert("Message", "Error","Please fill in both username and password.");
+            showAlert("Error", "Please fill in both username and password.");
             return;
         }
 
 
         // Go to Admin Page
         if (username.equals("admin") && password.equals("admin")) {
-            showAlert("Message", "Logged Successfully","Welcome Admin!");
+            showAlert("Success", "Welcome Admin!");
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/AdminPageFXML.fxml")));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ( ((Node) event.getSource()).getScene().getWindow());
@@ -81,7 +70,7 @@ public class LoginPageController {
             Owner owner = SystemManager.getOwner(username);
             setCurrentOwner(owner);
 
-            showAlert("Message", "Logged Successfully","Welcome " + owner.getUserName() + "!");
+            showAlert("Success", "Welcome " + owner.getUserName() + "!");
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/UserPageFXML.fxml")));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ( ((Node) event.getSource()).getScene().getWindow());
@@ -91,7 +80,7 @@ public class LoginPageController {
         }
 
         // Not Found
-        showAlert("Message", "Login Failed","Wrong Username/Password");
+        showAlert("Login Failed", "Wrong Username/Password");
     }
     // Current Owner
     public static Owner getCurrentOwner() {

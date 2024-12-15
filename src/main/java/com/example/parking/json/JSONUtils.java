@@ -27,7 +27,7 @@ public class JSONUtils {
                 .setPrettyPrinting()
                 .create();
     }
-    private static final String DATA_DIRECTORY = "ZAMEL/data/";
+    private static final String DATA_DIRECTORY ="D:\\ParkingLot\\Parking-Lot\\data";
 
     private static void ensureFileExists(String fileName) throws IOException {
         File file = new File(DATA_DIRECTORY + fileName);

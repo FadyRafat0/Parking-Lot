@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
@@ -52,7 +53,7 @@
                   </Pane>
                     </children>
                 </AnchorPane>
-                <StackPane prefHeight="549.0" prefWidth="758.0" styleClass="stack" stylesheets="@../../../css/adminStyle.css">
+                <StackPane prefHeight="549.0" prefWidth="758.0" styleClass="stack">
                     <children>
                         <Pane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" styleClass="homeStack" stylesheets="@../../../css/adminStyle.css" visible="false" />
                         <Pane fx:id="reservationPane" prefHeight="200.0" prefWidth="200.0" styleClass="spotStack" stylesheets="@../../../css/adminStyle.css" visible="false">
@@ -72,10 +73,14 @@
                            </children></Pane>
                             </children>
                         </Pane>
-                  <ScrollPane fx:id="makeReservationPane" prefHeight="550.0" prefWidth="469.0" stylesheets="@../../../css/userStyle.css">
+                  <ScrollPane fx:id="makeReservationPane" prefHeight="550.0" prefWidth="469.0" styleClass="total-amount-label">
                      <content>
                         <GridPane fx:id="gridPaneSlots" alignment="CENTER" hgap="20" prefHeight="489.0" prefWidth="747.0" stylesheets="@../../../css/userStyle.css" vgap="20" />
                      </content>
+                     <stylesheets>
+                        <URL value="@../../../css/userStyle.css" />
+                        <URL value="@userStyle.css" />
+                     </stylesheets>
                   </ScrollPane>
                         <Pane fx:id="updateReservationPane" prefHeight="550.0" prefWidth="758.0" stylesheets="@../../../css/adminStyle.css" visible="false">
                             <children>
@@ -84,47 +89,73 @@
                                 <Button layoutX="493.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" stylesheets="@../../../css/adminStyle.css" text="Update Reservation" />
                             </children>
                         </Pane>
-                        <Pane fx:id="depositPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../../../css/adminStyle.css" visible="false" />
-                        <Pane id="UpdataDataStack" fx:id="updateDataPane" prefHeight="470.0" prefWidth="758.0" stylesheets="@../../../css/adminStyle.css" visible="false" />
-                  <BorderPane fx:id="feedbackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="721.0" visible="false">
+                        <Pane fx:id="depositPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: White;" stylesheets="@userStyle.css">
+                            <VBox alignment="CENTER" layoutX="148.0" layoutY="14.0" prefHeight="511.0" prefWidth="479.0" spacing="20" style="-fx-background-color: #ffffff;" stylesheets="@userStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+                                <!-- Balance Label -->
+                                <Label fx:id="balanceLabel" styleClass="balance-label" stylesheets="@userStyle.css" text="Current Balance: $0.00" />
+
+                                <!-- Placeholder Pane for Add Funds Icon -->
+                                <Pane id="add_funds" fx:id="addFundsIconPane" prefHeight="180.0" prefWidth="479.0" styleClass="add_funds" stylesheets="@userStyle.css" />
+
+                                <!-- TextField for deposit amount -->
+                                <TextField fx:id="depositAmountField" promptText="Enter deposit amount" style="-fx-font-size: 14px; -fx-padding: 10; -fx-border-color: #6157ed; -fx-border-radius: 5; -fx-background-radius: 5;" styleClass="form-textfield" />
+
+                                <!-- Deposit Button -->
+                                <Button fx:id="depositButton" onAction="#depositView" styleClass="deposit-button" text="Add Funds">
+                                    <cursor>
+                                        <Cursor fx:constant="HAND" />
+                                    </cursor>
+                                </Button>
+                            </VBox>
+                        </Pane>
+                        <Pane id="UpdataDataStack" fx:id="updateDataPane" prefHeight="470.0" prefWidth="758.0" visible="false">
+                     <stylesheets>
+                        <URL value="@../../../css/adminStyle.css" />
+                        <URL value="@userStyle.css" />
+                     </stylesheets></Pane>
+                  <BorderPane fx:id="feedbackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="721.0" stylesheets="@userStyle.css" visible="false">
                      <top>
-                        <AnchorPane prefHeight="77.0" prefWidth="687.0" BorderPane.alignment="CENTER" />
+                        <AnchorPane prefHeight="77.0" prefWidth="687.0" stylesheets="@userStyle.css" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label fx:id="ownerID_label" layoutX="44.0" prefHeight="36.0" prefWidth="198.0" styleClass="form-label" stylesheets="@userStyle.css" text="Enter your ID Number:">
+                                 <font>
+                                    <Font name="Times New Roman Bold Italic" size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="OwnerID_field" layoutX="44.0" layoutY="34.0" promptText="User ID" styleClass="form-textfield" stylesheets="@userStyle.css" />
+                              <TextField fx:id="ReservationID_field" layoutX="403.0" layoutY="34.0" promptText="Reservation ID" styleClass="form-textfield" stylesheets="@userStyle.css" />
+                              <Label fx:id="reservationID_label" layoutX="403.0" layoutY="5.0" styleClass="form-label" stylesheets="@userStyle.css" text="Enter your reservation ID:">
+                                 <font>
+                                    <Font name="Times New Roman Bold Italic" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children></AnchorPane>
                      </top>
                      <left>
-                        <AnchorPane prefHeight="302.0" prefWidth="186.0" BorderPane.alignment="CENTER">
+                        <AnchorPane prefHeight="302.0" prefWidth="186.0" stylesheets="@userStyle.css" BorderPane.alignment="CENTER">
                            <children>
-                              <Label fx:id="Rate_label" layoutX="14.0" layoutY="104.0" prefHeight="46.0" prefWidth="162.0" text="Rate your Experience:">
+                              <Label fx:id="Rate_label" layoutX="2.0" layoutY="70.0" prefHeight="46.0" prefWidth="162.0" styleClass="form-label" stylesheets="@userStyle.css" text="Rate your Experience:">
                                  <font>
                                     <Font name="Times New Roman Bold Italic" size="16.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="Msg_label" layoutX="17.0" layoutY="191.0" text="Comment your feedback:">
+                              <Label fx:id="Msg_label" layoutY="164.0" styleClass="form-label" stylesheets="@userStyle.css" text="Comment your feedback:">
                                  <font>
                                     <Font name="Times New Roman Bold Italic" size="15.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="ownerID_label" layoutX="16.0" layoutY="33.0" text="Enter your ID Number:">
-                                 <font>
-                                    <Font name="Times New Roman Bold Italic" size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="reservationID_label" layoutX="13.0" layoutY="75.0" text="Enter your reservation ID:">
-                                 <font>
-                                    <Font name="Times New Roman Bold Italic" size="16.0" />
                                  </font>
                               </Label>
                            </children>
                         </AnchorPane>
                      </left>
                      <center>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@userStyle.css" BorderPane.alignment="CENTER">
                            <children>
-                              <Rating fx:id="RatingBar" layoutX="8.0" layoutY="112.0" prefHeight="32.0" prefWidth="198.0">
+                              <Rating fx:id="RatingBar" layoutX="1.0" layoutY="74.0" prefHeight="35.0" prefWidth="208.0">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Rating>
-                              <Button fx:id="submit_btn" layoutX="56.0" layoutY="262.0" mnemonicParsing="false" onAction="#FeedbackView" prefHeight="25.0" prefWidth="94.0" text="Submit">
+                              <Button fx:id="submit_btn" layoutX="56.0" layoutY="262.0" mnemonicParsing="false" onAction="#FeedbackView" prefHeight="36.0" prefWidth="120.0" styleClass="dialog-button" stylesheets="@userStyle.css" text="Submit">
                                  <font>
                                     <Font name="Times New Roman Bold Italic" size="14.0" />
                                  </font>
@@ -132,19 +163,17 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <TextArea fx:id="txt_field" layoutX="8.0" layoutY="168.0" prefHeight="86.0" prefWidth="191.0" />
-                              <TextField fx:id="OwnerID_field" layoutX="8.0" layoutY="34.0" />
-                              <TextField fx:id="ReservationID_field" layoutX="8.0" layoutY="74.0" />
+                              <TextArea fx:id="txt_field" layoutX="1.0" layoutY="133.0" prefHeight="97.0" prefWidth="218.0" promptText="Leave a message" styleClass="form-textfield" stylesheets="@userStyle.css" />
                            </children>
                         </AnchorPane>
                      </center>
                      <right>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" stylesheets="@userStyle.css" BorderPane.alignment="CENTER" />
                      </right>
                      <bottom>
-                        <AnchorPane prefHeight="77.0" prefWidth="687.0" BorderPane.alignment="CENTER">
+                        <AnchorPane prefHeight="77.0" prefWidth="687.0" stylesheets="@userStyle.css" BorderPane.alignment="CENTER">
                            <children>
-                              <Label fx:id="submit_msg" layoutX="160.0" layoutY="23.0" prefHeight="16.0" prefWidth="314.0">
+                              <Label fx:id="submit_msg" layoutX="160.0" layoutY="23.0" prefHeight="16.0" prefWidth="314.0" stylesheets="@userStyle.css">
                                  <font>
                                     <Font name="Times New Roman Bold Italic" size="14.0" />
                                  </font>
@@ -154,6 +183,10 @@
                      </bottom>
                   </BorderPane>
                     </children>
+               <stylesheets>
+                  <URL value="@../../../css/adminStyle.css" />
+                  <URL value="@userStyle.css" />
+               </stylesheets>
                 </StackPane>
             </children>
         </VBox>

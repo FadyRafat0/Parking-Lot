@@ -17,7 +17,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         System.out.println((System.getProperty("user.dir")));
         SystemManager.initialize();
-        SystemManager.load_data_from_file();
+      SystemManager.load_data_from_file();
         launch(args);
         SystemManager.save_data_to_file();
     }
