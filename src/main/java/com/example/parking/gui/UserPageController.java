@@ -1,15 +1,12 @@
 package com.example.parking.gui;
 
 import com.example.parking.*;
-import com.sun.javafx.charts.Legend;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
-
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
-
 import javafx.scene.layout.*;
 import javafx.stage.*;
 import org.controlsfx.control.Rating;
@@ -52,19 +49,11 @@ public class UserPageController {
     private Feedback feedback;
     private boolean isFeedbackSubmitted = false;
 
-    @FXML
-    private TextField depositAmountField;
-    @FXML
-    private Label  balanceLabel;
-    @FXML
-    private Button depositButton;
-
     // Reservations
     @FXML
     private TableView<Reservation> ReservationTable;
     @FXML
     private GridPane gridPaneSlots;
-
 
     public void initialize() {
         owner = LoginPageController.getCurrentOwner();
@@ -325,44 +314,14 @@ public class UserPageController {
     // Deposit Page
     public void goToDepositPage() {
         switchToPane(depositPane);
-        headerText.setText("Deposit Management");
         depositView();
     }
     public void depositView() {
-        try {
-            double balance = owner.getPayment().getBalance();
-            balanceLabel.setText("Current Balance: $" + String.format("%.2f", balance));
-
-            depositAmountField.clear();
-            depositButton.setOnAction(event -> {
-                String depositAmountText = depositAmountField.getText().trim();
-                if (depositAmountText.isEmpty()) {
-                    showAlert("Error", "Deposit amount cannot be empty.");
-                    return;
-                }
-                try {
-                    double depositAmount = Double.parseDouble(depositAmountText);
-                    if (depositAmount <= 0) {
-                        showAlert("Error", "Deposit amount must be greater than zero.");
-                        return;
-                    }
-                    owner.getPayment().deposit(depositAmount);
-                    balanceLabel.setText("Current Balance: $" + String.format("%.2f", owner.getPayment().getBalance()));
-                    showAlert("Success", "Funds added successfully.");
-                    depositAmountField.clear();
-                } catch (NumberFormatException e) {
-                    showAlert("Error", "Invalid amount entered. Please enter a valid number.");
-                }
-            });
-        } catch (Exception e) {
-            showAlert("Error", "An error occurred while loading the deposit view.");
-        }
     }
-
 
     // Feedback Page
     public void goToFeedbackPage() {
-        headerText.setText("Make Feedback");
+        headerText.setText("Make FeedBack");
         switchToPane(feedbackPane);
       //  FeedbackView();
     }
@@ -395,8 +354,10 @@ public class UserPageController {
 
             double rate = RatingBar.getRating();
 
+
             feedback = new Feedback(ownerID, reservationID, rate, message);
             isFeedbackSubmitted = true;
+
 
             disableInputs();
             submit_msg.setText("Your feedback has been submitted successfully!");
@@ -416,91 +377,12 @@ public class UserPageController {
     }
 
     // Update Page
-
-    public void goToUpdateDataPage(){
+    public void goToUpdateDataPage() {
         switchToPane(updateDataPane);
-        UpdateDataView();
-
+        updateDataView();
     }
-    public void UpdateDataView() {
-        // Prevent duplication
-        updateDataPane.getChildren().clear();
-
-        // Username
-        Label userNameLabel = new Label("Username:");
-        userNameLabel.getStyleClass().add("form-label");
-
-        TextField userNameField = new TextField(owner.getUserName());
-        userNameField.setPromptText("Enter new username");
-        userNameField.getStyleClass().add("form-textfield");
-
-        // Old Password
-        Label passwordLabel = new Label("Password:");
-        passwordLabel.getStyleClass().add("form-label");
-
-        PasswordField oldPasswordField = new PasswordField();
-        oldPasswordField.setPromptText("Enter your old password");
-        oldPasswordField.getStyleClass().add("form-textfield");
-
-        // New Password
-        PasswordField passwordField = new PasswordField();
-        passwordField.setPromptText("Enter new password");
-        passwordField.getStyleClass().add("form-textfield");
-
-        //Confirm Password
-        Label confirmPasswordLabel = new Label("Confirm Password:");
-        confirmPasswordLabel.getStyleClass().add("form-label");
-
-        PasswordField confirmPasswordField = new PasswordField();
-        confirmPasswordField.setPromptText("Confirm new password");
-        confirmPasswordField.getStyleClass().add("form-textfield");
-
-        //Update Profile
-        Button updateButton = new Button("Update Profile");
-        updateButton.setOnAction(event -> handleUpdateProfile(userNameField, oldPasswordField, passwordField, confirmPasswordField));
-        updateButton.getStyleClass().add("update-button");
-
-        //Form
-        VBox updateForm = new VBox(10, userNameLabel, userNameField, passwordLabel, oldPasswordField, passwordField, confirmPasswordLabel, confirmPasswordField, updateButton);
-        updateForm.setAlignment(Pos.CENTER);
-        updateForm.getStyleClass().add("form-container");
-        updateDataPane.getChildren().add(updateForm);
+    public void updateDataView() {
     }
-
-
-    private void handleUpdateProfile(TextField userNameField, PasswordField oldPasswordField, PasswordField passwordField,PasswordField confirmPasswordField) {
-        String newUserName = userNameField.getText().trim();
-        String oldPassword = oldPasswordField.getText().trim();
-        String newPassword = passwordField.getText().trim();
-        String confirmPassword = confirmPasswordField.getText().trim();
-
-        if (newUserName.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
-            showAlert("Error", "All fields must be filled out.");
-            return;
-        }
-
-        if(!oldPassword.equals(owner.getPassword())){
-            showAlert("Erorr", "You have entered wrong password, try again!");
-            return;
-        }
-
-        if(newPassword.length()<6)
-        {
-            showAlert("Error","Password must be at least 6 characters long!");
-            return;
-        }
-
-        if (!newPassword.equals(confirmPassword)) {
-            showAlert("Error", "Passwords do not match.");
-            return;
-        }
-
-        owner.setUserName(newUserName);
-        owner.setPassword(newPassword);
-
-        showAlert("Success", "Profile updated successfully.");
-    }
-
 
 
     // Logout

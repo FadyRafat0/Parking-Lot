@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -48,21 +49,21 @@ public class SignUpPageController {
 
         // Validate inputs
         if (vehicleType == null || vehicleType.isEmpty()) {
-            showAlert("Error", "Please select a vehicle type.");
+            showAlert("Message","Error" ,"Please select a vehicle type.");
             return;
         }
         if (licensePlate.isEmpty()) {
-            showAlert("Error", "Please enter a license plate.");
+            showAlert("Message", "Error" ,"Please enter a license plate.");
             return;
         }
 
         if (vehiclesString.size() >= 3) {
-            showAlert("Error", "You can only add up to 3 vehicles.");
+            showAlert("Message", "Error" ,"You can only add up to 3 vehicles.");
             return;
         }
 
         if (!licensePlateValid(licensePlate)) {
-            showAlert("Error", "Please enter a valid license plate.");
+            showAlert("Message","Error", "Please enter a valid license plate.");
             return;
         }
 
@@ -92,10 +93,21 @@ public class SignUpPageController {
         vehicles.remove(selectedIndex);
     }
 
-    private void showAlert(String title, String message) {
+    private void showAlert(String title,String header, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
+        alert.setHeaderText(header);
         alert.setContentText(message);
+
+        alert.getDialogPane().getStyleClass().add("login-alert");
+
+        URL cssFile = getClass().getResource("/css/style.css");
+        if (cssFile != null) {
+            alert.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
+
         alert.showAndWait();
     }
 
@@ -129,30 +141,30 @@ public class SignUpPageController {
         String balanceText = balanceField.getText().trim();
 
         if (userName.isEmpty() || password.isEmpty() || licenseNumber.isEmpty() || balanceText.isEmpty()) {
-            showAlert("Error", "All fields must be filled");
+            showAlert("Message", "Error", "All fields must be filled");
             return;
         }
 
         // if the Username Taken Error
         if (!userNameValid(userName)) {
-            showAlert("Error", "This Username Is Taken");
+            showAlert("Message","Error", "This Username Is Taken");
             return;
         }
 
         if(!passwordValid(password)) {
-            showAlert("Error", "Password must be at least 6 characters long!");
+            showAlert("Message","Error", "Password must be at least 6 characters long!");
             return;
         }
 
         if (!balanceValid(balanceText)) {
-            showAlert("Error", "Enter A Valid Balance");
+            showAlert("Message","Error", "Enter A Valid Balance");
             return;
         }
 
         double balanceDouble = Double.parseDouble(balanceText);
 
         // Register Successfully
-        showAlert("Success", "SignUp Successfully!");
+        showAlert("Message","SignUp Successfully!", "Welcome to our garage <3");
         SystemManager.addOwner(userName, password, licenseNumber, vehicles, balanceDouble);
 
         // Go LoginPage
@@ -171,7 +183,7 @@ public class SignUpPageController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            showAlert("Error", "Failed to load the login page xfml.");
+            showAlert("Message","Error", "Failed to load the login page xfml.");
         }
     }
 }
