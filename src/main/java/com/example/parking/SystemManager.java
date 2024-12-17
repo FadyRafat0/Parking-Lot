@@ -1,100 +1,78 @@
 package com.example.parking;
 import com.example.parking.spot.*;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
-import static java.lang.Math.max;
+import static java.lang.Math.*;
 
 public class SystemManager {
-    public static Map<Integer, Owner> allOwners;
-    public static Map<Integer, Spot> allSpots;
-    public static Map<Integer, Reservation> allReservations;
-    public static  ArrayList<Feedback> feedbacksList;
+    public static Map<Integer, Owner> owners;
+    public static Map<Integer, Spot> spots;
+    public static Map<Integer, Reservation> reservations;
+    public static ArrayList<Feedback> feedbacksList;
     public static int nextOwnerID, nextSpotID, nextReservationID, nextSlotID;
 
     public static void initialize() {
-        allSpots = new HashMap<>();
-        allOwners = new HashMap<>();
-        allReservations = new HashMap<>();
+        spots = new HashMap<>();
+        owners = new HashMap<>();
+        reservations = new HashMap<>();
         feedbacksList = new ArrayList<>();
-//
-//        Spot spot = new CarSpot(10);
-//        Spot spot2 = new BikeSpot(12);
-//
-//        for (int i = 1; i < 20; ++i)
-//            spot.addSlot(new Slot(i, 10, LocalDateTime.now(), LocalDateTime.now()));
-//        spot2.addSlot(new Slot(15, 12, LocalDateTime.now(), LocalDateTime.now()));
-//        allSpots.put(spot.getSpotID(), spot);
-//        allSpots.put(spot2.getSpotID(), spot2);
-//
-//        ArrayList<Vehicle> vehicles = new ArrayList<>();
-//        vehicles.add(new Vehicle(VehicleType.Car, "AD-456"));
-//        Owner owner = new Owner("Fady", "123456", 1, "ASDA", vehicles, 1000);
-//        allOwners.put(owner.getOwnerID(), owner);
-//        owner = new Owner("Bousy", "123456", 3, "ASDA", vehicles, 1000);
-//        allOwners.put(owner.getOwnerID(), owner);
-//
-//        Reservation res = new Reservation(1, 1, spot.getSlot(1),  10, 15);
-//        allReservations.put(res.getReservationID(), res);
-//        res = new Reservation(2, 3, spot2.getSlot(15),  100, 155);
-//        allReservations.put(res.getReservationID(), res);
+        SystemManager.load_data_from_file();
 
         setIDs();
     }
     // Set The Initial IDs
     public static void setIDs() {
         nextOwnerID = nextSpotID = nextReservationID = nextSlotID = 1;
-        for (Owner owner : allOwners.values()) {
+        for (Owner owner : owners.values()) {
             nextOwnerID = max(nextOwnerID, owner.getOwnerID() + 1);
         }
-        for (Spot spot : allSpots.values()) {
+        for (Spot spot : spots.values()) {
             nextSpotID = max(nextSpotID, spot.getSpotID() + 1);
 
             for (Slot slot : spot.getSlots()) {
                 nextSlotID = max(nextSlotID, slot.getSlotID() + 1);
             }
         }
-        for (Reservation reservation : allReservations.values()) {
+        for (Reservation reservation : reservations.values()) {
             nextReservationID = max(nextReservationID, reservation.getReservationID() + 1);
         }
     }
 
     // Spots & Slots
     public static Spot getSpot(int spotId) {
-        return allSpots.get(spotId);
+        return spots.get(spotId);
     }
     public static ArrayList<Spot> getSpotsByType(VehicleType vehicleType) {
         ArrayList<Spot> spots = new ArrayList<>();
-        for (Spot spot : allSpots.values()) {
-            if (spot.getSpotType() == vehicleType) {
+        for (Spot spot : SystemManager.spots.values()) {
+            if (spot.getVehicleType() == vehicleType) {
                 spots.add(spot);
             }
         }
         return spots;
     }
-
     public static ArrayList<Slot> getSlotsBySpotID(int spotID) {
-        return allSpots.get(spotID).getSlots();
+        return spots.get(spotID).getSlots();
     }
 
-    // Get all slots from all spots
+    // Get All slots from all spots
     public static ArrayList<Slot> getAllSlots() {
         ArrayList<Slot> allSlots = new ArrayList<>();
-        for (Spot spot : allSpots.values()) {
+        for (Spot spot : spots.values()) {
             allSlots.addAll(spot.getSlots()); // assuming getSlots() returns a map
         }
         return allSlots;
     }
-    // Get All Slots For Owner
-    public static ArrayList<Slot> getAllAvaiableSlots(Owner owner) {
+    // Get All Available Slots For Owner
+    public static ArrayList<Slot> getAvailableSlots(Owner owner) {
         Map<VehicleType, Boolean> currentVehicles = new HashMap<>();
         for (Vehicle vehicle : owner.getVehicles())
             currentVehicles.put(vehicle.getType(), true);
 
         ArrayList<Slot> slots = new ArrayList<>();
-        for (Spot spot : allSpots.values()) {
-            if (currentVehicles.containsKey(spot.getSpotType())) {
+        for (Spot spot : spots.values()) {
+            if (currentVehicles.containsKey(spot.getVehicleType())) {
                 for (Slot slot : spot.getSlots()) {
                     if (slot.isAvailable()) {
                         slots.add(slot);
@@ -104,13 +82,16 @@ public class SystemManager {
         }
         return slots;
     }
+    public static Slot getSlot(int spotID, int slotID) {
+        return spots.get(spotID).getSlot(slotID);
+    }
 
     // Owners
     public static ArrayList<Owner> getOwners() {
-        return new ArrayList<Owner>(allOwners.values());
+        return new ArrayList<Owner>(owners.values());
     }
     public static Owner getOwner(String userName) {
-        for (Owner owner : allOwners.values()) {
+        for (Owner owner : owners.values()) {
             if (owner.getUserName().equals(userName)) {
                 return owner;
             }
@@ -119,51 +100,41 @@ public class SystemManager {
     }
 
     public static boolean isOwnerExist(String userName, String password) {
-        for (Owner owner : allOwners.values()) {
+        for (Owner owner : owners.values()) {
             if (userName.equals(owner.getUserName()) && password.equals(owner.getPassword()))
                 return true;
         }
         return false;
     }
     public static boolean isOwnerExist(String userName) {
-        for (Owner owner : allOwners.values()) {
+        for (Owner owner : owners.values()) {
             if (userName.equals(owner.getUserName()))
                 return true;
         }
         return false;
     }
-
     public static void addOwner(String userName, String Password, String licenceNumber,
                                 ArrayList<Vehicle> vehicles, double balance)
     {
         Owner newOwner = new Owner(userName, Password, nextOwnerID, licenceNumber, vehicles, balance);
-        allOwners.put(newOwner.getOwnerID(), newOwner);
+        owners.put(newOwner.getOwnerID(), newOwner);
         nextOwnerID++;
     }
 
     // FeedBacks
-    public static ArrayList<Feedback> getAllFeedBacks(){
+    public static ArrayList<Feedback> getFeedbacks(){
         return feedbacksList;
     }
 
     // Reservations
-    public static ArrayList<Reservation> getAllReservations(){
-        return new ArrayList<Reservation>(allReservations.values());
-    }
     public static ArrayList<Reservation> getReservationsWithType(VehicleType vehicleType) {
         ArrayList<Reservation> reservations = new ArrayList<>();
-        for (Reservation reservation : allReservations.values()) {
+        for (Reservation reservation : SystemManager.reservations.values()) {
             if (reservation.getSpotType() == vehicleType) {
                 reservations.add(reservation);
             }
         }
         return reservations;
-    }
-    public static void addNewReservation(int ownerID, Slot slot, double baseAmount, double totalAmount) {
-        Reservation reservation = new Reservation(nextReservationID, ownerID, slot, baseAmount, totalAmount);
-        allReservations.put(reservation.getReservationID(), reservation);
-        allOwners.get(ownerID).makeReservation(reservation);
-        nextReservationID++;
     }
 
     // Files
@@ -173,7 +144,7 @@ public class SystemManager {
         ArrayList<BikeSpot> bikeSpots = new ArrayList<>();
         ArrayList<TruckSpot> truckSpots = new ArrayList<>();
 
-        for (Spot spot : allSpots.values()) {
+        for (Spot spot : spots.values()) {
             if (spot instanceof CarSpot) {
                 carSpots.add((CarSpot) spot);
             } else if (spot instanceof BikeSpot) {
@@ -189,13 +160,11 @@ public class SystemManager {
         TruckSpot.saveSpots(truckSpots);
 
         // Save other components
-        Owner.saveOwners(new ArrayList<>(allOwners.values()));
-        Reservation.saveReservations(new ArrayList<>(allReservations.values()));
+        Owner.saveOwners(new ArrayList<>(owners.values()));
+        Reservation.saveReservations(new ArrayList<>(reservations.values()));
         Slot.saveSlots(new ArrayList<>(getAllSlots()));
         Feedback.saveFeedbackToFile();
     }
-
-
     public static void load_data_from_file() {
         // Load spots by type
         ArrayList<CarSpot> carSpots = CarSpot.loadSpots();
@@ -204,13 +173,13 @@ public class SystemManager {
 
         // Merge all spots into allSpots
         for (CarSpot carSpot : carSpots) {
-            allSpots.put(carSpot.getSpotID(), carSpot);
+            spots.put(carSpot.getSpotID(), carSpot);
         }
         for (BikeSpot bikeSpot : bikeSpots) {
-            allSpots.put(bikeSpot.getSpotID(), bikeSpot);
+            spots.put(bikeSpot.getSpotID(), bikeSpot);
         }
         for (TruckSpot truckSpot : truckSpots) {
-            allSpots.put(truckSpot.getSpotID(), truckSpot);
+            spots.put(truckSpot.getSpotID(), truckSpot);
         }
 
         // Load other components
@@ -218,10 +187,10 @@ public class SystemManager {
         ArrayList<Reservation> reservations = Reservation.loadReservations();
 
         for (Owner owner : owners) {
-            allOwners.put(owner.getOwnerID(), owner);
+            SystemManager.owners.put(owner.getOwnerID(), owner);
         }
         for (Reservation reservation : reservations) {
-            allReservations.put(reservation.getReservationID(), reservation);
+            SystemManager.reservations.put(reservation.getReservationID(), reservation);
         }
 
         // Reload feedbacks

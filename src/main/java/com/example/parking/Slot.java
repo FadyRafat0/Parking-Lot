@@ -3,15 +3,14 @@ import com.example.parking.json.JSONUtils;
 import com.example.parking.spot.Spot;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.Duration;
 import java.util.ArrayList;
 
 public class Slot {
     private final int slotID, spotID;
-    private LocalDateTime startDate, endDate; // 2024-12-07T14:30:00 --> yyyy-MM-dd'T'HH:mm:ss
-    private final int hours;
+    private final LocalDateTime startDate, endDate; // 2024-12-07T14:30:00 --> yyyy-MM-dd'T'HH:mm:ss
+    private final double hours, amount;
     private boolean isAvailable;
 
     public Slot(int slotID, int spotID, LocalDateTime startDate, LocalDateTime endDate) {
@@ -19,10 +18,11 @@ public class Slot {
         this.spotID = spotID;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.hours = (int)Duration.between(startDate,endDate).toHours();
+        this.hours = Duration.between(startDate,endDate).toMinutes() / 60.0;
         this.isAvailable = true;
-    }
 
+        this.amount = Payment.slotAmount(this);
+    }
 
     public void bookSlot() {
         isAvailable = false;
@@ -37,26 +37,25 @@ public class Slot {
     public int getSpotID() {
         return spotID;
     }
+    public Spot getSpot() {
+        return SystemManager.getSpot(spotID);
+    }
 
     public LocalDateTime getStartDate() {
         return startDate;
     }
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
-    }
-
     public LocalDateTime getEndDate() {
         return endDate;
     }
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
+
+    public VehicleType getVehicleType() {
+        return SystemManager.getSpot(spotID).getVehicleType();
+    }
+    public double getAmount() {
+        return amount;
     }
 
-    public VehicleType getSpotType() {
-        return SystemManager.getSpot(spotID).getSpotType();
-    }
-
-    public int getHours() {
+    public double getHours() {
         return hours;
     }
     public boolean isAvailable() { return isAvailable; }
@@ -68,7 +67,7 @@ public class Slot {
 
     // Load all Slots from a JSON file
     public static void loadSlots() {
-        ArrayList<Slot> loadedSlots = JSONUtils.loadFromFile("slots.json", new com.google.gson.reflect.TypeToken<ArrayList<Slot>>() {}.getType());
+        ArrayList<Slot> loadedSlots = JSONUtils.loadFromFile("slots.json", new TypeToken<ArrayList<Slot>>() {}.getType());
 
         for (Slot slot : loadedSlots) {
             Spot spot = SystemManager.getSpot(slot.getSpotID());

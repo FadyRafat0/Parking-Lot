@@ -13,6 +13,7 @@ import javafx.stage.*;
 import javafx.util.Pair;
 import org.controlsfx.control.*;
 import java.io.*;
+import java.net.URL;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -93,10 +94,21 @@ public class AdminPageController {
         lastScrollPane = pane;
     }
 
-    private void showAlert(String title, String message) {
+    private void showAlert(String title, String header, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
+        alert.setHeaderText(header);
         alert.setContentText(message);
+
+        alert.getDialogPane().getStyleClass().add("admin-alert");
+
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            alert.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
+
         alert.showAndWait();
     }
 
@@ -161,6 +173,16 @@ public class AdminPageController {
         dialog.setTitle("Remove Owner");
         dialog.setHeaderText("Select a Owner ID to remove:");
         dialog.setContentText("Owner ID:");
+
+        dialog.getDialogPane().getStyleClass().add("owner-alert");
+
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            dialog.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
+
         dialog.showAndWait().ifPresent(ownerID -> {
             admin.removeOwner(Integer.parseInt(ownerID));
             OwnersView();
@@ -249,7 +271,7 @@ public class AdminPageController {
         confirmationAlert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
                 // Give The Spot Type
-                admin.addNewSpot(currentVehicleType); // Add new spot with the generated ID
+                admin.addSpot(currentVehicleType); // Add new spot with the generated ID
                 refreshSpotView(); // Refresh the UI
             }
         });
@@ -348,18 +370,18 @@ public class AdminPageController {
                 LocalDateTime endDateTime = LocalDateTime.of(endDate, endTime);
 
                 if (startDate == null || endDate == null || startTime == null || endTime == null) {
-                    showAlert("Error", "All fields must be filled.");
+                    showAlert("Message","Error", "All fields must be filled.");
                     event.consume(); // Prevent dialog from closing
                 } else if (startDate.isAfter(endDate) ||
                         (startDate.isEqual(endDate) && startTime.isAfter(endTime))) {
-                    showAlert("Error", "Start date/time must be before end date/time.");
+                    showAlert("Message","Error", "Start date/time must be before end date/time.");
                     event.consume(); // Prevent dialog from closing
                 } else if (startDate.isBefore(LocalDate.now())) {
-                    showAlert("Error", "Start date/time must be in the future.");
+                    showAlert("Message","Error", "Start date/time must be in the future.");
                     event.consume(); // Prevent dialog from closing
                 }
                 else if ((double) Duration.between(startDateTime, endDateTime).toHours() < 1) {
-                    showAlert("Error", "Start date/time must be at least one hour.");
+                    showAlert("Message","Error", "Start date/time must be at least one hour.");
                     event.consume(); // Prevent dialog from closing
                 }
                 else {
@@ -382,12 +404,12 @@ public class AdminPageController {
                     }
 
                     if (overlap) {
-                        showAlert("Error", "The selected time slot overlaps with an existing slot.");
+                        showAlert("Message","Error", "The selected time slot overlaps with an existing slot.");
                         event.consume(); // Prevent dialog from closing
                     }
                 }
             } catch (Exception e) {
-                showAlert("Error", "Invalid time format. Use HH:mm.");
+                showAlert("Message","Error", "Invalid time format. Use HH:mm.");
                 event.consume(); // Prevent dialog from closing
             }
         });
@@ -553,11 +575,7 @@ public class AdminPageController {
 
         ArrayList<Reservation> reservations = SystemManager.getReservationsWithType(currentVehicleType);
 
-        double totalAmount = 0;
-        for (Reservation reservation : reservations) {
-            if (reservation.isActive())
-                totalAmount += reservation.getTotalAmount();
-        }
+        double totalAmount = admin.calculateTotalAmountByType(currentVehicleType);
         totalAmountLabel.setText(String.valueOf(totalAmount));
 
         TableColumn<Reservation, String> ownerIdCol = new TableColumn<>("Owner ID");
@@ -570,7 +588,7 @@ public class AdminPageController {
 
         TableColumn<Reservation, String> amountCol = new TableColumn<>("Amount");
         amountCol.setCellValueFactory(param ->
-                new SimpleStringProperty(String.valueOf(param.getValue().getTotalAmount())));
+                new SimpleStringProperty(String.valueOf(param.getValue().getAmount())));
 
         // To Show The Start Date , End Date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -596,11 +614,9 @@ public class AdminPageController {
         switchToPane(feedbackPane);
         FeedbackView();
     }
-
     public void FeedbackView() {
-        ArrayList<Feedback> feedbacks = SystemManager.getAllFeedBacks();
+        ArrayList<Feedback> feedbacks = SystemManager.getFeedbacks();
         FeedbackTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
 
         double avgFeedbackNum = 0;
         for (Feedback feedback : feedbacks) {
@@ -620,7 +636,7 @@ public class AdminPageController {
 
         TableColumn<Feedback, String> ownerIdCol = new TableColumn<>("Owner ID");
         ownerIdCol.setCellValueFactory(param ->
-                new SimpleStringProperty(String.valueOf(param.getValue().getOwenerID())));
+                new SimpleStringProperty(String.valueOf(param.getValue().getOwnerID())));
 
         TableColumn<Feedback, String> ResIdCol = new TableColumn<>("Reservation ID");
         ResIdCol.setCellValueFactory(param ->
@@ -648,7 +664,7 @@ public class AdminPageController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            showAlert("Error", "Failed to load the login page xfml.");
+            showAlert("Message","Error", "Failed to load the login page xfml.");
         }
     }
 }

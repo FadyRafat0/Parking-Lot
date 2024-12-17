@@ -169,35 +169,6 @@
 
 }
 
-
-#reserve{
-    -fx-background-image: url("images/reserve.png");
-    -fx-background-size: 250;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#reserve:hover{
-    -fx-background-size: 250;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
-    -fx-translate-y: -10;
-    -fx-cursor: hand;
-}
-#view{
-    -fx-background-image: url("images/view.png");
-    -fx-background-size: 250;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-#view:hover{
-    -fx-background-size: 250;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
-    -fx-translate-y: -10;
-    -fx-cursor: hand;
-}
-
-
 .AdminStacksLabels {
     -fx-font-size: 28;
     -fx-alignment: center;

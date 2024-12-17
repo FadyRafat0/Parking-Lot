@@ -5,8 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class LoginPageController {
@@ -19,12 +23,71 @@ public class LoginPageController {
     private Button loginButton;
     @FXML
     private Hyperlink signUpLink;
-    private static Owner currentOwner;
+    private static Owner currentOwner = new Owner("Fady", "123456", 1, "AA" ,
+            new ArrayList<>(), 5000);
 
-    private void showAlert(String title, String message) {
+    @FXML
+    private TextField textField;
+
+    @FXML
+    private Button toggleButton;
+
+    @FXML
+    private ImageView eyeIcon;
+
+    private Image eyeOpenIcon;
+    private Image eyeClosedIcon;
+
+    @FXML
+    public void initialize() {
+        // Load icons (update paths accordingly)
+        eyeOpenIcon = new Image(getClass().getResource("/css/images/eye-opened.png").toExternalForm());
+        eyeClosedIcon = new Image(getClass().getResource("/css/images/eye-closed.png").toExternalForm());
+
+        ImageView eyeIconView = new ImageView(eyeClosedIcon);
+        eyeIconView.setFitWidth(55); // Set desired width
+        eyeIconView.setFitHeight(55); // Set desired height
+        eyeIconView.setPreserveRatio(true); // Maintain aspect ratio
+
+        // Attach the ImageView to the toggleButton
+        toggleButton.setGraphic(eyeIconView);
+
+        // Bind password and text fields
+        textField.textProperty().bindBidirectional(passwordField.textProperty());
+
+        // Toggle logic
+        toggleButton.setOnAction(e -> {
+            if (textField.isVisible()) {
+                textField.setVisible(false);
+                textField.setManaged(false);
+                passwordField.setVisible(true);
+                passwordField.setManaged(true);
+                eyeIconView.setImage(eyeClosedIcon);
+            } else {
+                passwordField.setVisible(false);
+                passwordField.setManaged(false);
+                textField.setVisible(true);
+                textField.setManaged(true);
+                eyeIconView.setImage(eyeOpenIcon);
+            }
+        });
+    }
+
+
+    private void showAlert(String title,String header, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
+        alert.setHeaderText(header);
         alert.setContentText(message);
+
+        alert.getDialogPane().getStyleClass().add("login-alert");
+
+        URL cssFile = getClass().getResource("/css/style.css");
+        if (cssFile != null) {
+            alert.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
         alert.showAndWait();
     }
 
@@ -38,7 +101,7 @@ public class LoginPageController {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            showAlert("Error", "Failed to load the sign-up page xfml.");
+            showAlert("Message", "Error","Failed to load the sign-up page xfml.");
         }
     }
     public void loginButton(ActionEvent event) throws IOException {
@@ -48,14 +111,14 @@ public class LoginPageController {
 
         // Validation: Check if username or password are empty
         if (username.isEmpty() || password.isEmpty()) {
-            showAlert("Error", "Please fill in both username and password.");
+            showAlert("Message", "Error","Please fill in both username and password.");
             return;
         }
 
 
         // Go to Admin Page
         if (username.equals("admin") && password.equals("admin")) {
-            showAlert("Success", "Welcome Admin!");
+            showAlert("Message", "Logged Successfully","Welcome Admin!");
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/AdminPageFXML.fxml")));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ( ((Node) event.getSource()).getScene().getWindow());
@@ -70,7 +133,7 @@ public class LoginPageController {
             Owner owner = SystemManager.getOwner(username);
             setCurrentOwner(owner);
 
-            showAlert("Success", "Welcome " + owner.getUserName() + "!");
+            showAlert("Message", "Logged Successfully","Welcome " + owner.getUserName() + "!");
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/UserPageFXML.fxml")));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ( ((Node) event.getSource()).getScene().getWindow());
@@ -80,7 +143,7 @@ public class LoginPageController {
         }
 
         // Not Found
-        showAlert("Login Failed", "Wrong Username/Password");
+        showAlert("Message", "Login Failed","Wrong Username/Password");
     }
     // Current Owner
     public static Owner getCurrentOwner() {

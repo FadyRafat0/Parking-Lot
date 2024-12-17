@@ -1,23 +1,16 @@
 package com.example.parking;
 
-import com.example.parking.spot.*;
 import javafx.application.Application;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
-
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 public class Main extends Application {
     Stage window;
     public static void main(String[] args) {
-        System.out.println((System.getProperty("user.dir")));
         SystemManager.initialize();
-      SystemManager.load_data_from_file();
         launch(args);
         SystemManager.save_data_to_file();
     }
@@ -35,7 +28,5 @@ public class Main extends Application {
         catch (Exception e) {
             System.out.println(e);
         }
-
-
     }
 }

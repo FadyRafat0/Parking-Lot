@@ -1,0 +1,50 @@
+[
+  {
+    "spotID": 3,
+    "hourRate": 5.0,
+    "slots": {
+      "5": {
+        "slotID": 5,
+        "spotID": 3,
+        "startDate": "2024-12-18T00:00:00",
+        "endDate": "2024-12-18T05:00:00",
+        "hours": 5.0,
+        "amount": 25.0,
+        "isAvailable": true
+      },
+      "6": {
+        "slotID": 6,
+        "spotID": 3,
+        "startDate": "2024-12-18T05:00:00",
+        "endDate": "2024-12-18T08:30:00",
+        "hours": 3.5,
+        "amount": 17.5,
+        "isAvailable": true
+      }
+    }
+  },
+  {
+    "spotID": 4,
+    "hourRate": 5.0,
+    "slots": {
+      "7": {
+        "slotID": 7,
+        "spotID": 4,
+        "startDate": "2024-12-18T00:00:00",
+        "endDate": "2024-12-18T05:40:00",
+        "hours": 5.666666666666667,
+        "amount": 28.333333333333336,
+        "isAvailable": true
+      },
+      "8": {
+        "slotID": 8,
+        "spotID": 4,
+        "startDate": "2024-12-18T06:00:00",
+        "endDate": "2024-12-18T12:00:00",
+        "hours": 6.0,
+        "amount": 30.0,
+        "isAvailable": true
+      }
+    }
+  }
+]

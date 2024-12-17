@@ -10,7 +10,7 @@ public class BikeSpot extends Spot{
         super(id, BIKE_HOUR_RATE);
     }
 
-    public VehicleType getSpotType() {
+    public VehicleType getVehicleType() {
         return VehicleType.Bike;
     }
 

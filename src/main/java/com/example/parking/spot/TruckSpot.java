@@ -9,7 +9,7 @@ public class TruckSpot extends Spot{
     public TruckSpot (int id){
         super(id, TRUCK_HOUR_RATE);
     }
-    public VehicleType getSpotType() {
+    public VehicleType getVehicleType() {
         return VehicleType.Truck;
     }
 

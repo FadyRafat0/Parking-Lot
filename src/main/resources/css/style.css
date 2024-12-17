@@ -253,4 +253,13 @@ body {
     -fx-cursor: hand;
 }
 
+.eyeBtn {
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-pref-height: 10;
+    -fx-pref-width: 10;
+    -fx-background-size: 10;
+}
+
+
 

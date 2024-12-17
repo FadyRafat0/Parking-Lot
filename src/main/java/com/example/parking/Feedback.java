@@ -2,24 +2,21 @@ package com.example.parking;
 
 import com.example.parking.json.JSONUtils;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class Feedback
 {
-    private double rate;
-    private String feedbackMessage;
+    private final double rate;
+    private final String feedbackMessage;
     private final int ownerID;
     private final int ReservationID;
 
     public Feedback(int ownerID, int ReservationID,double rate, String feedbackMessage)
     {
-        this.ownerID=ownerID;
-        this.ReservationID=ReservationID;
-        this.rate=rate;
-        this.feedbackMessage=feedbackMessage;
+        this.ownerID = ownerID;
+        this.ReservationID = ReservationID;
+        this.rate = rate;
+        this.feedbackMessage = feedbackMessage;
     }
 
     public double getRate() {
@@ -28,7 +25,7 @@ public class Feedback
     public String getFeedbackMessage() {
         return feedbackMessage;
     }
-    public int getOwenerID() {
+    public int getOwnerID() {
         return ownerID;
     }
     public int getReservationID() {
@@ -38,7 +35,7 @@ public class Feedback
     // Save the feedback to feedbacks.json
     public static void saveFeedbackToFile() {
         // Load existing feedbacks
-        ArrayList<Feedback> feedbacks = SystemManager.getAllFeedBacks();
+        ArrayList<Feedback> feedbacks = SystemManager.getFeedbacks();
         // Save the updated list of feedbacks
         JSONUtils.saveToFile(feedbacks, "feedbacks.json");
     }

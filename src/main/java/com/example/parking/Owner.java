@@ -9,11 +9,10 @@ public class Owner extends Person {
     private final int ownerID;
     private String licenseNumber;
     private ArrayList<Vehicle> vehicles;
-    private ArrayList<Reservation> reservations;
-    private ArrayList<Feedback> feedbacks;
-    private Payment payment;
+    private final ArrayList<Reservation> reservations;
+    private final Payment payment;
 
-    Owner(String userName, String password, int ownerID,  String licenseNumber, ArrayList<Vehicle> vehicles,
+    public Owner(String userName, String password, int ownerID,  String licenseNumber, ArrayList<Vehicle> vehicles,
           double balance)
     {
         super(userName, password);
@@ -23,23 +22,6 @@ public class Owner extends Person {
         this.vehicles = vehicles;
         this.payment = new Payment(ownerID, balance);
         this.reservations = new ArrayList<>();
-        this.feedbacks = new ArrayList<>();
-    }
-
-    void makeReservation(Reservation reservation) {
-        // Confirm Payment
-        payment.confirmReservation(reservation);
-        reservations.add(reservation);
-    }
-    void cancelReservation(Reservation reservation) {
-        // Cancel Payment
-        payment.cancelReservation(reservation);
-        reservation.cancelReservation();
-        reservations.remove(reservation);
-    }
-
-    // Dont Know The Logic
-    void updateReservation(Reservation reservation) {
     }
 
     public int getOwnerID() {
@@ -57,12 +39,45 @@ public class Owner extends Person {
         return vehicles;
     }
     public ArrayList<Reservation> getReservations(){ return reservations;}
-    public void setVehicles(ArrayList<Vehicle> vehicles) {
-        this.vehicles = vehicles;
-    }
 
     public Payment getPayment() {
         return payment;
+    }
+
+    // Reservations
+    public void makeReservation(Slot slot) {
+        double reservationAmount = payment.reservationAmount(slot);
+        Reservation reservation = new Reservation(SystemManager.nextReservationID, getOwnerID(), slot,
+                reservationAmount);
+
+        System.out.println(reservationAmount);
+        // Confirm Payment
+        reservations.add(reservation);
+        payment.confirmReservation(reservation);
+        Slot systemSlot = SystemManager.getSlot(slot.getSpotID(), slot.getSlotID());
+        systemSlot.bookSlot();
+
+        SystemManager.reservations.put(reservation.getReservationID(), reservation);
+        SystemManager.nextReservationID++;
+    }
+    public void cancelReservation(Reservation reservation) {
+        // Cancel Payment
+        payment.cancelReservation(reservation);
+
+        Slot systemSlot = SystemManager.getSlot(reservation.getSpotID(), reservation.getSlot().getSlotID());
+        systemSlot.cancelBooking();
+
+        reservation.cancelReservation();
+    }
+
+    // Dont Know The Logic
+    public void updateReservation(Reservation reservation) {
+    }
+
+    // Feedback
+    public void makeFeedback(int ownerID, int reservationID, double rate, String message) {
+        Feedback feedback = new Feedback(ownerID, reservationID, rate, message);
+        SystemManager.feedbacksList.add(feedback);
     }
 
     // Save all Owners to a JSON file

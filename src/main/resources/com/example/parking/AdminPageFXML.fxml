@@ -16,42 +16,42 @@
         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <VBox alignment="TOP_CENTER" prefHeight="633.0" prefWidth="160.0" spacing="50.0" styleClass="buttons" stylesheets="@adminStyle.css">
+        <VBox alignment="TOP_CENTER" prefHeight="633.0" prefWidth="160.0" spacing="50.0" styleClass="buttons" stylesheets="@../../../css/adminStyle.css">
             <children>
-                <Pane prefHeight="72.0" prefWidth="181.0" styleClass="logo" stylesheets="@adminStyle.css" />
-                <Button mnemonicParsing="false" onAction="#goToHomePage" prefHeight="25.0" prefWidth="82.0" styleClass="btn" stylesheets="@adminStyle.css" text="HOME" />
-                <Button mnemonicParsing="false" onAction="#goToOwnersPage" styleClass="btn" stylesheets="@adminStyle.css" text="OWNERS" />
-                <Button mnemonicParsing="false" onAction="#goToChooseCarPageFromSpots" styleClass="btn" stylesheets="@adminStyle.css" text="SPOTS" />
-                <Button mnemonicParsing="false" onAction="#goToChooseCarPageFromReservations" styleClass="btn" stylesheets="@adminStyle.css" text="RESERVATIONS" />
-                <Button mnemonicParsing="false" onAction="#goToFeedbackPage" styleClass="btn" stylesheets="@adminStyle.css" text="DISPLAY FEEDBACK" />
+                <Pane prefHeight="72.0" prefWidth="181.0" styleClass="logo" stylesheets="@../../../css/adminStyle.css" />
+                <Button mnemonicParsing="false" onAction="#goToHomePage" prefHeight="25.0" prefWidth="82.0" styleClass="btn" stylesheets="@../../../css/adminStyle.css" text="HOME" />
+                <Button mnemonicParsing="false" onAction="#goToOwnersPage" styleClass="btn" stylesheets="@../../../css/adminStyle.css" text="OWNERS" />
+                <Button mnemonicParsing="false" onAction="#goToChooseCarPageFromSpots" styleClass="btn" stylesheets="@../../../css/adminStyle.css" text="SPOTS" />
+                <Button mnemonicParsing="false" onAction="#goToChooseCarPageFromReservations" styleClass="btn" stylesheets="@../../../css/adminStyle.css" text="RESERVATIONS" />
+                <Button mnemonicParsing="false" onAction="#goToFeedbackPage" styleClass="btn" stylesheets="@../../../css/adminStyle.css" text="DISPLAY FEEDBACK" />
             </children>
             <padding>
                 <Insets top="15.0" />
             </padding>
         </VBox>
-        <VBox prefHeight="200.0" prefWidth="100.0" stylesheets="@adminStyle.css" GridPane.columnIndex="1">
+        <VBox prefHeight="200.0" prefWidth="100.0" stylesheets="@../../../css/adminStyle.css" GridPane.columnIndex="1">
             <children>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="783.0" styleClass="headerPane" stylesheets="@adminStyle.css">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="783.0" styleClass="headerPane" stylesheets="@../../../css/adminStyle.css">
                     <children>
-                        <Label fx:id="headerText" alignment="CENTER" layoutX="83.0" layoutY="5.0" prefHeight="66.0" prefWidth="568.0" styleClass="WelcomeText" stylesheets="@adminStyle.css" text="Welcome To Admin Dashboard" />
-                        <Button layoutX="660.0" layoutY="19.0" mnemonicParsing="false" onAction="#logoutButton" styleClass="Logout-btn" stylesheets="@adminStyle.css" text="LOGOUT" />
-                        <Pane id="back_btn" fx:id="backPane" layoutX="14.0" layoutY="13.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleBackButton" prefHeight="47.0" prefWidth="50.0" stylesheets="@adminStyle.css" visible="false" />
+                        <Label fx:id="headerText" alignment="CENTER" layoutX="83.0" layoutY="5.0" prefHeight="66.0" prefWidth="568.0" styleClass="WelcomeText" stylesheets="@../../../css/adminStyle.css" text="Welcome To Admin Dashboard" />
+                        <Button layoutX="660.0" layoutY="19.0" mnemonicParsing="false" onAction="#logoutButton" styleClass="Logout-btn" stylesheets="@../../../css/adminStyle.css" text="LOGOUT" />
+                        <Pane id="back_btn" fx:id="backPane" layoutX="14.0" layoutY="13.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#handleBackButton" prefHeight="47.0" prefWidth="50.0" stylesheets="@../../../css/adminStyle.css" visible="false" />
                     </children>
                 </AnchorPane>
-                <StackPane prefHeight="549.0" prefWidth="758.0" styleClass="stack" stylesheets="@adminStyle.css">
+                <StackPane prefHeight="549.0" prefWidth="758.0" styleClass="stack" stylesheets="@../../../css/adminStyle.css">
                     <children>
-                        <Pane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" styleClass="homeStack" stylesheets="@adminStyle.css" visible="false" />
-                        <Pane fx:id="chooseCarPane" prefHeight="417.0" prefWidth="633.0" styleClass="SpotStack" stylesheets="@adminStyle.css" visible="false">
+                        <Pane fx:id="homePane" prefHeight="200.0" prefWidth="200.0" styleClass="homeStack" stylesheets="@../../../css/adminStyle.css" visible="false" />
+                        <Pane fx:id="chooseCarPane" prefHeight="417.0" prefWidth="633.0" styleClass="SpotStack" stylesheets="@../../../css/adminStyle.css" visible="false">
                             <children>
-                                <Pane id="car" layoutX="9.0" layoutY="146.0" onMouseClicked="#carSelection" prefHeight="250.0" prefWidth="250.0" styleClass="vehicleType" stylesheets="@adminStyle.css" />
-                                <Pane id="bike" layoutX="245.0" layoutY="146.0" onMouseClicked="#bikeSelection" prefHeight="250.0" prefWidth="250.0" styleClass="vehicleType" stylesheets="@adminStyle.css" />
-                                <Pane id="fbf" layoutX="500.0" layoutY="146.0" onMouseClicked="#truckSelection" prefHeight="250.0" prefWidth="250.0" styleClass="vehicleType" stylesheets="@adminStyle.css" />
-                                <Label layoutX="108.0" layoutY="99.0" styleClass="VehicleLabel" stylesheets="@adminStyle.css" text="Car" />
-                                <Label layoutX="342.0" layoutY="99.0" styleClass="VehicleLabel" stylesheets="@adminStyle.css" text="Bike" />
-                                <Label layoutX="589.0" layoutY="97.0" styleClass="VehicleLabel" stylesheets="@adminStyle.css" text="4 x 4" />
+                                <Pane id="car" layoutX="9.0" layoutY="146.0" onMouseClicked="#carSelection" prefHeight="250.0" prefWidth="250.0" styleClass="vehicleType" stylesheets="@../../../css/adminStyle.css" />
+                                <Pane id="bike" layoutX="245.0" layoutY="146.0" onMouseClicked="#bikeSelection" prefHeight="250.0" prefWidth="250.0" styleClass="vehicleType" stylesheets="@../../../css/adminStyle.css" />
+                                <Pane id="fbf" layoutX="500.0" layoutY="146.0" onMouseClicked="#truckSelection" prefHeight="250.0" prefWidth="250.0" styleClass="vehicleType" stylesheets="@../../../css/adminStyle.css" />
+                                <Label layoutX="108.0" layoutY="99.0" styleClass="VehicleLabel" stylesheets="@../../../css/adminStyle.css" text="Car" />
+                                <Label layoutX="342.0" layoutY="99.0" styleClass="VehicleLabel" stylesheets="@../../../css/adminStyle.css" text="Bike" />
+                                <Label layoutX="589.0" layoutY="97.0" styleClass="VehicleLabel" stylesheets="@../../../css/adminStyle.css" text="4 x 4" />
                             </children>
                         </Pane>
-                        <ScrollPane fx:id="spotsPane" fitToHeight="true" fitToWidth="true" styleClass="go_back" stylesheets="@adminStyle.css" visible="false">
+                        <ScrollPane fx:id="spotsPane" fitToHeight="true" fitToWidth="true" styleClass="go_back" stylesheets="@../../../css/adminStyle.css" visible="false">
                             <VBox alignment="TOP_CENTER" prefHeight="419.0" prefWidth="631.0" spacing="10">
 
                                 <ScrollPane fitToHeight="true" fitToWidth="true">

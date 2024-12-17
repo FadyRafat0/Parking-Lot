@@ -1,15 +1,15 @@
 package com.example.parking;
-import com.example.parking.json.JSONUtils;
-import com.example.parking.spot.Spot;
+
+import com.example.parking.spot.*;
 import java.util.*;
 
 public class Payment {
     private final int ownerID;
     private double balance, penalty;
     // Example data: total hours for each VehicleType
-    EnumMap<VehicleType, Double> totalHours;
+    EnumMap<VehicleType, Double> lastHours;
 
-    private final int REWARD_HOURS = 7; // Every 7 Hours Get 1 Hour Free
+    private final int REWARD_HOURS = 7; // Every 6 Hours Get 1 Hour Free
     private final double PENALTY_AMOUNT = 3; // Three Dollars
 
     public Payment(int ownerID, double balance) {
@@ -17,10 +17,17 @@ public class Payment {
         this.balance = balance;
 
         this.penalty = 0;
-        totalHours = new EnumMap<>(VehicleType.class);
+        lastHours = new EnumMap<>(VehicleType.class);
         for (VehicleType type : VehicleType.values()) {
-            totalHours.put(type, 0.0);
+            lastHours.put(type, 0.0);
         }
+    }
+    // Copy constructor
+    public Payment(Payment otherPayment) {
+        this.ownerID = otherPayment.ownerID;
+        this.balance = otherPayment.balance;
+        this.penalty = otherPayment.penalty;
+        this.lastHours = new EnumMap<>(otherPayment.lastHours);  // Copy the map
     }
 
     public double getBalance() {
@@ -33,11 +40,20 @@ public class Payment {
         this.balance -= balance;
     }
 
-    public double getTotalHours(VehicleType vehicleType) {
-        return totalHours.get(vehicleType);
+    // LastHours
+    private double getLastHours(VehicleType vehicleType) {
+        return lastHours.get(vehicleType);
     }
-    public void setTotalHours(VehicleType vehicleType, double hours) {
-        this.totalHours.put(vehicleType, hours);
+    private void setLastHours(VehicleType vehicleType, double hours) {
+        this.lastHours.put(vehicleType, hours);
+    }
+    private void addHours(VehicleType vehicleType, double hours) {
+        double newHours = (getLastHours(vehicleType) + hours) % REWARD_HOURS;
+        setLastHours(vehicleType, newHours);
+    }
+    private void minusHours(VehicleType vehicleType, double hours) {
+        double newHours = (getLastHours(vehicleType) % REWARD_HOURS - hours % REWARD_HOURS + REWARD_HOURS) % REWARD_HOURS;
+        setLastHours(vehicleType, newHours);
     }
 
     public double getPenalty() {
@@ -50,30 +66,42 @@ public class Payment {
         this.penalty = 0;
     }
 
-    private double calc_fees(int hours, double hour_rate) {
+    private static double calcFees(double hours, double hour_rate) {
         return hours * hour_rate;
     }
-    public double reservationBaseAmount(int spotID, int slotID) {
-        Spot spot = SystemManager.getSpot(spotID);
-        Slot slot = spot.getSlot(slotID);
 
-        double amount = calc_fees(slot.getHours(), spot.getHourRate());
-        int free_hours = (int)((totalHours.get(spot.getSpotType()) + slot.getHours()) / REWARD_HOURS);
-        return (amount - calc_fees(free_hours, spot.getHourRate()));
+    // Difference Between (SlotAmount , ResAmount) is in ResAmount I Consider FreeHours
+    public static double slotAmount(Slot slot) {
+        Spot spot = slot.getSpot();
+        return calcFees(slot.getHours(), spot.getHourRate());
     }
-    public double reservationTotalAmount(int spotID, int slotID)  {
-        return reservationBaseAmount(spotID, slotID) + getPenalty();
+
+    // Not Static Because It Specific To Owner
+    public double reservationAmount(Slot slot) {
+        Spot spot = slot.getSpot();
+        double amount = slot.getAmount();
+
+        double freeHours = (lastHours.get(spot.getVehicleType()) + slot.getHours()) / REWARD_HOURS;
+        freeHours = Math.floor(freeHours);
+        return amount - calcFees(freeHours, spot.getHourRate());
+    }
+    // While He is Choosing The Slots
+    public static double totalAmount(Payment payment, ArrayList<Slot> slots) {
+        double total = 0;
+        Payment currentPayment = new Payment(payment);
+        for (Slot slot : slots) {
+            total += currentPayment.reservationAmount(slot);
+            currentPayment.addHours(slot.getVehicleType(), slot.getHours());
+        }
+        return total;
     }
 
     public void confirmReservation(Reservation reservation) {
         Spot spot = SystemManager.getSpot(reservation.getSpotID());
         Slot slot = reservation.getSlot();
 
-        double amount = reservation.getTotalAmount();
-
-        // Update Data
-        double lastHours = (getTotalHours(spot.getSpotType()) + slot.getHours()) % REWARD_HOURS;
-        setTotalHours(spot.getSpotType(), lastHours);
+        double amount = reservation.getAmount();
+        addHours(spot.getVehicleType(), slot.getHours());
         withdraw(amount);
         resetPenalty();
     }
@@ -81,20 +109,9 @@ public class Payment {
         Spot spot = SystemManager.getSpot(reservation.getSpotID());
         Slot slot = reservation.getSlot();
 
-        double lastHours = ((getTotalHours(spot.getSpotType()) % REWARD_HOURS) - (slot.getHours() % REWARD_HOURS) + REWARD_HOURS) % REWARD_HOURS;
-        setTotalHours(spot.getSpotType(), lastHours);
-
-        deposit(reservation.getBaseAmount());
+        double amount = reservation.getAmount();
+        minusHours(spot.getVehicleType(), slot.getHours());
+        deposit(reservation.getAmount());
         addPenalty(PENALTY_AMOUNT);
-    }
-
-    // Save all payments to a file (using ArrayList)
-    public static void savePayments(ArrayList<Payment> payments) {
-        JSONUtils.saveToFile(payments, "payments.json");
-    }
-
-    // Load all payments from a file
-    public static ArrayList<Payment> loadPayments() {
-        return JSONUtils.loadFromFile("payments.json", new com.google.gson.reflect.TypeToken<ArrayList<Payment>>() {}.getType());
     }
 }
