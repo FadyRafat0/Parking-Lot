@@ -24,10 +24,6 @@ public class SignUpPageController {
     @FXML
     private ListView<String> vehicleListView;
     @FXML
-    private Button signUpButton;
-    @FXML
-    private Hyperlink loginLink;
-    @FXML
     private TextField textField;
 
     @FXML

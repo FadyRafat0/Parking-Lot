@@ -79,7 +79,7 @@
                                 <Font size="16.0" />
                             </font>
                         </TextField>
-                        <ComboBox id="vehicleTypeComboBox" fx:id="vehicleTypeComboBox" layoutX="11.0" layoutY="193.0" prefHeight="34.0" prefWidth="128.0" promptText="Vehicle Type" styleClass="text-fieldd">
+                        <ComboBox fx:id="vehicleTypeComboBox" layoutX="11.0" layoutY="193.0" prefHeight="34.0" prefWidth="128.0" promptText="Vehicle Type" styleClass="text-fieldd">
                             <items>
                                 <FXCollections fx:factory="observableArrayList">
                                     <String fx:value="Car" />
@@ -89,13 +89,13 @@
                             </items>
                         </ComboBox>
                         <Label layoutX="14.0" layoutY="167.0" prefHeight="11.0" prefWidth="137.0" styleClass="label2" text="Add Vehicle" />
-                        <TextField id="licensePlateField" fx:id="licensePlateField" layoutX="163.0" layoutY="193.0" prefHeight="34.0" prefWidth="174.0" promptText="License Plate : ABC-1234" styleClass="text-fieldd" />
+                        <TextField fx:id="licensePlateField" layoutX="163.0" layoutY="193.0" prefHeight="34.0" prefWidth="174.0" promptText="License Plate : ABC-1234" styleClass="text-fieldd" />
                         <Button id="addVehicleBtn" layoutX="372.0" layoutY="196.0" onAction="#handleAddVehicle" prefHeight="25.0" prefWidth="83.0" styleClass="btn1-menu" text="Add Vehicle" />
-                        <ListView id="vehicleListView" fx:id="vehicleListView" layoutX="11.0" layoutY="256.0" prefHeight="57.0" prefWidth="293.0" />
+                        <ListView fx:id="vehicleListView" layoutX="11.0" layoutY="256.0" prefHeight="57.0" prefWidth="293.0" />
                         <Label layoutX="14.0" layoutY="230.0" prefHeight="26.0" prefWidth="94.0" styleClass="label2" text="Vehicles List" />
                         <Button id="removeVehicleBtn" layoutX="314.0" layoutY="270.0" onAction="#handleRemoveVehicle" prefHeight="26.0" prefWidth="156.0" styleClass="btn1-menu" text="Remove Selected Vehicle" />
-                        <Label fx:id="signup_msg" layoutX="34.0" layoutY="335.0" prefHeight="28.0" prefWidth="128.0" styleClass="error_msg_label" />
-                  <TextField fx:id="balanceField" layoutX="242.0" layoutY="116.0" prefHeight="39.0" prefWidth="231.0" promptText="License Number" styleClass="text-fieldd">
+                        <Label fx:id="signup_msg" layoutX="19.0" layoutY="335.0" prefHeight="42.0" prefWidth="162.0" styleClass="error_msg_label" />
+                  <TextField fx:id="balanceField" layoutX="242.0" layoutY="116.0" prefHeight="39.0" prefWidth="231.0" promptText="Balance" styleClass="text-fieldd">
                      <font>
                         <Font size="16.0" />
                      </font>
