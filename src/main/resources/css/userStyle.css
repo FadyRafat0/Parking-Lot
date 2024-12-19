@@ -250,24 +250,4 @@
     -fx-background-position: center;
 }
 
-.homePane {
-    -fx-background-color: linear-gradient(to right, #005aa7, #ffffff);
-    -fx-padding: 20px;
-}
-
-.homePane .label {
-    -fx-font-family: 'Cyber';
-}
-
-.homePane .button {
-    -fx-background-color: #005aa7;
-    -fx-text-fill: white;
-    -fx-background-radius: 10px;
-    -fx-padding: 10px 20px;
-    -fx-font-size: 14px;
-}
-
-.homePane .button:hover {
-    -fx-background-color: #004080;
-}
 

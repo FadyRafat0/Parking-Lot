@@ -1,67 +1,153 @@
-/* Slot Box */
-.slot-box {
-    -fx-border-color: #ccc;
-    -fx-border-width: 1.5px;
-    -fx-border-radius: 10px;
-    -fx-background-color: #fdfdfd;
-    -fx-background-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0.3, 2, 2);
-    -fx-padding: 10px;
-    -fx-pref-width: 220px;
-    -fx-pref-height: 200px;
-    -fx-spacing: 10px;
+.body {
+    -fx-background-color: #FFE1FF;
 }
 
-/* Header (Spot ID) */
-.slot-header {
-    -fx-background-color: #4CAF50;
-    -fx-background-radius: 8px 8px 0 0;
+.boxcontainer {
+    -fx-background-color: rgba(255, 255, 255, 1);
+    -fx-background-radius: 12;
+}
+
+.custom-pane {
+    -fx-background-color: #005aa7;
+    -fx-background-radius: 20; /* Give it a non-uniform, rounded shape */
+    -fx-padding: 15;
+}
+
+.btn-menu {
+    -fx-text-fill: #fff;
+    -fx-background-color: linear-gradient(to bottom, #005aa7, #005aa7);
+    -fx-cursor: hand;
+    -fx-font-weight: 700;
+    -fx-font-size: 17px;
+    -fx-background-radius: 50px;
+    transition: background-color 0.3s, color 0.3s; /* Transition for smooth effect */
+}
+
+.btn-menu:hover {
+    -fx-background-color: white;
+    -fx-text-fill: #005aa7; /* Set text fill to match the main blue color */
+    -fx-border-color: #005aa7; /* Add border with the main blue color */
+    -fx-border-width: 2px;
+}
+
+.btn-menu:pressed {
+    -fx-background-color: #014b8a;
+    -fx-opacity: 1.1;
+}
+
+.custom-button {
+    -fx-background-color: #005aa7;
+    -fx-background-radius: 0;
+    -fx-text-fill: #fff;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.custom-button:hover {
+    -fx-background-color: white;
+    -fx-text-fill: #005aa7; /* Set text fill to match the main blue color */
+    -fx-border-color: #005aa7; /* Add border with the main blue color */
+    -fx-border-width: 2px;
+    -fx-opacity: 0.7;
+}
+
+.custom-button:pressed {
+    -fx-background-color: #014b8a;
+}
+
+.home-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-text-fill: #fff;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.home-description {
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+    -fx-font-weight: normal;
+}
+/* Welcome label styling */
+.welcome-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-set-alignment:center;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Info box styling */
+.info-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+/* Info title styling */
+.info-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* Info text styling */
+.info-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
+}
+.footer-box {
+    -fx-background-color:  #005aa7;
+    -fx-padding: 5;
+}
+
+.footer-text {
+    -fx-font-size: 12px;
     -fx-text-fill: white;
-    -fx-font-size: 14px;
+    -fx-alignment: center;
+}
+.Logout-btn {
+    -fx-pref-height: 5;
+    -fx-pref-width: 80;
+    -fx-border-size: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: #005aa7;
+    -fx-border-width: 2;
+    -fx-background-radius: 50;
+    -fx-background-color: white;
+    -fx-padding: 10px 20;
+    -fx-font-size: 0.7em;
     -fx-font-weight: bold;
-    -fx-padding: 5px;
-    -fx-alignment: center; /* Center the header text */
+    -fx-text-fill:  #005aa7;
+    -fx-alignment: center;
+    -fx-letter-spacing: 0.1em;
+    -fx-transition: all 0.3s ease;
 }
-
-/* Slot Details */
-.slot-row {
-    -fx-spacing: 5px;
-    -fx-alignment: center-left;
+.Logout-btn:hover, .back-btn:hover{
+    -fx-scale-x: 0.9;
+    -fx-scale-y: 0.9;
+    -fx-cursor: hand;
 }
-
-.slot-label {
-    -fx-font-size: 12px;
-    -fx-text-fill: #555;
-}
-
-.slot-value {
-    -fx-font-size: 12px;
+.back-btn{
+    -fx-font-size: 15;
+    -fx-pref-height: 5;
+    -fx-pref-width: 5;
+    -fx-border-size: 1;
+    -fx-border-radius: 50;
+    -fx-border-color:  #005aa7;
+    -fx-border-width: 2;
+    -fx-background-radius: 1;
+    -fx-background-color:rgba(255, 255, 255, 0);
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill:  #005aa7;
+    -fx-alignment: center;
+    -fx-transition: all 0.3s ease;
 }
 
-/* Checkbox Styling */
-.slot-checkbox {
-    -fx-scale-x: 1.5; /* Increase width */
-    -fx-scale-y: 1.5; /* Increase height */
-    -fx-opacity: 0.9;
-}
 
-.slot-checkbox:hover {
-    -fx-opacity: 1;
-}
 
-/* Footer Styling */
-.slot-footer {
-    -fx-border-color: #ddd;
-    -fx-border-width: 1px 0 0 0;
-    -fx-padding: 10px 5px 0 5px;
-    -fx-spacing: 10px;
-    -fx-alignment: center-right; /* Aligns elements to the right */
-}
 
-.amount-label {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #e53935;
-}
+

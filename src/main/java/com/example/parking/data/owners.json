@@ -130,5 +130,38 @@
     },
     "userName": "shahd",
     "password": "123456"
+  },
+  {
+    "ownerID": 4,
+    "licenseNumber": "500ASS",
+    "vehicles": [
+      {
+        "Type": "Car",
+        "licensePlate": "A-55"
+      },
+      {
+        "Type": "Bike",
+        "licensePlate": "HHS-8887"
+      },
+      {
+        "Type": "Truck",
+        "licensePlate": "BSS-4669"
+      }
+    ],
+    "reservations": [],
+    "payment": {
+      "ownerID": 4,
+      "balance": 5000.0,
+      "penalty": 0.0,
+      "lastHours": {
+        "Car": 0.0,
+        "Bike": 0.0,
+        "Truck": 0.0
+      },
+      "REWARD_HOURS": 7,
+      "PENALTY_AMOUNT": 3.0
+    },
+    "userName": "FF",
+    "password": "123456"
   }
 ]
