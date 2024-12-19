@@ -1,3 +1,4 @@
+/* Slot Box */
 .slot-box {
     -fx-border-color: #ccc;
     -fx-border-width: 1.5px;
@@ -11,14 +12,15 @@
     -fx-spacing: 10px;
 }
 
+/* Header (Spot ID) */
 .slot-header {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: #6157ed;
     -fx-background-radius: 8px 8px 0 0;
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-padding: 5px;
-    -fx-alignment: center;
+    -fx-alignment: center; /* Center the header text */
 }
 
 /* Slot Details */
@@ -40,8 +42,8 @@
 
 /* Checkbox Styling */
 .slot-checkbox {
-    -fx-scale-x: 1.5;
-    -fx-scale-y: 1.5;
+    -fx-scale-x: 1.5; /* Increase width */
+    -fx-scale-y: 1.5; /* Increase height */
     -fx-opacity: 0.9;
 }
 
@@ -49,12 +51,13 @@
     -fx-opacity: 1;
 }
 
+/* Footer Styling */
 .slot-footer {
     -fx-border-color: #ddd;
     -fx-border-width: 1px 0 0 0;
     -fx-padding: 10px 5px 0 5px;
     -fx-spacing: 10px;
-    -fx-alignment: center-right;
+    -fx-alignment: center-right; /* Aligns elements to the right */
 }
 
 .amount-label {
@@ -63,51 +66,54 @@
     -fx-text-fill: #e53935;
 }
 
-
 .total-amount-label {
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-color: #4CAF50;
-    -fx-margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #6157ed;
+    margin-bottom: 10px;
 }
 
 .slot-box {
-    -fx-background-color: #f0f0f0;
-    -fx-padding: 15px;
-    -fx-border-radius: 8px;
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .slot-checkbox {
-    -fx-scale-x: 1.2;
-    -fx-scale-y: 1.2;
+    transform: scale(1.2); /* Make the checkbox bigger */
 }
 
 .slot-footer {
-    -fx-padding-top: 10px;
+    padding-top: 10px;
 }
 
+/* Style for the Make Reservation Button */
 .make-reservation-button {
-    -fx-background-color: #6157ed;
-    -fx-color: white;
-    -fx-border-radius: 8px;
-    -fx-padding: 15px 30px;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-cursor: pointer;
-    -fx-transition: background-color 0.3s ease;
+    background-color: #6157ed; /* Updated to the desired color */
+    color: white; /* White text */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px 30px; /* Adjust padding for better size */
+    font-size: 18px; /* Larger text */
+    font-weight: bold; /* Make the text bold */
+    cursor: pointer; /* Pointer on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    transition: background-color 0.3s ease; /* Smooth transition for background color */
 }
 
 .make-reservation-button:hover {
-    -fx-background-color: #5347c6;
+    background-color: #5347c6; /* Slightly darker purple when hovered */
 }
 
+/* Style for the Total Amount label */
 .total-amount-label {
-    -fx-font-size: 20px;
-    -fx-font-weight: bold;
-    -fx-color: #333333;
-    -fx-margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333333; /* Darker color for contrast */
+    margin-bottom: 10px;
 }
 
+/* Style for the confirmation dialog */
 .dialog-header {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
@@ -129,7 +135,7 @@
 }
 
 .dialog-button {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: #6157ed; /* Updated to the desired color */
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-border-radius: 5px;
@@ -138,24 +144,21 @@
 }
 
 .dialog-button:hover {
-    -fx-background-color: #45a049;
+    -fx-background-color: #5347c6; /* Slightly darker purple when hovered */
 }
 
-.dialog-button:hover {
-    -fx-background-color: #5347c6;
-}
-
+/* Parent Pane for Centering */
 #updateDataPane {
-    -fx-background-color: #f9f9f9;
-    -fx-alignment: center;
+    -fx-background-color: #f9f9f9; /* Light gray background */
+    -fx-alignment: center; /* Center everything inside */
     -fx-padding: 30px;
-    -fx-pref-width: 100%;
-    -fx-pref-height: 100%;
+    -fx-pref-width: 100%; /* Full width */
+    -fx-pref-height: 100%; /* Full height */
 }
 
 /* Form Container */
 .form-container {
-    -fx-background-color: #ffffff;
+    -fx-background-color: #ffffff; /* White background for contrast */
     -fx-padding: 20px;
     -fx-spacing: 15px;
     -fx-alignment: center;
@@ -165,13 +168,15 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 4, 0.3, 2, 2);
 }
 
+/* Labels */
 .form-label {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: #6157ed;
+    -fx-text-fill: #6157ed; /* Purple color */
     -fx-alignment: center-left;
 }
 
+/* TextFields */
 .form-textfield {
     -fx-font-size: 14px;
     -fx-padding: 8px;
@@ -181,6 +186,7 @@
     -fx-background-radius: 5px;
 }
 
+/* Update Button */
 .update-button {
     -fx-background-color: #6157ed;
     -fx-text-fill: white;
@@ -193,11 +199,12 @@
 }
 
 .update-button:hover {
-    -fx-background-color: #5347c6;
+    -fx-background-color: #5347c6; /* Darker purple on hover */
 }
 
+/* Root Pane Background */
 #updateDataPane {
-    -fx-background-color: #f9f9f9;
+    -fx-background-color: #f9f9f9; /* Light gray for soft contrast */
     -fx-padding: 30px;
 }
 
@@ -230,44 +237,4 @@
     -fx-background-color: #5347c6;
 }
 
-#reserve{
-    -fx-background-image: url("images/reserve.png");
-    -fx-background-size: 250;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-.vehicleType:hover{
-    -fx-background-size: 250;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
-    -fx-translate-y: -10;
-    -fx-cursor: hand;
-}
-#view{
-    -fx-background-image: url("images/view.png");
-    -fx-background-size: 250;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-}
-
-.homePane {
-    -fx-background-color: linear-gradient(to right, #005aa7, #ffffff);
-    -fx-padding: 20px;
-}
-
-.homePane .label {
-    -fx-font-family: 'Cyber';
-}
-
-.homePane .button {
-    -fx-background-color: #005aa7;
-    -fx-text-fill: white;
-    -fx-background-radius: 10px;
-    -fx-padding: 10px 20px;
-    -fx-font-size: 14px;
-}
-
-.homePane .button:hover {
-    -fx-background-color: #004080;
-}
 

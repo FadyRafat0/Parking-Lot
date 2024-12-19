@@ -3,8 +3,6 @@ package com.example.parking.gui;
 import com.example.parking.Owner;
 import com.example.parking.Vehicle;
 import com.example.parking.VehicleType;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -49,6 +46,11 @@ public class menuController {
     private ListView<String> vehicleListView;
     @FXML
     private Label signup_msg;
+    @FXML
+    private CheckBox showPasswordBox;
+    @FXML
+    private TextField visibleTextField; //text password
+
 
     // ObservableList To Store Vehicles To Print Them
     private ObservableList<String> vehiclesString = FXCollections.observableArrayList();
@@ -67,58 +69,36 @@ public class menuController {
         loginPage.setVisible(false);
         signUpPage.setVisible(false);
 
-        vehicleListView.setItems(vehiclesString);
+        visibleTextField.textProperty().bindBidirectional(passwordField.textProperty());
+
+      
+        showPasswordBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                // Show password in plain text
+                visibleTextField.setVisible(true);
+                passwordField.setVisible(false);
+            } else {
+                // Hide password
+                visibleTextField.setVisible(false);
+                passwordField.setVisible(true);
+            }
+        });
     }
 
-    private void switchToPane(Pane pane) {
+
+    void switchToPane(Pane pane) {
         currentPane.setVisible(false);
         currentAnchorPane.setVisible(false);
 
         pane.setVisible(true);
         currentPane = pane;
     }
-    private void switchToPane(AnchorPane pane) {
+    void switchToPane(AnchorPane pane) {
         currentPane.setVisible(false);
         currentAnchorPane.setVisible(false);
 
         pane.setVisible(true);
         currentAnchorPane = pane;
-    }
-    private int messageCounter = 0; // Track the latest message
-    private void displayTemporaryMessage(Label msg, String message) {
-        messageCounter++;
-        int currentMessageId = messageCounter;
-
-        msg.setText(message);
-        Timeline timeline = new Timeline(new KeyFrame(
-                Duration.seconds(3.5),
-                event -> {
-                    // Only clear if this timeline is the most recent one
-                    if (currentMessageId == messageCounter) {
-                        msg.setText("");
-                    }
-                }
-        ));
-        timeline.setCycleCount(1);
-        timeline.play();
-    }
-    private void resetFields() {
-        // Clear text fields
-        usernameField.clear();
-        passwordField.clear();
-        usernameField2.clear();
-        passwordField2.clear();
-        licenseNumberField.clear();
-        licensePlateField.clear();
-        balanceField.clear();
-
-        // Reset combo boxes
-        vehicleTypeComboBox.setValue(null);
-        // Clear list view
-        vehicleListView.getItems().clear();
-        // Reset labels
-        login_msg.setText("");
-        signup_msg.setText("");
     }
 
     public void goToLoginPage() {
@@ -128,7 +108,6 @@ public class menuController {
         switchToPane(signUpPage);
     }
     public void goToMenu() {
-        resetFields();
         switchToPane(buttonHolder);
     }
 
@@ -139,7 +118,7 @@ public class menuController {
 
         // Validation: Check if username or password are empty
         if (username.isEmpty() || password.isEmpty()) {
-            displayTemporaryMessage(login_msg, "fill in both username and password");
+            login_msg.setText("fill in both username and password");
             return;
         }
 
@@ -169,7 +148,7 @@ public class menuController {
         }
 
         // Not Found
-        displayTemporaryMessage(login_msg, "Wrong Username/Password");
+        login_msg.setText("Wrong Username/Password");
     }
 
     @FXML
@@ -180,21 +159,21 @@ public class menuController {
 
         // Validate inputs
         if (vehicleType == null || vehicleType.isEmpty()) {
-            displayTemporaryMessage(signup_msg, "Please select a vehicle type");
+            signup_msg.setText("Please select a vehicle type");
             return;
         }
         if (licensePlate.isEmpty()) {
-            displayTemporaryMessage(signup_msg, "Please enter a license plate.");
+            signup_msg.setText("Please enter a license plate.");
             return;
         }
 
         if (vehiclesString.size() >= 3) {
-            displayTemporaryMessage(signup_msg, "You can only add up to 3 vehicles.");
+            signup_msg.setText("You can only add up to 3 vehicles.");
             return;
         }
 
         if (!licensePlateValid(licensePlate)) {
-            displayTemporaryMessage(signup_msg, "Please enter a valid license plate.");
+            signup_msg.setText("Please enter a valid license plate.");
             return;
         }
 
@@ -209,13 +188,14 @@ public class menuController {
         // Clear the input fields
         licensePlateField.clear();
         vehicleTypeComboBox.setValue(null);
+        vehicleListView.getItems().setAll(vehiclesString);
+
     }
     @FXML
     public void handleRemoveVehicle() {
         // Get the selected vehicle
         int selectedIndex = vehicleListView.getSelectionModel().getSelectedIndex();
         if (selectedIndex == -1) {
-            displayTemporaryMessage(signup_msg, "Select A Vehicle To Remove");
             return;
         }
 
@@ -253,23 +233,23 @@ public class menuController {
         String balanceText = balanceField.getText().trim();
 
         if (userName.isEmpty() || password.isEmpty() || licenseNumber.isEmpty() || balanceText.isEmpty()) {
-            displayTemporaryMessage(signup_msg, "All fields must be filled");
+            signup_msg.setText("All fields must be filled");
             return;
         }
 
         // if the Username Taken Error
         if (!userNameValid(userName)) {
-            displayTemporaryMessage(signup_msg, "This Username Is Taken");
+            signup_msg.setText("This Username Is Taken");
             return;
         }
 
         if(!passwordValid(password)) {
-            displayTemporaryMessage(signup_msg, "Password must be at least 6 characters long!");
+            signup_msg.setText("Password must be at least 6 characters long!");
             return;
         }
 
         if (!balanceValid(balanceText)) {
-            displayTemporaryMessage(signup_msg, "Enter A Valid Balance");
+            signup_msg.setText("Enter A Valid Balance");
             return;
         }
 
@@ -280,7 +260,7 @@ public class menuController {
         Owner.addOwner(userName, password, licenseNumber, vehicles, balanceDouble);
 
         // Go LoginPage
-        goToMenu();
+        goToLoginPage();
     }
 
     private void showAlert(String title,String header, String message) {
