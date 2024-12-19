@@ -44,12 +44,12 @@
 }
 
 .text-fieldd{
-  -fx-border-radius: 5px;
-  -fx-background-color: white;
-  -fx-text-fill: #333333;
-  -fx-border-width: 2px;
-  -fx-border-color:  #76a8c4;
-  -fx-focus-color: #4CAF50;
+    -fx-border-radius: 5px;
+    -fx-background-color: white;
+    -fx-text-fill: #333333;
+    -fx-border-width: 2px;
+    -fx-border-color:  #76a8c4;
+    -fx-focus-color: #4CAF50;
 }
 
 .text-fieldd:hover {
@@ -75,11 +75,10 @@
     -fx-text-decoration: underline;
 }
 
-.error_msg_label{
-    -fx-font-size: 13;
+.label2{
+    -fx-font-size: 14;
     -fx-font-weight: bold;
-    -fx-text-fill:  red;
-    -fx-alignment: center;
+    -fx-text-fill:  #005aa7;
     -fx-text-decoration: underline;
 }
 
@@ -107,24 +106,19 @@
     -fx-translate-y: 2px;
     -fx-opacity:1.1;
 }
+.border-text {
+    -fx-text-fill: white;
+    -fx-stroke: #005aa7;
+    -fx-font-family: 'Cyberway Riders', sans-serif;
+    -fx-stroke-width: 5px;
+    -fx-font-size: 50px;
+    -fx-effect: dropshadow(three-pass-box, #005aa7, 0, 0, 5, 5);
+}
 
-/*.combo-box {*/
-/*    -fx-background-color: linear-gradient(to bottom, #006bb3, #005a93);*/
-/*    -fx-background-radius: 5px;*/
-/*    -fx-text-fill: white;*/
-/*    -fx-border-radius: 5px;*/
-/*    -fx-border-color: #004d80;*/
-/*    -fx-font-size: 14px;*/
-/*    -fx-font-weight: bold;*/
-/*    -fx-padding: 6px 12px;*/
-/*}*/
-
-/*.combo-box:hover {*/
-/*    -fx-background-color: linear-gradient(to bottom, #005a93, #004d80);*/
-/*}*/
-
-/*.combo-box:focused {*/
-/*    -fx-background-color: linear-gradient(to bottom, #005a93, #004d80);*/
-/*    -fx-border-color: #003d66;*/
-/*}*/
-
+.error_msg_label{
+    -fx-font-size: 13;
+    -fx-font-weight: bold;
+    -fx-text-fill:  red;
+    -fx-alignment: center;
+    -fx-text-decoration: underline;
+}

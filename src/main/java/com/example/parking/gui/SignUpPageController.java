@@ -119,7 +119,6 @@ public class SignUpPageController {
         licensePlateField.clear();
         vehicleTypeComboBox.setValue(null);
     }
-
     @FXML
     public void handleRemoveVehicle() {
         // Get the selected vehicle
@@ -157,7 +156,7 @@ public class SignUpPageController {
     }
 
     private boolean userNameValid(String userName) {
-        return !(SystemManager.isOwnerExist(userName));
+        return !(Owner.isOwnerExist(userName));
     }
     private boolean passwordValid(String password) {
         return (password.length() >= 6);
@@ -205,7 +204,7 @@ public class SignUpPageController {
 
         // Register Successfully
         showAlert("Message","SignUp Successfully!", "Welcome to our garage <3");
-        SystemManager.addOwner(userName, password, licenseNumber, vehicles, balanceDouble);
+        Owner.addOwner(userName, password, licenseNumber, vehicles, balanceDouble);
 
         // Go LoginPage
         goToLoginPage(event);

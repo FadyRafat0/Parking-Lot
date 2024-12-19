@@ -45,12 +45,19 @@ public class Owner extends Person {
     }
 
     // Reservations
+    public Reservation getReservation(int reservationID) {
+        for (Reservation reservation : reservations) {
+            if (reservation.getReservationID() == reservationID) {
+                return reservation;
+            }
+        }
+        return null;
+    }
     public void makeReservation(Slot slot) {
         double reservationAmount = payment.reservationAmount(slot);
         Reservation reservation = new Reservation(SystemManager.nextReservationID, getOwnerID(), slot,
                 reservationAmount);
 
-        System.out.println(reservationAmount);
         // Confirm Payment
         reservations.add(reservation);
         payment.confirmReservation(reservation);
@@ -63,10 +70,8 @@ public class Owner extends Person {
     public void cancelReservation(Reservation reservation) {
         // Cancel Payment
         payment.cancelReservation(reservation);
-
         Slot systemSlot = SystemManager.getSlot(reservation.getSpotID(), reservation.getSlot().getSlotID());
         systemSlot.cancelBooking();
-
         reservation.cancelReservation();
     }
 
@@ -78,6 +83,37 @@ public class Owner extends Person {
     public void makeFeedback(int ownerID, int reservationID, double rate, String message) {
         Feedback feedback = new Feedback(ownerID, reservationID, rate, message);
         SystemManager.feedbacksList.add(feedback);
+    }
+
+    // Owners
+    public static boolean isOwnerExist(String userName, String password) {
+        for (Owner owner : SystemManager.owners.values()) {
+            if (userName.equals(owner.getUserName()) && password.equals(owner.getPassword()))
+                return true;
+        }
+        return false;
+    }
+    public static boolean isOwnerExist(String userName) {
+        for (Owner owner : SystemManager.owners.values()) {
+            if (userName.equals(owner.getUserName()))
+                return true;
+        }
+        return false;
+    }
+    public static void addOwner(String userName, String Password, String licenceNumber,
+                                ArrayList<Vehicle> vehicles, double balance)
+    {
+        Owner newOwner = new Owner(userName, Password, SystemManager.nextOwnerID, licenceNumber, vehicles, balance);
+        SystemManager.owners.put(newOwner.getOwnerID(), newOwner);
+        SystemManager.nextOwnerID++;
+    }
+    public static Owner getOwner(String userName) {
+        for (Owner owner : SystemManager.owners.values()) {
+            if (owner.getUserName().equals(userName)) {
+                return owner;
+            }
+        }
+        return null;
     }
 
     // Save all Owners to a JSON file

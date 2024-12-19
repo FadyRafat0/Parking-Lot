@@ -10,7 +10,7 @@
         "endDate": "2024-12-18T05:00:00",
         "hours": 5.0,
         "amount": 35.0,
-        "isAvailable": true
+        "isAvailable": false
       },
       "2": {
         "slotID": 2,
@@ -34,7 +34,7 @@
         "endDate": "2024-12-19T03:00:00",
         "hours": 3.0,
         "amount": 21.0,
-        "isAvailable": true
+        "isAvailable": false
       },
       "4": {
         "slotID": 4,

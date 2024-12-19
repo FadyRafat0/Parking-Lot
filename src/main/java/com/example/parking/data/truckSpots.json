@@ -25,7 +25,7 @@
         "endDate": "2024-12-18T08:30:00",
         "hours": 7.833333333333333,
         "amount": 78.33333333333333,
-        "isAvailable": false
+        "isAvailable": true
       }
     }
   }

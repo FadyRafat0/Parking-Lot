@@ -26,18 +26,50 @@
           "isAvailable": false
         },
         "reservationDate": "2024-12-17T21:53:21.8727221",
-        "status": true,
+        "status": false,
         "amount": 68.33333333333333
+      },
+      {
+        "reservationID": 2,
+        "ownerID": 1,
+        "slot": {
+          "slotID": 1,
+          "spotID": 1,
+          "startDate": "2024-12-18T00:00:00",
+          "endDate": "2024-12-18T05:00:00",
+          "hours": 5.0,
+          "amount": 35.0,
+          "isAvailable": false
+        },
+        "reservationDate": "2024-12-19T01:03:13.7755933",
+        "status": true,
+        "amount": 35.0
+      },
+      {
+        "reservationID": 3,
+        "ownerID": 1,
+        "slot": {
+          "slotID": 3,
+          "spotID": 2,
+          "startDate": "2024-12-19T00:00:00",
+          "endDate": "2024-12-19T03:00:00",
+          "hours": 3.0,
+          "amount": 21.0,
+          "isAvailable": false
+        },
+        "reservationDate": "2024-12-19T01:03:17.4322943",
+        "status": true,
+        "amount": 14.0
       }
     ],
     "payment": {
       "ownerID": 1,
-      "balance": 4931.666666666667,
-      "penalty": 0.0,
+      "balance": 4951.0,
+      "penalty": 3.0,
       "lastHours": {
-        "Car": 0.0,
+        "Car": 1.0,
         "Bike": 0.0,
-        "Truck": 0.833333333333333
+        "Truck": 0.0
       },
       "REWARD_HOURS": 7,
       "PENALTY_AMOUNT": 3.0

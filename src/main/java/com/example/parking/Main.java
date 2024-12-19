@@ -19,9 +19,8 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             window = primaryStage;
-            Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/LoginPageFXML.fxml")));
+            Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/menuFXML.fxml")));
             Scene scene = new Scene(root);
-
             window.setScene(scene);
             window.show();
         }

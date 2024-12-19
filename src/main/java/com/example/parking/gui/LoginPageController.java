@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class LoginPageController {
-
     @FXML
     private TextField usernameField;
     @FXML
@@ -128,9 +127,9 @@ public class LoginPageController {
         }
 
         // User Page
-        if (SystemManager.isOwnerExist(username, password)) {
+        if (Owner.isOwnerExist(username, password)) {
             // Set The Current Owner
-            Owner owner = SystemManager.getOwner(username);
+            Owner owner = Owner.getOwner(username);
             setCurrentOwner(owner);
 
             showAlert("Message", "Logged Successfully","Welcome " + owner.getUserName() + "!");

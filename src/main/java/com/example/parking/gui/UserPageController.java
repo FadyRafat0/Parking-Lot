@@ -45,9 +45,6 @@ public class UserPageController {
     private Rating RatingBar;
     @FXML
     private TextArea feedbackMessage;
-    @FXML
-    private Button submit_btn;
-    private boolean isFeedbackSubmitted = false;
 
     // Deposit
     @FXML
@@ -330,6 +327,27 @@ public class UserPageController {
         ReservationTable.getColumns().addAll(ownerIdCol, reservationIdCol, amountCol, dateCol, statusCol);
         ReservationTable.getItems().addAll(reservations);
     }
+    public void cancelReservation() {
+        // Example: Prompt user to select a spot to remove
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(null, getReservationIds());
+        dialog.setTitle("Remove Reservation");
+        dialog.setHeaderText("Select a Reservation ID to remove:");
+        dialog.setContentText("Reservation ID:");
+        dialog.showAndWait().ifPresent(reservationIDString -> {
+            int reservationID = Integer.parseInt(reservationIDString);
+            Reservation selectedReservation  = owner.getReservation(reservationID);
+            owner.cancelReservation(selectedReservation);
+            updateReservationView();
+        });
+    }
+    public ArrayList<String> getReservationIds() {
+        ArrayList<String> ids = new ArrayList<>();
+        for (Reservation reservation : owner.getReservations()) {
+            if (reservation.isActive())
+                ids.add(String.valueOf(reservation.getReservationID()));
+        }
+        return ids;
+    }
 
     // Deposit Page
     public void goToDepositPage() {
@@ -374,11 +392,7 @@ public class UserPageController {
         switchToPane(feedbackPane);
     }
     public void feedbackSubmitButton() {
-        if (isFeedbackSubmitted) {
-            return;
-        }
         try {
-
             String reservationIdText = ReservationID_field.getText();
             String message = feedbackMessage.getText();
             double rate = RatingBar.getRating();
@@ -406,19 +420,10 @@ public class UserPageController {
             }
 
             owner.makeFeedback(owner.getOwnerID(), reservationID, rate, message);
-            isFeedbackSubmitted = true;
-
-            disableInputs();
             submit_msg.setText("Your feedback has been submitted successfully!");
         }  catch (Exception e) {
             submit_msg.setText("Reservation ID Must be a number");
         }
-    }
-    private void disableInputs() {
-        ReservationID_field.setDisable(true);
-        RatingBar.setDisable(true);
-        feedbackMessage.setDisable(true);
-        submit_btn.setDisable(true);
     }
 
     // Update Owner Data Page
@@ -519,7 +524,7 @@ public class UserPageController {
             return;
         }
         // Check If It's Taken
-        if (!newUserName.equals(owner.getUserName()) && SystemManager.isOwnerExist(newUserName)) {
+        if (!newUserName.equals(owner.getUserName()) && Owner.isOwnerExist(newUserName)) {
             showAlert("Message", "Error", "Username Already Exists.!");
             return;
         }

@@ -17,7 +17,7 @@ public class SystemManager {
         owners = new HashMap<>();
         reservations = new HashMap<>();
         feedbacksList = new ArrayList<>();
-        SystemManager.load_data_from_file();
+        load_data_from_file();
 
         setIDs();
     }
@@ -89,36 +89,6 @@ public class SystemManager {
     // Owners
     public static ArrayList<Owner> getOwners() {
         return new ArrayList<Owner>(owners.values());
-    }
-    public static Owner getOwner(String userName) {
-        for (Owner owner : owners.values()) {
-            if (owner.getUserName().equals(userName)) {
-                return owner;
-            }
-        }
-        return null;
-    }
-
-    public static boolean isOwnerExist(String userName, String password) {
-        for (Owner owner : owners.values()) {
-            if (userName.equals(owner.getUserName()) && password.equals(owner.getPassword()))
-                return true;
-        }
-        return false;
-    }
-    public static boolean isOwnerExist(String userName) {
-        for (Owner owner : owners.values()) {
-            if (userName.equals(owner.getUserName()))
-                return true;
-        }
-        return false;
-    }
-    public static void addOwner(String userName, String Password, String licenceNumber,
-                                ArrayList<Vehicle> vehicles, double balance)
-    {
-        Owner newOwner = new Owner(userName, Password, nextOwnerID, licenceNumber, vehicles, balance);
-        owners.put(newOwner.getOwnerID(), newOwner);
-        nextOwnerID++;
     }
 
     // FeedBacks
@@ -196,5 +166,4 @@ public class SystemManager {
         // Reload feedbacks
         feedbacksList = Feedback.loadFeedbacks();
     }
-
 }

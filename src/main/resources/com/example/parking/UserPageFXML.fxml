@@ -85,7 +85,7 @@
                         <Pane fx:id="updateReservationPane" prefHeight="550.0" prefWidth="758.0" stylesheets="@../../../css/adminStyle.css" visible="false">
                             <children>
                                 <TableView fx:id="ReservationTable" layoutY="18.0" prefHeight="456.0" prefWidth="758.0" styleClass="AdminStacksTables" stylesheets="@../../../css/adminStyle.css" />
-                                <Button layoutX="175.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="116.0" stylesheets="@../../../css/adminStyle.css" text="Cancel Reservation" />
+                                <Button layoutX="175.0" layoutY="489.0" mnemonicParsing="false" onAction="#cancelReservation" prefHeight="36.0" prefWidth="116.0" stylesheets="@../../../css/adminStyle.css" text="Cancel Reservation" />
                                 <Button layoutX="493.0" layoutY="489.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="120.0" stylesheets="@../../../css/adminStyle.css" text="Update Reservation" />
                             </children>
                         </Pane>
@@ -149,7 +149,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Rating>
-                              <Button fx:id="submit_btn" layoutX="56.0" layoutY="262.0" mnemonicParsing="false" onAction="#feedbackSubmitButton" prefHeight="36.0" prefWidth="120.0" styleClass="dialog-button" stylesheets="@../../../css/userStyle.css" text="Submit">
+                              <Button layoutX="56.0" layoutY="262.0" mnemonicParsing="false" onAction="#feedbackSubmitButton" prefHeight="36.0" prefWidth="120.0" styleClass="dialog-button" stylesheets="@../../../css/userStyle.css" text="Submit">
                                  <font>
                                     <Font name="Times New Roman Bold Italic" size="14.0" />
                                  </font>
