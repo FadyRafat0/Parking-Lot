@@ -1,9 +1,9 @@
 package com.example.parking;
 
-import javafx.application.Application;
+import javafx.application.*;
 import javafx.fxml.*;
 import javafx.scene.*;
-import javafx.scene.image.Image;
+import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
 import java.util.*;
@@ -20,7 +20,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             // Set the custom icon for the window
-            primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/css/images/logo.png")));
+            primaryStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/css/images/logo.png"))));
             primaryStage.setTitle("Parking-Lot");
 
             // Load the FXML file

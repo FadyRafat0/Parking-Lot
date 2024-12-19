@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "rate": 4.0,
+    "feedbackMessage": "VERY GOOD EXPERIENCE",
+    "ownerID": 1,
+    "ReservationID": 1
+  },
+  {
+    "rate": 4.0,
+    "feedbackMessage": "VERY GOOD EXPERIENCE",
+    "ownerID": 1,
+    "ReservationID": 1
+  }
+]

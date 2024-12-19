@@ -51,8 +51,8 @@
                             </font>
                         </PasswordField>
                         <Label alignment="CENTER" layoutX="80.0" prefHeight="49.0" prefWidth="94.0" styleClass="login_label" text="Login" />
-                        <Button layoutX="78.0" layoutY="250.0" mnemonicParsing="false" onAction="#loginButton" prefHeight="42.0" prefWidth="98.0" styleClass="btn-menu" text="Login" />
-                        <Label fx:id="login_msg" alignment="CENTER" layoutX="11.0" layoutY="205.0" prefHeight="26.0" prefWidth="231.0" style="-fx-text-fill: red;" styleClass="error_msg_label" />
+                        <Button layoutX="78.0" layoutY="256.0" mnemonicParsing="false" onAction="#loginButton" prefHeight="42.0" prefWidth="98.0" styleClass="btn-menu" text="Login" />
+                        <Label fx:id="login_msg" alignment="CENTER" layoutX="12.0" layoutY="224.0" prefHeight="26.0" prefWidth="231.0" style="-fx-text-fill: red;" styleClass="error_msg_label" />
                   <CheckBox fx:id="showPasswordBox" layoutX="14.0" layoutY="197.0" mnemonicParsing="false" styleClass="label2" text="Show Password" />
                   <TextField fx:id="PasswordVisible" layoutX="11.0" layoutY="144.0" prefHeight="45.0" prefWidth="231.0" promptText="Password Shown" styleClass="text-fieldd">
                      <font>

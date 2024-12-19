@@ -12,7 +12,7 @@
 }
 
 .slot-header {
-    -fx-background-color: #4CAF50;
+    -fx-background-color: rgba(61, 108, 185, 0.9);
     -fx-background-radius: 8px 8px 0 0;
     -fx-text-fill: white;
     -fx-font-size: 14px;
@@ -86,21 +86,6 @@
     -fx-padding-top: 10px;
 }
 
-.make-reservation-button {
-    -fx-background-color: #6157ed;
-    -fx-color: white;
-    -fx-border-radius: 8px;
-    -fx-padding: 15px 30px;
-    -fx-font-size: 18px;
-    -fx-font-weight: bold;
-    -fx-cursor: pointer;
-    -fx-transition: background-color 0.3s ease;
-}
-
-.make-reservation-button:hover {
-    -fx-background-color: #5347c6;
-}
-
 .total-amount-label {
     -fx-font-size: 20px;
     -fx-font-weight: bold;
@@ -168,7 +153,7 @@
 .form-label {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
-    -fx-text-fill: #6157ed;
+    -fx-text-fill: #005aa7;
     -fx-alignment: center-left;
 }
 
@@ -231,7 +216,7 @@
 }
 
 #reserve{
-    -fx-background-image: url("images/reserve.png");
+    -fx-background-image: url("images/reserve2.png");
     -fx-background-size: 250;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
@@ -239,15 +224,170 @@
 
 .vehicleType:hover{
     -fx-background-size: 250;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 15, 0.5, 0, 5);
+    -fx-effect: dropshadow(gaussian, rgba(7, 71, 153, 0.5), 15, 0.5, 0, 5);
     -fx-translate-y: -10;
     -fx-cursor: hand;
 }
-#view{
+#view {
     -fx-background-image: url("images/view.png");
     -fx-background-size: 250;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
+}
+
+.slide_container{
+    -fx-background-color: rgba(61, 108, 185, 0.9);
+    -fx-padding: 20px;
+    -fx-background-radius: 0 18px 18px 0;
+    -fx-border-radius: 0 18px 18px 0;
+}
+
+.btn-user {
+    -fx-pref-height: 8;
+    -fx-pref-width: 140;
+
+    -fx-text-fill: #005aa7;
+    -fx-background-color: white;
+
+    -fx-border-width: 0.7px;
+    -fx-cursor: hand;
+    -fx-font-weight: 700;
+    -fx-font-size: 15px;
+    -fx-border-radius: 50px;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-background-radius: 25px;
+    -fx-effect:dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0.5, 0, 1);
+}
+
+.btn-user:hover{
+    -fx-background-color: rgba(61, 108, 185,0.8);
+    -fx-text-fill: white;
+    -fx-opacity: 1;
+}
+.btn-user:pressed {
+    -fx-background-color: #014b8a;
+    -fx-effect: none;
+    -fx-translate-y: 2px;
+    -fx-opacity:1.1;
+}
+
+.make-reservation-btn {
+    -fx-text-fill: #fff;
+    -fx-background-color: linear-gradient(to bottom , #005aa7,#005aa7);
+
+    -fx-border-width: 0.7px;
+    -fx-cursor: hand;
+    -fx-font-weight: 700;
+    -fx-font-size: 17px;
+    -fx-border-radius: 50px;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-effect:dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0.5, 0, 1);
+}
+
+.make-reservation-btn:hover{
+    -fx-background-color: #0D92F4;
+    -fx-opacity: 0.7;
+}
+.make-reservation-btn:pressed {
+    -fx-background-color: #014b8a;
+    -fx-effect: none;
+    -fx-translate-y: 2px;
+    -fx-opacity:1.1;
+}
+
+.header_label{
+    -fx-font-size: 32;
+    -fx-font-weight: bold;
+    -fx-text-fill: #005aa7;
+    -fx-text-decoration: underline;
+}
+.make_reservation_label{
+    -fx-font-size: 22;
+    -fx-font-weight: bold;
+    -fx-text-fill:  #005aa7;
+    -fx-text-decoration: underline;
+}
+.info-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+    -fx-transition: all 0.4s ease;
+}
+.info-box:hover {
+    -fx-background-color: linear-gradient(to bottom right, #ecf0f1, #d6dbdf);
+    -fx-border-color: #3498db;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 5);
+    -fx-transform: scale(1.03);
+}
+.info-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+    -fx-transition: all 0.4s ease;
+}
+.info-box:hover .info-title {
+    -fx-text-fill: #1e90ff;
+}
+.info-text {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
+    -fx-transition: all 0.4s ease;
+}
+.info-box:hover .info-text {
+    -fx-text-fill: #34495e;
+}
+
+.boxcontainer{
+    -fx-background-color: rgba( 255,255,255,1);
+    -fx-background-radius: 12;
+    -fx-effect : dropShadow( three-pass-box , rgba(0,0,0,0.3) ,10.0 ,0.0, 0.0, 10.0);
+}
+
+#HomeStack {
+    -fx-background-image: url("images/HomeStack.png");
+    -fx-background-size: 550;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.text-fieldd{
+    -fx-border-radius: 5px;
+    -fx-background-color: white;
+    -fx-text-fill: #333333;
+    -fx-border-width: 2px;
+    -fx-border-color:  #76a8c4;
+    -fx-focus-color: #4CAF50;
+}
+
+.text-fieldd:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #0A3981;
+}
+
+.text-fieldd:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color:     #1F509A;
+}
+
+#feedback_image {
+    -fx-background-image: url("images/feedback8.png");
+    -fx-background-size: 100% 100%; /* Stretch the image to fill the Pane */
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.error_msg_label{
+    -fx-font-size: 11;
+    -fx-font-weight: bold;
+    -fx-text-fill:  red;
+    -fx-alignment: center;
+    -fx-text-decoration: underline;
 }
 
 

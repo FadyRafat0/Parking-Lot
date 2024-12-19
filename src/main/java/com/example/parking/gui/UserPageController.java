@@ -1,6 +1,8 @@
 package com.example.parking.gui;
 
 import com.example.parking.*;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.*;
 import javafx.event.*;
 import javafx.fxml.*;
@@ -11,6 +13,7 @@ import javafx.scene.control.*;
 
 import javafx.scene.layout.*;
 import javafx.stage.*;
+import javafx.util.Duration;
 import org.controlsfx.control.*;
 
 import java.io.*;
@@ -31,7 +34,7 @@ public class UserPageController {
     @FXML
     private Pane homePane, reservationPane, depositPane, updateDataPane,backPane, updateReservationPane;
     @FXML
-    private BorderPane feedbackPane;
+    private AnchorPane feedbackPane;
     @FXML
     private ScrollPane makeReservationPane;
 
@@ -62,7 +65,7 @@ public class UserPageController {
 
 
     public void initialize() {
-        owner = LoginPageController.getCurrentOwner();
+        owner = menuController.getOwner();
         homePane.setVisible(false);
         reservationPane.setVisible(false);
         depositPane.setVisible(false);
@@ -112,7 +115,7 @@ public class UserPageController {
     }
 
     public void handleBackButton() {
-        switchToPane(reservationPane);
+        chooseReservations();
     }
 
     // Left Buttons
@@ -145,9 +148,14 @@ public class UserPageController {
         int columns = 3; // Slots per row
 
         // Create a label to display the Total Amount
-        Label totalAmountLabel = new Label("Total Amount: $" + owner.getPayment().getPenalty());
-        totalAmountLabel.getStyleClass().add("total-amount-label");
+        Label totalAmountLabel = new Label("Total Amount: $0.0");
+        totalAmountLabel.getStyleClass().add("make_reservation_label");
+
+        Label penaltyLabel = new Label("Penalty: $" + owner.getPayment().getPenalty());
+        penaltyLabel.getStyleClass().add("make_reservation_label");
+
         gridPaneSlots.add(totalAmountLabel, 0, 0, columns, 1); // Add the total amount label above the slots
+        gridPaneSlots.add(penaltyLabel, 2, 0, columns, 1); // Add the total amount label above the slots
 
         for (int i = 0; i < slots.size(); ++i) {
             Slot slot = slots.get(i);
@@ -164,6 +172,7 @@ public class UserPageController {
 
         // Create a button to confirm reservation
         Button makeReservationButton = new Button("Make Reservation");
+        makeReservationButton.getStyleClass().add("make-reservation-btn");
         makeReservationButton.setOnAction(event -> showConfirmationDialog(totalAmountLabel.getText()));
 
         gridPaneSlots.setHgap(18); // Horizontal gap between columns
@@ -213,7 +222,7 @@ public class UserPageController {
             else {
                 selectedSlots.remove(slot);
             }
-            double currentTotalAmount = Payment.totalAmount(owner.getPayment(), selectedSlots) + owner.getPayment().getPenalty();
+            double currentTotalAmount = Payment.totalAmount(owner.getPayment(), selectedSlots);
             totalAmountLabel.setText("Total Amount: $" + String.format("%.2f", currentTotalAmount));
         });
 
@@ -231,7 +240,6 @@ public class UserPageController {
 
         return slotBox;
     }
-
     private HBox createDetailRow(String label, String value) {
         Label labelNode = new Label(label);
         labelNode.getStyleClass().add("slot-label");
@@ -387,8 +395,30 @@ public class UserPageController {
     }
 
     // Feedback Page
+    private int messageCounter = 0; // Track the latest message
+    private void displayTemporaryMessage(Label msg, String message) {
+        messageCounter++;
+        int currentMessageId = messageCounter;
+
+        msg.setText(message);
+        Timeline timeline = new Timeline(new KeyFrame(
+                Duration.seconds(3.5),
+                event -> {
+                    // Only clear if this timeline is the most recent one
+                    if (currentMessageId == messageCounter) {
+                        msg.setText("");
+                    }
+                }
+        ));
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
     public void goToFeedbackPage() {
         headerText.setText("Make Feedback");
+        ReservationID_field.clear();;
+        feedbackMessage.clear();;
+        RatingBar.setRating(2);
+
         switchToPane(feedbackPane);
     }
     public void feedbackSubmitButton() {
@@ -398,11 +428,11 @@ public class UserPageController {
             double rate = RatingBar.getRating();
 
             if (reservationIdText.isEmpty()) {
-                submit_msg.setText("Reservation ID cannot be empty!");
+                displayTemporaryMessage(submit_msg, "Reservation ID cannot be empty!");
                 return;
             }
             if (message.isEmpty()) {
-                submit_msg.setText("Feedback message cannot be empty!");
+                displayTemporaryMessage(submit_msg, "Feedback message cannot be empty!");
                 return;
             }
 
@@ -415,14 +445,15 @@ public class UserPageController {
             }
 
             if (!isReservationExist) {
-                submit_msg.setText("There Is No reservation with that ID");
+                displayTemporaryMessage(submit_msg, "There Is No reservation with that ID");
                 return;
             }
 
             owner.makeFeedback(owner.getOwnerID(), reservationID, rate, message);
-            submit_msg.setText("Your feedback has been submitted successfully!");
+            showAlert("Message", "Success", "Feedback has been submitted successfully!");
+            goToFeedbackPage();
         }  catch (Exception e) {
-            submit_msg.setText("Reservation ID Must be a number");
+            displayTemporaryMessage(submit_msg, "Reservation ID Must be a number");
         }
     }
 
@@ -442,7 +473,7 @@ public class UserPageController {
 
         TextField userNameField = new TextField(owner.getUserName());
         userNameField.setPromptText("Enter new username");
-        userNameField.getStyleClass().add("form-textfield");
+        userNameField.getStyleClass().add("text-fieldd");
 
         // My Password
         Label myPasswordLabel = new Label("Password:");
@@ -450,7 +481,7 @@ public class UserPageController {
 
         PasswordField myPasswordField = new PasswordField();
         myPasswordField.setPromptText("Enter your Password");
-        myPasswordField.getStyleClass().add("form-textfield");
+        myPasswordField.getStyleClass().add("text-fieldd");
 
         // Red Star Label
         Label redStar = new Label("*");
@@ -469,11 +500,11 @@ public class UserPageController {
         // New Password
         PasswordField newPasswordField = new PasswordField();
         newPasswordField.setPromptText("Enter new password");
-        newPasswordField.getStyleClass().add("form-textfield");
+        newPasswordField.getStyleClass().add("text-fieldd");
 
         PasswordField confirmPasswordField = new PasswordField();
         confirmPasswordField.setPromptText("Confirm new password");
-        confirmPasswordField.getStyleClass().add("form-textfield");
+        confirmPasswordField.getStyleClass().add("text-fieldd");
 
         // License Number
         Label licenseLabel = new Label("License Number:");
@@ -481,13 +512,13 @@ public class UserPageController {
 
         TextField licenseField = new TextField(owner.getLicenseNumber());
         licenseField.setPromptText("Enter license number");
-        licenseField.getStyleClass().add("form-textfield");
+        licenseField.getStyleClass().add("text-fieldd");
 
         // Update Profile Button
         Button updateButton = new Button("Update Profile");
         updateButton.setOnAction(event -> handleUpdateProfile(
                 userNameField, myPasswordField, newPasswordField, confirmPasswordField, licenseField));
-        updateButton.getStyleClass().add("update-button");
+        updateButton.getStyleClass().add("make-reservation-btn");
 
         // Form Layout
         VBox updateForm = new VBox(15,
@@ -564,7 +595,7 @@ public class UserPageController {
     // Logout
     public void logoutButton(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/LoginPageFXML.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/menuFXML.fxml")));
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

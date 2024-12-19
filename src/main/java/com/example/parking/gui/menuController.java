@@ -25,8 +25,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class menuController {
-    private static Owner currentOwner = new Owner("Fady", "123456", 1, "AA" ,
-            new ArrayList<>(), 5000);
+    private static Owner currentOwner = Owner.getOwner("fady");
 
     @FXML
     private TextField usernameField;
@@ -60,7 +59,6 @@ public class menuController {
     @FXML
     private TextField PasswordVisible;
 
-
     private Pane currentPane;
     private AnchorPane currentAnchorPane;
     @FXML
@@ -71,11 +69,10 @@ public class menuController {
         buttonHolder.setVisible(true);
         loginPage.setVisible(false);
         signUpPage.setVisible(false);
+        PasswordVisible.setVisible(false);
         vehicleListView.setItems(vehiclesString);
 
         PasswordVisible.textProperty().bindBidirectional(passwordField.textProperty());
-
-
         showPasswordBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
                 PasswordVisible.setVisible(true);
@@ -136,6 +133,9 @@ public class menuController {
         // Reset labels
         login_msg.setText("");
         signup_msg.setText("");
+
+        showPasswordBox.setSelected(false);
+        PasswordVisible.clear();
     }
 
     public void goToLoginPage() {
@@ -175,7 +175,7 @@ public class menuController {
         if (Owner.isOwnerExist(username, password)) {
             // Set The Current Owner
             Owner owner = Owner.getOwner(username);
-
+            setOwner(owner);
             showAlert("Message", "Logged Successfully","Welcome " + owner.getUserName() + "!");
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/UserPageFXML.fxml")));
             Scene scene = new Scene(root);
@@ -187,6 +187,12 @@ public class menuController {
 
         // Not Found
         displayTemporaryMessage(login_msg, "Wrong Username/Password");
+    }
+    static public void setOwner(Owner owner) {
+        currentOwner = owner;
+    }
+    static public Owner getOwner() {
+        return currentOwner;
     }
 
     @FXML

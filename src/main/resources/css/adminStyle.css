@@ -17,23 +17,29 @@
     -fx-background-position: center;
 }
 
-.Logout-btn {
-    -fx-pref-height: 5;
+.logout-btn{
     -fx-pref-width: 80;
-    -fx-border-size: 20;
-    -fx-border-radius: 20;
-    -fx-border-color: #6157ed;
-    -fx-border-width: 2;
-    -fx-background-radius: 50;
-    -fx-background-color: white;
-    -fx-padding: 10px 20;
-    -fx-font-size: 0.7em;
+
+    -fx-background-color: #ff4d4d;
+    -fx-opacity:0.8;
+    -fx-text-fill: white;
     -fx-font-weight: bold;
-    -fx-text-fill: #6157ed;
-    -fx-alignment: center;
-    -fx-letter-spacing: 0.1em;
-    -fx-transition: all 0.3s ease;
+    -fx-cursor: hand;
+    -fx-border-color: transparent;
+    -fx-border-width: 2px;
+    -fx-background-radius: 20px;
+    -fx-effect:dropshadow(three-pass-box, rgba(0, 0, 0, 0.3), 5, 0.5, 0, 1);
 }
+.logout-btn:hover{
+    -fx-background-color: #f2293a;
+    -fx-opacity:1;
+}
+.logout-btn:pressed {
+    -fx-background-color: #cc0000;
+    -fx-effect: none;
+
+}
+
 
 .buttons {
     -fx-background-color: #6157ed;
@@ -143,12 +149,12 @@
     -fx-pref-width: 5;
     -fx-border-size: 1;
     -fx-border-radius: 50;
-    -fx-border-color: #6157ed;
+    -fx-border-color:  #005aa7;
     -fx-border-width: 2;
     -fx-background-radius: 1;
-    -fx-background-color: white;
+    -fx-background-color:rgba(255, 255, 255, 0);
     -fx-font-weight: bold;
-    -fx-text-fill: #6157ed;
+    -fx-text-fill:  #005aa7;
     -fx-alignment: center;
     -fx-transition: all 0.3s ease;
 }
