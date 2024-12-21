@@ -1,50 +1,52 @@
 [
   {
-    "spotID": 3,
+    "spotID": 11,
     "hourRate": 5.0,
-    "slots": {
-      "5": {
-        "slotID": 5,
-        "spotID": 3,
-        "startDate": "2024-12-18T00:00:00",
-        "endDate": "2024-12-18T05:00:00",
-        "hours": 5.0,
-        "amount": 25.0,
-        "isAvailable": true
-      },
-      "6": {
-        "slotID": 6,
-        "spotID": 3,
-        "startDate": "2024-12-18T05:00:00",
-        "endDate": "2024-12-18T08:30:00",
-        "hours": 3.5,
-        "amount": 17.5,
-        "isAvailable": true
-      }
-    }
+    "slots": {}
   },
   {
-    "spotID": 4,
+    "spotID": 12,
     "hourRate": 5.0,
-    "slots": {
-      "7": {
-        "slotID": 7,
-        "spotID": 4,
-        "startDate": "2024-12-18T00:00:00",
-        "endDate": "2024-12-18T05:40:00",
-        "hours": 5.666666666666667,
-        "amount": 28.333333333333336,
-        "isAvailable": true
-      },
-      "8": {
-        "slotID": 8,
-        "spotID": 4,
-        "startDate": "2024-12-18T06:00:00",
-        "endDate": "2024-12-18T12:00:00",
-        "hours": 6.0,
-        "amount": 30.0,
-        "isAvailable": true
-      }
-    }
+    "slots": {}
+  },
+  {
+    "spotID": 13,
+    "hourRate": 5.0,
+    "slots": {}
+  },
+  {
+    "spotID": 14,
+    "hourRate": 5.0,
+    "slots": {}
+  },
+  {
+    "spotID": 15,
+    "hourRate": 5.0,
+    "slots": {}
+  },
+  {
+    "spotID": 16,
+    "hourRate": 5.0,
+    "slots": {}
+  },
+  {
+    "spotID": 17,
+    "hourRate": 5.0,
+    "slots": {}
+  },
+  {
+    "spotID": 18,
+    "hourRate": 5.0,
+    "slots": {}
+  },
+  {
+    "spotID": 19,
+    "hourRate": 5.0,
+    "slots": {}
+  },
+  {
+    "spotID": 20,
+    "hourRate": 5.0,
+    "slots": {}
   }
 ]

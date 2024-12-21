@@ -6,19 +6,28 @@
       "1": {
         "slotID": 1,
         "spotID": 1,
-        "startDate": "2024-12-18T00:00:00",
-        "endDate": "2024-12-18T05:00:00",
-        "hours": 5.0,
-        "amount": 35.0,
-        "isAvailable": false
+        "startDate": "2024-12-21T00:00:00",
+        "endDate": "2024-12-21T01:00:00",
+        "hours": 1.0,
+        "amount": 7.0,
+        "isAvailable": true
       },
       "2": {
         "slotID": 2,
         "spotID": 1,
-        "startDate": "2024-12-18T05:00:00",
-        "endDate": "2024-12-18T10:00:00",
-        "hours": 5.0,
-        "amount": 35.0,
+        "startDate": "2024-12-22T00:00:00",
+        "endDate": "2024-12-22T01:00:00",
+        "hours": 1.0,
+        "amount": 7.0,
+        "isAvailable": true
+      },
+      "3": {
+        "slotID": 3,
+        "spotID": 1,
+        "startDate": "2024-12-21T05:00:00",
+        "endDate": "2024-12-21T06:00:00",
+        "hours": 1.0,
+        "amount": 7.0,
         "isAvailable": true
       }
     }
@@ -26,25 +35,46 @@
   {
     "spotID": 2,
     "hourRate": 7.0,
-    "slots": {
-      "3": {
-        "slotID": 3,
-        "spotID": 2,
-        "startDate": "2024-12-19T00:00:00",
-        "endDate": "2024-12-19T03:00:00",
-        "hours": 3.0,
-        "amount": 21.0,
-        "isAvailable": false
-      },
-      "4": {
-        "slotID": 4,
-        "spotID": 2,
-        "startDate": "2024-12-19T03:00:00",
-        "endDate": "2024-12-19T09:00:00",
-        "hours": 6.0,
-        "amount": 42.0,
-        "isAvailable": true
-      }
-    }
+    "slots": {}
+  },
+  {
+    "spotID": 3,
+    "hourRate": 7.0,
+    "slots": {}
+  },
+  {
+    "spotID": 4,
+    "hourRate": 7.0,
+    "slots": {}
+  },
+  {
+    "spotID": 5,
+    "hourRate": 7.0,
+    "slots": {}
+  },
+  {
+    "spotID": 6,
+    "hourRate": 7.0,
+    "slots": {}
+  },
+  {
+    "spotID": 7,
+    "hourRate": 7.0,
+    "slots": {}
+  },
+  {
+    "spotID": 8,
+    "hourRate": 7.0,
+    "slots": {}
+  },
+  {
+    "spotID": 9,
+    "hourRate": 7.0,
+    "slots": {}
+  },
+  {
+    "spotID": 10,
+    "hourRate": 7.0,
+    "slots": {}
   }
 ]

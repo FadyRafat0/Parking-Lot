@@ -2,6 +2,7 @@ package com.example.parking.gui;
 
 import com.example.parking.spot.*;
 import com.example.parking.*;
+import com.sun.javafx.charts.Legend;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
@@ -61,7 +62,7 @@ public class AdminPageController {
     private TableView<Reservation> ReservationTable;
 
     @FXML
-    private Label totalAmountLabel;
+    private Label totalAmountLabel, totalSpotsLabel, totalOwnersLabel, totalReservationsLabel;
 
 
     public void initialize() {
@@ -75,6 +76,7 @@ public class AdminPageController {
         feedbackPane.setVisible(false);
 
         switchToPane(homePane);
+        homeView();
     }
 
     private void switchToPane(Pane pane) {
@@ -100,7 +102,7 @@ public class AdminPageController {
         alert.setHeaderText(header);
         alert.setContentText(message);
 
-        alert.getDialogPane().getStyleClass().add("admin-alert");
+        alert.getDialogPane().getStyleClass().add("dialog-pane");
 
         URL cssFile = getClass().getResource("/css/adminStyle.css");
         if (cssFile != null) {
@@ -127,6 +129,22 @@ public class AdminPageController {
     public void goToHomePage() {
         headerText.setText("Welcome To Admin Dashboard");
         switchToPane(homePane);
+        homeView();
+    }
+    public void homeView() {
+        int totalSpots = SystemManager.getTotalSpots();
+        int totalOwners = SystemManager.getTotalOwners();
+        int totalReservations = SystemManager.getTotalReservations();
+
+
+        totalSpotsLabel.setText("Spots\n" + totalSpots);
+        totalSpotsLabel.getStyleClass().add("number");
+
+        totalOwnersLabel.setText("Owners\n" + totalOwners);
+        totalOwnersLabel.getStyleClass().add("number");
+
+        totalReservationsLabel.setText("Reservations\n" + totalReservations);
+        totalReservationsLabel.getStyleClass().add("number");
     }
 
     // Owners Page
@@ -477,31 +495,32 @@ public class AdminPageController {
 
         ArrayList<Spot> spots = SystemManager.getSpotsByType(currentVehicleType);
         for (Spot spot : spots) {
+            // Create a new TitledPane for each spot
             TitledPane titledPane = new TitledPane();
             titledPane.setText("Spot ID: " + spot.getSpotID());
+            titledPane.getStyleClass().add("titled-pane");
 
+            // Create the TableView for slots
             TableView<Slot> slotTable = new TableView<>();
             slotTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
+            // Define columns
             TableColumn<Slot, String> slotIdCol = new TableColumn<>("Slot ID");
             slotIdCol.setCellValueFactory(param ->
                     new SimpleStringProperty(String.valueOf(param.getValue().getSlotID())));
 
-            // To Show The Start Date , End Date
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-            // Start Date Column
             TableColumn<Slot, String> startDateCol = new TableColumn<>("Start Date");
             startDateCol.setCellValueFactory(param ->
                     new SimpleStringProperty(param.getValue().getStartDate().format(formatter))
             );
-            // End Date Column
+
             TableColumn<Slot, String> endDateCol = new TableColumn<>("End Date");
             endDateCol.setCellValueFactory(param ->
                     new SimpleStringProperty(param.getValue().getEndDate().format(formatter))
             );
 
-            // Availability Column
             TableColumn<Slot, Boolean> availabilityCol = new TableColumn<>("Is Available");
             availabilityCol.setCellValueFactory(param ->
                     new SimpleBooleanProperty(param.getValue().isAvailable())
@@ -509,17 +528,34 @@ public class AdminPageController {
 
             // Add columns to TableView
             slotTable.getColumns().addAll(slotIdCol, startDateCol, endDateCol, availabilityCol);
+
+            // Populate the TableView with slots
             slotTable.getItems().addAll(spot.getSlots());
 
-            // Add the TableView to the TitledPane
-            titledPane.setContent(slotTable);
+            // Wrap the TableView inside a ScrollPane for scrolling functionality
+            ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setContent(slotTable);
+            scrollPane.setFitToWidth(true);  // Ensure the table fits the width of the pane
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);  // Only show the vertical scrollbar when needed
 
-            // Ensure TitledPane's height fits content size (TableView)
-            titledPane.setMaxHeight(Region.USE_COMPUTED_SIZE);
+            // Optionally set a preferred height for the TableView within the ScrollPane
+            scrollPane.setPrefHeight(200);  // Adjust height as needed
+            scrollPane.setMinHeight(Region.USE_COMPUTED_SIZE);
 
+            // Add the ScrollPane (with TableView) to the TitledPane
+            titledPane.setContent(scrollPane);
+
+            // Ensure TitledPane's height fits content (dynamically resizing)
+            titledPane.setMaxHeight(Region.USE_COMPUTED_SIZE); // Automatically adjust to content size
+            titledPane.setPrefHeight(Region.USE_COMPUTED_SIZE); // Use computed height of the content
+            titledPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+
+            // Add the TitledPane to the container
             spotContainer.getChildren().add(titledPane);
         }
     }
+
+
 
     public void carSelection() {
         currentVehicleType = VehicleType.Car;
@@ -576,7 +612,9 @@ public class AdminPageController {
         ArrayList<Reservation> reservations = SystemManager.getReservationsWithType(currentVehicleType);
 
         double totalAmount = admin.calculateTotalAmountByType(currentVehicleType);
-        totalAmountLabel.setText(String.valueOf(totalAmount));
+        String formattedTotalAmount = String.format("%.2f", totalAmount);
+        totalAmountLabel.setText(formattedTotalAmount);
+
 
         TableColumn<Reservation, String> ownerIdCol = new TableColumn<>("Owner ID");
         ownerIdCol.setCellValueFactory(param ->
@@ -587,8 +625,12 @@ public class AdminPageController {
                 new SimpleStringProperty(String.valueOf(param.getValue().getReservationID())));
 
         TableColumn<Reservation, String> amountCol = new TableColumn<>("Amount");
-        amountCol.setCellValueFactory(param ->
-                new SimpleStringProperty(String.valueOf(param.getValue().getAmount())));
+        amountCol.setCellValueFactory(param -> {
+            double amount = param.getValue().getAmount();
+            String formattedAmount = String.format("%.2f", amount);
+            return new SimpleStringProperty(formattedAmount);
+        });
+
 
         // To Show The Start Date , End Date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

@@ -166,4 +166,15 @@ public class SystemManager {
         // Reload feedbacks
         feedbacksList = Feedback.loadFeedbacks();
     }
+
+    public static int getTotalSpots() {
+        return spots.size();
+    }
+    public static int getTotalOwners(){
+        return owners.size();
+    }
+
+    public static int getTotalReservations() {
+        return reservations.size();
+    }
 }

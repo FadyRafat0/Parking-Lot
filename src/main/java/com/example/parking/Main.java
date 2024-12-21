@@ -25,7 +25,7 @@ public class Main extends Application {
 
             // Load the FXML file
             window = primaryStage;
-            Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/menuFXML.fxml")));
+            Pane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/AdminPageFXML.fxml")));
 
             // Create and set the scene
             Scene scene = new Scene(root);

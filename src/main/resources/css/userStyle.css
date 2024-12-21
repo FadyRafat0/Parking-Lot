@@ -1,3 +1,4 @@
+/* reservation css*/
 .slot-box {
     -fx-border-color: #ccc;
     -fx-border-width: 1.5px;
@@ -113,23 +114,9 @@
     -fx-padding: 10px;
 }
 
-.dialog-button {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-    -fx-border-radius: 5px;
-    -fx-padding: 10px 20px;
-    -fx-transition: background-color 0.3s ease;
-}
 
-.dialog-button:hover {
-    -fx-background-color: #45a049;
-}
 
-.dialog-button:hover {
-    -fx-background-color: #5347c6;
-}
-
+/*update data css*/
 #updateDataPane {
     -fx-background-color: #f9f9f9;
     -fx-alignment: center;
@@ -164,21 +151,6 @@
     -fx-border-width: 1.5px;
     -fx-border-radius: 5px;
     -fx-background-radius: 5px;
-}
-
-.update-button {
-    -fx-background-color: #6157ed;
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 5px;
-    -fx-cursor: pointer;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0.3, 0, 2);
-}
-
-.update-button:hover {
-    -fx-background-color: #5347c6;
 }
 
 #updateDataPane {
@@ -391,3 +363,24 @@
 }
 
 
+.back-btn{
+    -fx-font-size: 15;
+    -fx-pref-height: 5;
+    -fx-pref-width: 5;
+    -fx-border-size: 1;
+    -fx-border-radius: 50;
+    -fx-border-color:  #005aa7;
+    -fx-border-width: 2;
+    -fx-background-radius: 1;
+    -fx-background-color:rgba(255, 255, 255, 0);
+    -fx-font-weight: bold;
+    -fx-text-fill:  #005aa7;
+    -fx-alignment: center;
+    -fx-transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    -fx-scale-x: 0.9;
+    -fx-scale-y: 0.9;
+    -fx-cursor: hand;
+}
