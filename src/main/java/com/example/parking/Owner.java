@@ -9,7 +9,7 @@ public class Owner extends Person {
     private final int ownerID;
     private String licenseNumber;
     private ArrayList<Vehicle> vehicles;
-    private final ArrayList<Reservation> reservations;
+    private final ArrayList<Integer> reservations;
     private final Payment payment;
 
     public Owner(String userName, String password, int ownerID,  String licenseNumber, ArrayList<Vehicle> vehicles,
@@ -38,45 +38,62 @@ public class Owner extends Person {
     public ArrayList<Vehicle> getVehicles() {
         return vehicles;
     }
-    public ArrayList<Reservation> getReservations(){ return reservations;}
-
     public Payment getPayment() {
         return payment;
     }
 
     // Reservations
     public Reservation getReservation(int reservationID) {
-        for (Reservation reservation : reservations) {
-            if (reservation.getReservationID() == reservationID) {
-                return reservation;
+        return SystemManager.getReservation(reservationID);
+    }
+    public ArrayList<Reservation> getReservations(){
+        ArrayList<Reservation> res = new ArrayList<>();
+        for (Integer reservationID : reservations) {
+            res.add(SystemManager.getReservation(reservationID));
+        }
+        return res;
+    }
+    public boolean isReservationExist(int reservationID) {
+        for (Reservation res : getReservations()) {
+            if (res.isActive() && res.getReservationID() == reservationID) {
+                return true;
             }
         }
-        return null;
+        return false;
+    }
+
+    public void addReservation(Reservation reservation) {
+        reservations.add(SystemManager.nextReservationID);
+        SystemManager.reservations.put(reservation.getReservationID(), reservation);
+    }
+    public void removeReservation(Reservation reservation) {
+        reservations.removeIf(r -> r == reservation.getReservationID());
+        SystemManager.reservations.remove(reservation.getReservationID());
     }
     public void makeReservation(Slot slot) {
         double reservationAmount = payment.reservationAmount(slot);
-        Reservation reservation = new Reservation(SystemManager.nextReservationID, getOwnerID(), slot,
-                reservationAmount);
+        Reservation reservation = new Reservation(SystemManager.nextReservationID, getOwnerID(),
+                                  slot.getSlotID(), reservationAmount);
+
+        addReservation(reservation);
 
         // Confirm Payment
-        reservations.add(reservation);
         payment.confirmReservation(reservation);
-        Slot systemSlot = SystemManager.getSlot(slot.getSpotID(), slot.getSlotID());
-        systemSlot.bookSlot();
-
-        SystemManager.reservations.put(reservation.getReservationID(), reservation);
         SystemManager.nextReservationID++;
     }
-    public void cancelReservation(Reservation reservation) {
+    public void cancelReservation(int reservationID) {
         // Cancel Payment
-        payment.cancelReservation(reservation);
-        Slot systemSlot = SystemManager.getSlot(reservation.getSpotID(), reservation.getSlot().getSlotID());
-        systemSlot.cancelBooking();
+        Reservation reservation = getReservation(reservationID);
         reservation.cancelReservation();
+        payment.ownerCancelReservation(reservation);
     }
+    public void updateReservation(Reservation reservation, ArrayList<Slot> slots) {
+        reservation.cancelReservation();
+        removeReservation(reservation);
 
-    // Dont Know The Logic
-    public void updateReservation(Reservation reservation) {
+        for (Slot slot1 : slots) {
+            makeReservation(slot1);
+        }
     }
 
     // Feedback
@@ -107,7 +124,7 @@ public class Owner extends Person {
         SystemManager.owners.put(newOwner.getOwnerID(), newOwner);
         SystemManager.nextOwnerID++;
     }
-    public static Owner getOwner(String userName) {
+    public static Owner getOwnerByUsername(String userName) {
         for (Owner owner : SystemManager.owners.values()) {
             if (owner.getUserName().equals(userName)) {
                 return owner;
@@ -122,7 +139,6 @@ public class Owner extends Person {
     }
     // Load all Owners from a JSON file
     public static ArrayList<Owner> loadOwners() {
-        Type ownerListType = new TypeToken<ArrayList<Owner>>() {}.getType();
-        return JSONUtils.loadFromFile("owners.json", ownerListType);
+        return JSONUtils.loadFromFile("owners.json", new TypeToken<ArrayList<Owner>>() {}.getType());
     }
 }

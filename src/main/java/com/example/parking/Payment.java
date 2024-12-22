@@ -97,21 +97,28 @@ public class Payment {
     }
 
     public void confirmReservation(Reservation reservation) {
-        Spot spot = SystemManager.getSpot(reservation.getSpotID());
         Slot slot = reservation.getSlot();
 
         double amount = reservation.getAmount();
-        addHours(spot.getVehicleType(), slot.getHours());
+        addHours(slot.getVehicleType(), slot.getHours());
         withdraw(amount);
         resetPenalty();
     }
-    public void cancelReservation(Reservation reservation) {
-        Spot spot = SystemManager.getSpot(reservation.getSpotID());
+    // Owner Cancel Reservation
+    // Admin Cancel My Reservation
+    public void ownerCancelReservation(Reservation reservation) {
         Slot slot = reservation.getSlot();
 
         double amount = reservation.getAmount();
-        minusHours(spot.getVehicleType(), slot.getHours());
+        minusHours(slot.getVehicleType(), slot.getHours());
         deposit(reservation.getAmount());
         addPenalty(PENALTY_AMOUNT);
+    }
+    public void adminCancelReservation(Reservation reservation) {
+        Slot slot = reservation.getSlot();
+
+        double amount = reservation.getAmount();
+        minusHours(slot.getVehicleType(), slot.getHours());
+        deposit(reservation.getAmount());
     }
 }

@@ -43,6 +43,15 @@ public class SystemManager {
     public static Spot getSpot(int spotId) {
         return spots.get(spotId);
     }
+    public static Slot getSlot(int slotID) {
+        for (Spot spot : spots.values()) {
+            if (spot.isSlotExists(slotID)) {
+                return spot.getSlot(slotID);
+            }
+        }
+        return null;
+    }
+
     public static ArrayList<Spot> getSpotsByType(VehicleType vehicleType) {
         ArrayList<Spot> spots = new ArrayList<>();
         for (Spot spot : SystemManager.spots.values()) {
@@ -52,12 +61,8 @@ public class SystemManager {
         }
         return spots;
     }
-    public static ArrayList<Slot> getSlotsBySpotID(int spotID) {
-        return spots.get(spotID).getSlots();
-    }
-
     // Get All slots from all spots
-    public static ArrayList<Slot> getAllSlots() {
+    private static ArrayList<Slot> getAllSlots() {
         ArrayList<Slot> allSlots = new ArrayList<>();
         for (Spot spot : spots.values()) {
             allSlots.addAll(spot.getSlots()); // assuming getSlots() returns a map
@@ -85,12 +90,28 @@ public class SystemManager {
     public static Slot getSlot(int spotID, int slotID) {
         return spots.get(spotID).getSlot(slotID);
     }
+    // To Get All Slots in Specific Spot
+    public static ArrayList<Slot> getSlotsBySpotID(int spotID) {
+        return spots.get(spotID).getSlots();
+    }
+    // Get All Avaialble Slots
+    public static ArrayList<Slot> getSlotWithSpotType(VehicleType vehicleType) {
+        ArrayList<Slot> slots = getAllSlots();
+        ArrayList<Slot> result = new ArrayList<>();
+        for (Slot slot : slots) {
+            if (slot.isAvailable() && slot.getVehicleType() == vehicleType)
+                result.add(slot);
+        }
+        return result;
+    }
 
     // Owners
     public static ArrayList<Owner> getOwners() {
         return new ArrayList<Owner>(owners.values());
     }
-
+    public static Owner getOwner(int ownerID) {
+        return owners.get(ownerID);
+    }
     // FeedBacks
     public static ArrayList<Feedback> getFeedbacks(){
         return feedbacksList;
@@ -100,11 +121,14 @@ public class SystemManager {
     public static ArrayList<Reservation> getReservationsWithType(VehicleType vehicleType) {
         ArrayList<Reservation> reservations = new ArrayList<>();
         for (Reservation reservation : SystemManager.reservations.values()) {
-            if (reservation.getSpotType() == vehicleType) {
+            if (reservation.getVehicleType() == vehicleType) {
                 reservations.add(reservation);
             }
         }
         return reservations;
+    }
+    public static Reservation getReservation(int reservationID) {
+        return reservations.get(reservationID);
     }
 
     // Files
@@ -173,8 +197,11 @@ public class SystemManager {
     public static int getTotalOwners(){
         return owners.size();
     }
-
     public static int getTotalReservations() {
-        return reservations.size();
+        int cnt = 0;
+        for (Reservation res : reservations.values()) {
+            cnt += (res.isActive() ? 1 : 0);
+        }
+        return cnt;
     }
 }

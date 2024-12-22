@@ -39,12 +39,10 @@ public class AdminPageController {
     private Label headerText;
 
     @FXML
-    private Pane homePane, chooseCarPane, ownersPane, reservationPane, feedbackPane, backPane;
-    @FXML
-    private ScrollPane spotsPane;
+    private Pane homePane, chooseCarPane, ownersPane, reservationPane, feedbackPane, backPane, spotsPane;
 
     @FXML
-    private VBox spotContainer;
+    private TabPane SpotTabPane;
 
     @FXML
     private Rating AvgRatingBar;
@@ -215,7 +213,6 @@ public class AdminPageController {
         }
         return ids;
     }
-
     public void OwnersView() {
         OwnersTable.setEditable(true);
         // To prevent duplication
@@ -273,7 +270,6 @@ public class AdminPageController {
         lastClickedPane = LastClickedPane.SpotsPane;
         switchToPane(chooseCarPane);
     }
-
     public void goToSpotsPage() {
         switchToPane(spotsPane);
         backPane.setVisible(true);
@@ -285,6 +281,15 @@ public class AdminPageController {
         confirmationAlert.setTitle("Add New Spot");
         confirmationAlert.setHeaderText("Are you sure you want to add a new spot?");
         confirmationAlert.setContentText("This will create a new spot with ID: " + SystemManager.nextSpotID);
+
+        confirmationAlert.getDialogPane().getStyleClass().add("dialog-content");
+
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            confirmationAlert.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
 
         confirmationAlert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
@@ -300,6 +305,15 @@ public class AdminPageController {
         dialog.setTitle("Remove Spot");
         dialog.setHeaderText("Select a Spot ID to remove:");
         dialog.setContentText("Spot ID:");
+
+        dialog.getDialogPane().getStyleClass().add("owner-alert");
+
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            dialog.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
         dialog.showAndWait().ifPresent(spotId -> {
             admin.removeSpot(Integer.parseInt(spotId));
             refreshSpotView();
@@ -316,25 +330,23 @@ public class AdminPageController {
     }
 
     public void addSlot() {
-        // Step 1: Prompt the user to select a Spot ID
-        ChoiceDialog<String> spotDialog = new ChoiceDialog<>(null, getSpotIds());
-        spotDialog.setTitle("Add Slot");
-        spotDialog.setHeaderText("Select a Spot ID to add a new slot:");
-        spotDialog.setContentText("Spot ID:");
+        Tab selectedTab = SpotTabPane.getSelectionModel().getSelectedItem();
+        if (selectedTab == null)
+            return;
 
-        spotDialog.showAndWait().ifPresent(spotId -> {
-            int selectedSpotId = Integer.parseInt(spotId);
-            ArrayList<Slot> slots = SystemManager.getSlotsBySpotID(selectedSpotId);
-            // Step 2: Show custom dialog to input start and end LocalDateTime
-            Dialog<Pair<LocalDateTime, LocalDateTime>> dateTimeDialog = createDateTimeInputDialog(slots);
-            dateTimeDialog.showAndWait().ifPresent(dateTimes -> {
-                // Step 3: Add the new slot
-                LocalDateTime startDateTime = dateTimes.getKey();
-                LocalDateTime endDateTime = dateTimes.getValue();
+        String selectedTabText = selectedTab.getText(); // Get the tab text (e.g., "Spot ID: 1")
+        int currentSpotID = Integer.parseInt(selectedTabText.replace("Spot ID: ", ""));
 
-                admin.addSlot(selectedSpotId, startDateTime, endDateTime); // Add the slot
-                refreshSpotView(); // Refresh the view
-            });
+        ArrayList<Slot> slots = SystemManager.getSlotsBySpotID(currentSpotID);
+        // Step 2: Show custom dialog to input start and end LocalDateTime
+        Dialog<Pair<LocalDateTime, LocalDateTime>> dateTimeDialog = createDateTimeInputDialog(slots);
+        dateTimeDialog.showAndWait().ifPresent(dateTimes -> {
+            // Step 3: Add the new slot
+            LocalDateTime startDateTime = dateTimes.getKey();
+            LocalDateTime endDateTime = dateTimes.getValue();
+
+            admin.addSlot(currentSpotID, startDateTime, endDateTime); // Add the slot
+            refreshSpotView(); // Refresh the view
         });
     }
 
@@ -357,6 +369,10 @@ public class AdminPageController {
         endDatePicker.setPromptText("End Date");
         TextField endTimeField = new TextField();
         endTimeField.setPromptText("End Time (HH:mm)");
+
+        // Apply style to TextFields
+        startTimeField.getStyleClass().add("text-fieldd");
+        endTimeField.getStyleClass().add("text-fieldd");
 
         // Layout
         GridPane grid = new GridPane();
@@ -448,8 +464,15 @@ public class AdminPageController {
             return null;
         });
 
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            dialog.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
         return dialog;
     }
+
 
     public void removeSlot() {
         // Step 1: Prompt the user to select a Spot ID
@@ -457,6 +480,14 @@ public class AdminPageController {
         spotDialog.setTitle("Remove Slot");
         spotDialog.setHeaderText("Select a Spot ID:");
         spotDialog.setContentText("Spot ID:");
+
+        spotDialog.getDialogPane().getStyleClass().add("owner-alert");
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            spotDialog.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
 
         spotDialog.showAndWait().ifPresent(spotId -> {
             // Step 2: Get the Slot IDs for the selected Spot
@@ -469,6 +500,14 @@ public class AdminPageController {
             slotDialog.setTitle("Remove Slot");
             slotDialog.setHeaderText("Select a Slot ID to remove:");
             slotDialog.setContentText("Slot ID:");
+
+            slotDialog.getDialogPane().getStyleClass().add("owner-alert");
+            URL cssFilee = getClass().getResource("/css/adminStyle.css");
+            if (cssFilee != null) {
+                slotDialog.getDialogPane().getStylesheets().add(cssFilee.toExternalForm());
+            } else {
+                System.out.println("CSS file not found.");
+            }
 
             slotDialog.showAndWait().ifPresent(slotId -> {
                 // Step 4: Remove the selected Slot
@@ -491,18 +530,28 @@ public class AdminPageController {
     }
 
     public void refreshSpotView() {
-        spotContainer.getChildren().clear();
+        SpotTabPane.getTabs().clear(); // Clear the container
+        SpotTabPane.getStyleClass().add("tab-pane");
+
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            SpotTabPane.getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
 
         ArrayList<Spot> spots = SystemManager.getSpotsByType(currentVehicleType);
         for (Spot spot : spots) {
-            // Create a new TitledPane for each spot
-            TitledPane titledPane = new TitledPane();
-            titledPane.setText("Spot ID: " + spot.getSpotID());
-            titledPane.getStyleClass().add("titled-pane");
+            // Create a new Tab for each spot
+            Tab tab = new Tab();
+            tab.setText("Spot ID: " + spot.getSpotID());
+            tab.getStyleClass().add("tab");
 
             // Create the TableView for slots
             TableView<Slot> slotTable = new TableView<>();
             slotTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+            slotTable.getStyleClass().add("AdminStacksTables");
 
             // Define columns
             TableColumn<Slot, String> slotIdCol = new TableColumn<>("Slot ID");
@@ -526,36 +575,19 @@ public class AdminPageController {
                     new SimpleBooleanProperty(param.getValue().isAvailable())
             );
 
-            // Add columns to TableView
+            // Add columns to the TableView
             slotTable.getColumns().addAll(slotIdCol, startDateCol, endDateCol, availabilityCol);
 
             // Populate the TableView with slots
             slotTable.getItems().addAll(spot.getSlots());
 
-            // Wrap the TableView inside a ScrollPane for scrolling functionality
-            ScrollPane scrollPane = new ScrollPane();
-            scrollPane.setContent(slotTable);
-            scrollPane.setFitToWidth(true);  // Ensure the table fits the width of the pane
-            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);  // Only show the vertical scrollbar when needed
+            // Set the TableView as the content of the Tab
+            tab.setContent(slotTable);
 
-            // Optionally set a preferred height for the TableView within the ScrollPane
-            scrollPane.setPrefHeight(200);  // Adjust height as needed
-            scrollPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-
-            // Add the ScrollPane (with TableView) to the TitledPane
-            titledPane.setContent(scrollPane);
-
-            // Ensure TitledPane's height fits content (dynamically resizing)
-            titledPane.setMaxHeight(Region.USE_COMPUTED_SIZE); // Automatically adjust to content size
-            titledPane.setPrefHeight(Region.USE_COMPUTED_SIZE); // Use computed height of the content
-            titledPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-
-            // Add the TitledPane to the container
-            spotContainer.getChildren().add(titledPane);
+            // Add the Tab to the TabPane
+            SpotTabPane.getTabs().add(tab);
         }
     }
-
-
 
     public void carSelection() {
         currentVehicleType = VehicleType.Car;
@@ -602,6 +634,30 @@ public class AdminPageController {
         backPane.setVisible(true);
         reservationView();
     }
+    public void cancelReservation() {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(null, getReservationIds());
+        dialog.setTitle("Cancel Reservation");
+        dialog.setHeaderText("Select a Reservation ID to cancel:");
+        dialog.setContentText("Reservation ID:");
+        dialog.showAndWait().ifPresent(reservationIDString -> {
+            if (reservationIDString.isEmpty())
+                return;
+            int reservationID = Integer.parseInt(reservationIDString);
+            admin.cancelReservation(reservationID);
+            reservationView();
+        });
+    }
+    public ArrayList<String> getReservationIds() {
+        ArrayList<String> reservationIds = new ArrayList<>();
+        ArrayList<Reservation> reservations = SystemManager.getReservationsWithType(currentVehicleType);
+
+        for (Reservation reservation : reservations) {
+            if (reservation.isActive())
+                reservationIds.add(String.valueOf(reservation.getReservationID()));
+        }
+
+        return reservationIds;
+    }
 
     public void reservationView() {
         // to prevent duplication
@@ -624,6 +680,10 @@ public class AdminPageController {
         reservationIdCol.setCellValueFactory(param ->
                 new SimpleStringProperty(String.valueOf(param.getValue().getReservationID())));
 
+        TableColumn<Reservation, String> slotIdCol = new TableColumn<>("Slot ID");
+        slotIdCol.setCellValueFactory(param ->
+                new SimpleStringProperty(String.valueOf(param.getValue().getSlot().getSlotID())));
+
         TableColumn<Reservation, String> amountCol = new TableColumn<>("Amount");
         amountCol.setCellValueFactory(param -> {
             double amount = param.getValue().getAmount();
@@ -643,10 +703,10 @@ public class AdminPageController {
 
         TableColumn<Reservation, String> statusCol = new TableColumn<>("Status");
         statusCol.setCellValueFactory(param ->
-                new SimpleStringProperty((param.getValue().getStatus() ? "Confirmed" : "Canceled"))
+                new SimpleStringProperty((param.getValue().isActive() ? "Confirmed" : "Canceled"))
         );
 
-        ReservationTable.getColumns().addAll(ownerIdCol, reservationIdCol, amountCol, dateCol, statusCol);
+        ReservationTable.getColumns().addAll(ownerIdCol, reservationIdCol, slotIdCol, amountCol, dateCol, statusCol);
         ReservationTable.getItems().addAll(reservations);
     }
 

@@ -23,6 +23,10 @@ import java.time.format.*;
 import java.util.*;
 
 public class UserPageController {
+    private enum LastClickedPane {
+        chooseReservations,
+        reservationHistory
+    }
     private Owner owner;
 
     private ScrollPane lastScrollPane = new ScrollPane();
@@ -32,13 +36,13 @@ public class UserPageController {
     @FXML
     private Label headerText;
     @FXML
-    private Pane homePane, reservationPane, depositPane, updateDataPane,backPane, updateReservationPane;
+    private Pane homePane, reservationPane, historyReservationPane, depositPane, updateDataPane, backPane;
     @FXML
     private AnchorPane feedbackPane;
     @FXML
     private ScrollPane makeReservationPane;
 
-
+    LastClickedPane lastClickedPane;
     // Feedback
     @FXML
     private Label submit_msg;
@@ -63,7 +67,6 @@ public class UserPageController {
     @FXML
     private GridPane gridPaneSlots;
 
-
     public void initialize() {
         owner = menuController.getOwner();
         homePane.setVisible(false);
@@ -73,7 +76,7 @@ public class UserPageController {
         updateDataPane.setVisible(false);
         backPane.setVisible(false);
         makeReservationPane.setVisible(false);
-        updateReservationPane.setVisible(false);
+        historyReservationPane.setVisible(false);
 
         headerText.setText("Welcome " + owner.getUserName());
         switchToPane(homePane);
@@ -115,7 +118,10 @@ public class UserPageController {
     }
 
     public void handleBackButton() {
-        chooseReservations();
+        if (lastClickedPane == LastClickedPane.chooseReservations)
+            chooseReservations();
+        else
+            goToReservationHistory();
     }
 
     // Left Buttons
@@ -137,6 +143,7 @@ public class UserPageController {
         switchToPane(makeReservationPane);
         headerText.setText("Make a New Reservation");
         backPane.setVisible(true);
+        lastClickedPane = LastClickedPane.chooseReservations;
         makeReservationView();
     }
     private ArrayList<Slot> selectedSlots;
@@ -173,7 +180,13 @@ public class UserPageController {
         // Create a button to confirm reservation
         Button makeReservationButton = new Button("Make Reservation");
         makeReservationButton.getStyleClass().add("make-reservation-btn");
-        makeReservationButton.setOnAction(event -> showConfirmationDialog(totalAmountLabel.getText()));
+        makeReservationButton.setOnAction(event -> {
+            if (selectedSlots.isEmpty()) {
+                showAlert("Error", "No Slots Selected", "Select Slots To Reserve");
+                return;
+            }
+            makeReservationConfirm(totalAmountLabel.getText());
+        });
 
         gridPaneSlots.setHgap(18); // Horizontal gap between columns
         gridPaneSlots.setVgap(15); // Vertical gap between rows
@@ -252,7 +265,7 @@ public class UserPageController {
 
         return row;
     }
-    private void showConfirmationDialog(String totalAmountText) {
+    private void makeReservationConfirm(String totalAmountText) {
         double penalty = owner.getPayment().getPenalty();
         double amount = Payment.totalAmount(owner.getPayment(), selectedSlots);
         double balance = owner.getPayment().getBalance();
@@ -267,6 +280,12 @@ public class UserPageController {
 
         // Apply the dialog's custom CSS
         alert.getDialogPane().getStyleClass().add("dialog-content");
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            alert.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
         ButtonType okButton = ButtonType.OK;
         ButtonType cancelButton = ButtonType.CANCEL;
         alert.getButtonTypes().setAll(okButton, cancelButton);
@@ -291,14 +310,15 @@ public class UserPageController {
         });
     }
 
-    // Update Reservation
-    public void goToUpdateReservationPane() {
-        switchToPane(updateReservationPane);
+    // Reservation History
+    public void goToReservationHistory() {
+        switchToPane(historyReservationPane);
         headerText.setText("Reservations History");
         backPane.setVisible(true);
-        updateReservationView();
+        lastClickedPane = LastClickedPane.chooseReservations;
+        reservationHistoryView();
     }
-    public void updateReservationView() {
+    public void reservationHistoryView() {
         // to prevent duplication
         ReservationTable.getColumns().clear();
         ReservationTable.getItems().clear();
@@ -306,13 +326,13 @@ public class UserPageController {
 
         ArrayList<Reservation> reservations = owner.getReservations();
 
-        TableColumn<Reservation, String> ownerIdCol = new TableColumn<>("Owner ID");
-        ownerIdCol.setCellValueFactory(param ->
-                new SimpleStringProperty(String.valueOf(param.getValue().getOwnerID())));
-
         TableColumn<Reservation, String> reservationIdCol = new TableColumn<>("Reservation ID");
         reservationIdCol.setCellValueFactory(param ->
                 new SimpleStringProperty(String.valueOf(param.getValue().getReservationID())));
+
+        TableColumn<Reservation, String> vehicleTypeCol = new TableColumn<>("Vehicle Type");
+        vehicleTypeCol.setCellValueFactory(param ->
+                new SimpleStringProperty(String.valueOf(param.getValue().getVehicleType())));
 
         TableColumn<Reservation, String> amountCol = new TableColumn<>("Amount");
         amountCol.setCellValueFactory(param ->
@@ -329,23 +349,34 @@ public class UserPageController {
 
         TableColumn<Reservation, String> statusCol = new TableColumn<>("Status");
         statusCol.setCellValueFactory(param ->
-                new SimpleStringProperty((param.getValue().getStatus() ? "Confirmed" : "Canceled"))
+                new SimpleStringProperty((param.getValue().isActive() ? "Confirmed" : "Canceled"))
         );
 
-        ReservationTable.getColumns().addAll(ownerIdCol, reservationIdCol, amountCol, dateCol, statusCol);
+        ReservationTable.getColumns().addAll(reservationIdCol, vehicleTypeCol, amountCol, dateCol, statusCol);
         ReservationTable.getItems().addAll(reservations);
     }
+    // Cancel Reservations
     public void cancelReservation() {
         // Example: Prompt user to select a spot to remove
         ChoiceDialog<String> dialog = new ChoiceDialog<>(null, getReservationIds());
         dialog.setTitle("Remove Reservation");
         dialog.setHeaderText("Select a Reservation ID to remove:");
         dialog.setContentText("Reservation ID:");
+
+        dialog.getDialogPane().getStyleClass().add("owner-alert");
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            dialog.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
+
         dialog.showAndWait().ifPresent(reservationIDString -> {
+            if (reservationIDString.isEmpty())
+                return;
             int reservationID = Integer.parseInt(reservationIDString);
-            Reservation selectedReservation  = owner.getReservation(reservationID);
-            owner.cancelReservation(selectedReservation);
-            updateReservationView();
+            owner.cancelReservation(reservationID);
+            reservationHistoryView();
         });
     }
     public ArrayList<String> getReservationIds() {
@@ -355,6 +386,129 @@ public class UserPageController {
                 ids.add(String.valueOf(reservation.getReservationID()));
         }
         return ids;
+    }
+    // Update Reservation
+    Reservation selectedReservation;
+    public void updateReservationButton() {
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(null, getReservationIds());
+        dialog.setTitle("Update Reservation");
+        dialog.setHeaderText("Select a Reservation ID to Update:");
+        dialog.setContentText("Reservation ID:");
+
+        dialog.getDialogPane().getStyleClass().add("owner-alert");
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            dialog.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
+
+        dialog.showAndWait().ifPresent(reservationIDString -> {
+            if (reservationIDString.isEmpty())
+                return;
+            int reservationID = Integer.parseInt(reservationIDString);
+            selectedReservation = SystemManager.getReservation(reservationID);
+            goToUpdateReservation();
+        });
+    }
+    public void goToUpdateReservation() {
+        switchToPane(makeReservationPane);
+        headerText.setText("Update Reservation");
+        backPane.setVisible(true);
+        lastClickedPane = LastClickedPane.reservationHistory;
+        updateReservationView();
+    }
+    public void updateReservationView() {
+        gridPaneSlots.getChildren().clear(); // Clear all previous content
+        selectedSlots = new ArrayList<>();
+
+        ArrayList<Slot> slots = SystemManager.getSlotWithSpotType(selectedReservation.getVehicleType());
+        int columns = 3; // Slots per row
+
+        // Create a label to display the Total Amount
+        Label totalAmountLabel = new Label("Total Amount: $0.0");
+        totalAmountLabel.getStyleClass().add("make_reservation_label");
+
+        Label oldReservationAmount = new Label("Old Res Amount: $" + selectedReservation.getAmount());
+        oldReservationAmount.getStyleClass().add("make_reservation_label");
+
+        gridPaneSlots.add(totalAmountLabel, 0, 0, columns, 1); // Add the total amount label above the slots
+        gridPaneSlots.add(oldReservationAmount, 2, 0, columns, 1); // Add the total amount label above the slots
+
+
+        for (int i = 0; i < slots.size(); ++i) {
+            Slot slot = slots.get(i);
+            VBox slotBox = createSlotBox(slot, totalAmountLabel);
+
+            slotBox.setAlignment(Pos.CENTER); // Centers content within the VBox
+            slotBox.setSpacing(10);
+            slotBox.getStyleClass().add("slot-box");
+
+            int row = i / columns;
+            int col = i % columns;
+            gridPaneSlots.add(slotBox, col, row + 1); // Offset by 1 to leave space for the total amount label
+        }
+
+        // Create a button to confirm reservation
+        Button makeReservationButton = new Button("Update Reservation");
+        makeReservationButton.getStyleClass().add("make-reservation-btn");
+        makeReservationButton.setOnAction(event -> {
+            if (selectedSlots.isEmpty()) {
+                showAlert("Error", "No Slots Selected", "Select Slots To Reserve");
+                return;
+            }
+            updateReservationConfirm(totalAmountLabel.getText());
+        });
+
+        gridPaneSlots.setHgap(18); // Horizontal gap between columns
+        gridPaneSlots.setVgap(15); // Vertical gap between rows
+
+        // Add the button below the ScrollPane
+        HBox buttonContainer = new HBox(10, makeReservationButton);
+        buttonContainer.setAlignment(Pos.CENTER);
+        gridPaneSlots.add(buttonContainer, 0, slots.size() / 4 + 2, 4, 1); // Add below grid
+    }
+    private void updateReservationConfirm(String totalAmountText)   {
+        double amount = Payment.totalAmount(owner.getPayment(), selectedSlots);
+        double oldReservationAmount = selectedReservation.getAmount();
+        double balance = owner.getPayment().getBalance();
+
+        double totalAmount = amount - oldReservationAmount;
+        // Proceed with reservation
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Reservation Confirmation");
+        alert.setHeaderText("Reservation Details");
+        alert.setContentText(String.format("Amount: $%.2f\nOld Reservation Amount: $%.2f\nFinal Amount: $%.2f\n",
+                amount, oldReservationAmount, totalAmount));
+
+        alert.getDialogPane().getStyleClass().add("dialog-content");
+        URL cssFile = getClass().getResource("/css/adminStyle.css");
+        if (cssFile != null) {
+            alert.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        } else {
+            System.out.println("CSS file not found.");
+        }
+
+        ButtonType okButton = ButtonType.OK;
+        ButtonType cancelButton = ButtonType.CANCEL;
+        alert.getButtonTypes().setAll(okButton, cancelButton);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == okButton) {
+                if (balance < totalAmount) {
+                    // Handle insufficient balance
+                    Alert newAlert = new Alert(Alert.AlertType.ERROR, "Insufficient balance. Please add more funds");
+                    newAlert.getDialogPane().getStyleClass().add("dialog-content"); // Apply dialog content CSS
+                    newAlert.showAndWait();
+                    return;
+                }
+                owner.updateReservation(selectedReservation, selectedSlots);
+                Alert newAlert = new Alert(Alert.AlertType.INFORMATION, "Reservations Made Successfully");
+                newAlert.getDialogPane().getStyleClass().add("dialog-content"); // Apply dialog content CSS
+                newAlert.showAndWait();
+                goToReservationHistory();
+            }
+        });
     }
 
     // Deposit Page
@@ -437,14 +591,7 @@ public class UserPageController {
             }
 
             int reservationID = Integer.parseInt(reservationIdText);
-            boolean isReservationExist = false;
-            for (Reservation reservation : owner.getReservations()) {
-                if (reservation.getReservationID() == reservationID) {
-                    isReservationExist = true;
-                }
-            }
-
-            if (!isReservationExist) {
+            if (!owner.isReservationExist(reservationID)) {
                 displayTemporaryMessage(submit_msg, "There Is No reservation with that ID");
                 return;
             }

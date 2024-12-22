@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class menuController {
-    private static Owner currentOwner = Owner.getOwner("fady");
+    private static Owner currentOwner = Owner.getOwnerByUsername("fady");
 
     @FXML
     private TextField usernameField;
@@ -174,7 +174,7 @@ public class menuController {
         // User Page
         if (Owner.isOwnerExist(username, password)) {
             // Set The Current Owner
-            Owner owner = Owner.getOwner(username);
+            Owner owner = Owner.getOwnerByUsername(username);
             setOwner(owner);
             showAlert("Message", "Logged Successfully","Welcome " + owner.getUserName() + "!");
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/UserPageFXML.fxml")));

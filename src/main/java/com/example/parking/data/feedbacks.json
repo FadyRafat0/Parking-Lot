@@ -10,5 +10,17 @@
     "feedbackMessage": "VERY GOOD EXPERIENCE",
     "ownerID": 1,
     "ReservationID": 1
+  },
+  {
+    "rate": 4.0,
+    "feedbackMessage": "as",
+    "ownerID": 1,
+    "ReservationID": 1
+  },
+  {
+    "rate": 4.0,
+    "feedbackMessage": "asasa",
+    "ownerID": 1,
+    "ReservationID": 1
   }
 ]

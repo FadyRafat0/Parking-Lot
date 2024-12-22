@@ -2,6 +2,7 @@ package com.example.parking;
 import com.example.parking.spot.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Admin extends Person {
     public Admin() {
@@ -46,14 +47,20 @@ public class Admin extends Person {
         SystemManager.spots.remove(spotID);
     }
 
+    // Reservations
+    public void cancelReservation(int reservationID) {
+        Reservation reservation = SystemManager.reservations.get(reservationID);
+        reservation.cancelReservation();
+        Owner owner = SystemManager.owners.get(reservation.getOwnerID());
+        // Return Payment
+        owner.getPayment().adminCancelReservation(reservation);
+    }
+
     public double calculateTotalAmountByType(VehicleType vehicleType) {
         double totalAmount = 0;
         for (Reservation reservation : SystemManager.reservations.values()) {
-            if (reservation.isActive()  &&
-                    SystemManager.spots.get(reservation.getSpotID()).getVehicleType() == vehicleType)
-            {
+            if (reservation.isActive()  && reservation.getVehicleType() == vehicleType)
                 totalAmount += reservation.getAmount();
-            }
         }
         return totalAmount;
     }

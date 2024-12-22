@@ -82,7 +82,7 @@
                               </Label>
                            </children>
                         </Pane>
-                                <Pane id="view" layoutX="376.0" onMouseClicked="#goToUpdateReservationPane" prefHeight="550.0" prefWidth="389.0" styleClass="vehicleType" stylesheets="@../../../css/userStyle.css">
+                                <Pane id="view" layoutX="376.0" onMouseClicked="#goToReservationHistory" prefHeight="550.0" prefWidth="389.0" styleClass="vehicleType" stylesheets="@../../../css/userStyle.css">
                            <children>
                               <Label alignment="CENTER" layoutX="31.0" layoutY="43.0" prefHeight="47.0" prefWidth="322.0" styleClass="header_label" text="View Reservations" />
                            </children></Pane>
@@ -93,11 +93,11 @@
                         <GridPane fx:id="gridPaneSlots" alignment="CENTER" hgap="20" prefHeight="494.0" prefWidth="743.0" vgap="20" />
                      </content>
                   </ScrollPane>
-                        <Pane fx:id="updateReservationPane" prefHeight="550.0" prefWidth="758.0" visible="false">
+                        <Pane fx:id="historyReservationPane" prefHeight="550.0" prefWidth="758.0" visible="false">
                             <children>
                                 <TableView fx:id="ReservationTable" layoutY="18.0" prefHeight="456.0" prefWidth="758.0" styleClass="AdminStacksTables" stylesheets="@../../../css/adminStyle.css" />
                                 <Button layoutX="429.0" layoutY="486.0" mnemonicParsing="false" onAction="#cancelReservation" prefHeight="42.0" prefWidth="140.0" styleClass="make-reservation-btn" text="Cancel" />
-                                <Button layoutX="153.0" layoutY="486.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="140.0" styleClass="make-reservation-btn" text="Update" />
+                                <Button layoutX="153.0" layoutY="486.0" mnemonicParsing="false" onAction="#updateReservationButton" prefHeight="42.0" prefWidth="140.0" styleClass="make-reservation-btn" text="Update" />
                             </children>
                         </Pane>
                         <Pane fx:id="depositPane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: White;" visible="false">
@@ -119,7 +119,7 @@
                                 </Button>
                             </VBox>
                         </Pane>
-                  <AnchorPane fx:id="feedbackPane" prefHeight="273.0" prefWidth="722.0" stylesheets="@../../../css/userStyle.css">
+                  <AnchorPane fx:id="feedbackPane" prefHeight="273.0" prefWidth="722.0" stylesheets="@../../../css/userStyle.css" visible="false">
                      <children>
                         <Pane id="feedback_image" layoutX="73.0" prefHeight="290.0" prefWidth="611.0" />
                         <Label fx:id="reservationID_label" layoutX="37.0" layoutY="303.0" styleClass="form-label" stylesheets="@../../../css/userStyle.css" text="Enter your reservation ID:">

@@ -211,34 +211,6 @@
     -fx-translate-y: 2px;
     -fx-opacity:1.1;
 }
-/* Styling for the scroll pane container */
-.scroll-pane {
-  width: 100%;
-  height: 300px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #005aa7 grey;
-}
-
-.scroll-pane::-webkit-scrollbar {
-  width: 6px;
-}
-
-.scroll-pane::-webkit-scrollbar-track {
-  background: grey;
-  border-radius: 3px;
-}
-.scroll-pane::-webkit-scrollbar-thumb {
-  background-color: #005aa7;
-  border-radius: 3px;
-}
-
-.scroll-pane::-webkit-scrollbar-thumb:hover {
-  background-color: #004080;
-}
-
-
-
 
 .table {
     -fx-background-color: white;
@@ -457,4 +429,47 @@
 .titled-pane:hover > .title {
     -fx-background-color: #cfcfcf;
     -fx-text-fill: #3a3a3a;
+}
+
+.tab-pane {
+    -fx-background-color: #f8f8f8;
+    -fx-border-color: #d3d3d3;
+    -fx-border-width: 1px;
+}
+
+.tab {
+    -fx-background-color: #e0e0e0;
+    -fx-text-fill: #4d4d4d;
+    -fx-padding: 8px;
+}
+
+.tab:selected {
+    -fx-background-color: #b0b0b0;
+    -fx-text-fill: #000000;
+    -fx-font-weight: bold;
+}
+
+.tab-content-area {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d3d3d3;
+    -fx-border-width: 1px;
+}
+
+.text-fieldd{
+    -fx-border-radius: 5px;
+    -fx-background-color: white;
+    -fx-text-fill: #333333;
+    -fx-border-width: 2px;
+    -fx-border-color:  #76a8c4;
+    -fx-focus-color: #4CAF50;
+}
+
+.text-fieldd:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #0A3981;
+}
+
+.text-fieldd:focused {
+    -fx-background-color: #ffffff;
+    -fx-border-color:     #1F509A;
 }
