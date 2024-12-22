@@ -64,17 +64,4 @@ public class Slot {
     public static void saveSlots(ArrayList<Slot> slots) {
         JSONUtils.saveToFile(slots, "slots.json");
     }
-
-    // Load all Slots from a JSON file
-    public static void loadSlots() {
-        ArrayList<Slot> loadedSlots = JSONUtils.loadFromFile("slots.json", new TypeToken<ArrayList<Slot>>() {}.getType());
-
-        for (Slot slot : loadedSlots) {
-            Spot spot = SystemManager.getSpot(slot.getSpotID());
-            if (spot != null) {
-                spot.addSlot(slot);
-            }
-        }
-    }
-
 }

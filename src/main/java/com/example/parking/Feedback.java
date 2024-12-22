@@ -1,7 +1,6 @@
 package com.example.parking;
 
 import com.example.parking.json.JSONUtils;
-
 import java.util.ArrayList;
 
 public class Feedback

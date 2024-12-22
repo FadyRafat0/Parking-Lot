@@ -22,5 +22,17 @@
     "feedbackMessage": "asasa",
     "ownerID": 1,
     "ReservationID": 1
+  },
+  {
+    "rate": 5.0,
+    "feedbackMessage": "NOT BAD",
+    "ownerID": 2,
+    "ReservationID": 6
+  },
+  {
+    "rate": 2.0,
+    "feedbackMessage": "lhj",
+    "ownerID": 2,
+    "ReservationID": 6
   }
 ]

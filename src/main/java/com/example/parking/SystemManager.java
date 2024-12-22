@@ -18,7 +18,6 @@ public class SystemManager {
         reservations = new HashMap<>();
         feedbacksList = new ArrayList<>();
         load_data_from_file();
-
         setIDs();
     }
     // Set The Initial IDs
@@ -39,19 +38,10 @@ public class SystemManager {
         }
     }
 
-    // Spots & Slots
+    // Spots
     public static Spot getSpot(int spotId) {
         return spots.get(spotId);
     }
-    public static Slot getSlot(int slotID) {
-        for (Spot spot : spots.values()) {
-            if (spot.isSlotExists(slotID)) {
-                return spot.getSlot(slotID);
-            }
-        }
-        return null;
-    }
-
     public static ArrayList<Spot> getSpotsByType(VehicleType vehicleType) {
         ArrayList<Spot> spots = new ArrayList<>();
         for (Spot spot : SystemManager.spots.values()) {
@@ -60,6 +50,19 @@ public class SystemManager {
             }
         }
         return spots;
+    }
+    public static int getTotalSpots() {
+        return spots.size();
+    }
+
+    // Slots
+    public static Slot getSlot(int slotID) {
+        for (Spot spot : spots.values()) {
+            if (spot.isSlotExists(slotID)) {
+                return spot.getSlot(slotID);
+            }
+        }
+        return null;
     }
     // Get All slots from all spots
     private static ArrayList<Slot> getAllSlots() {
@@ -87,15 +90,12 @@ public class SystemManager {
         }
         return slots;
     }
-    public static Slot getSlot(int spotID, int slotID) {
-        return spots.get(spotID).getSlot(slotID);
-    }
-    // To Get All Slots in Specific Spot
+    // Get All Slots in Specific Spot
     public static ArrayList<Slot> getSlotsBySpotID(int spotID) {
         return spots.get(spotID).getSlots();
     }
-    // Get All Avaialble Slots
-    public static ArrayList<Slot> getSlotWithSpotType(VehicleType vehicleType) {
+    // Get All Available Slots
+    public static ArrayList<Slot> getSlotsByType(VehicleType vehicleType) {
         ArrayList<Slot> slots = getAllSlots();
         ArrayList<Slot> result = new ArrayList<>();
         for (Slot slot : slots) {
@@ -107,18 +107,25 @@ public class SystemManager {
 
     // Owners
     public static ArrayList<Owner> getOwners() {
-        return new ArrayList<Owner>(owners.values());
+        return new ArrayList<>(owners.values());
     }
     public static Owner getOwner(int ownerID) {
         return owners.get(ownerID);
     }
+    public static int getTotalOwners(){
+        return owners.size();
+    }
+
     // FeedBacks
     public static ArrayList<Feedback> getFeedbacks(){
         return feedbacksList;
     }
 
     // Reservations
-    public static ArrayList<Reservation> getReservationsWithType(VehicleType vehicleType) {
+    public static ArrayList<Reservation> getReservations() {
+        return new ArrayList<>(reservations.values());
+    }
+    public static ArrayList<Reservation> getReservationsByType(VehicleType vehicleType) {
         ArrayList<Reservation> reservations = new ArrayList<>();
         for (Reservation reservation : SystemManager.reservations.values()) {
             if (reservation.getVehicleType() == vehicleType) {
@@ -130,28 +137,35 @@ public class SystemManager {
     public static Reservation getReservation(int reservationID) {
         return reservations.get(reservationID);
     }
+    public static int getTotalAvailableReservations() {
+        int counter = 0;
+        for (Reservation res : reservations.values()) {
+            counter += (res.isActive() ? 1 : 0);
+        }
+        return counter;
+    }
 
     // Files
     // Save all data to file
     public static void save_data_to_file() {
         ArrayList<CarSpot> carSpots = new ArrayList<>();
         ArrayList<BikeSpot> bikeSpots = new ArrayList<>();
-        ArrayList<TruckSpot> truckSpots = new ArrayList<>();
+        ArrayList<FourByFourSpot> fourByFourSpots = new ArrayList<>();
 
         for (Spot spot : spots.values()) {
             if (spot instanceof CarSpot) {
                 carSpots.add((CarSpot) spot);
             } else if (spot instanceof BikeSpot) {
                 bikeSpots.add((BikeSpot) spot);
-            } else if (spot instanceof TruckSpot) {
-                truckSpots.add((TruckSpot) spot);
+            } else if (spot instanceof FourByFourSpot) {
+                fourByFourSpots.add((FourByFourSpot) spot);
             }
         }
 
         // Save each type of spot
         CarSpot.saveSpots(carSpots);
         BikeSpot.saveSpots(bikeSpots);
-        TruckSpot.saveSpots(truckSpots);
+        FourByFourSpot.saveSpots(fourByFourSpots);
 
         // Save other components
         Owner.saveOwners(new ArrayList<>(owners.values()));
@@ -163,7 +177,7 @@ public class SystemManager {
         // Load spots by type
         ArrayList<CarSpot> carSpots = CarSpot.loadSpots();
         ArrayList<BikeSpot> bikeSpots = BikeSpot.loadSpots();
-        ArrayList<TruckSpot> truckSpots = TruckSpot.loadSpots();
+        ArrayList<FourByFourSpot> fourByFourSpots = FourByFourSpot.loadSpots();
 
         // Merge all spots into allSpots
         for (CarSpot carSpot : carSpots) {
@@ -172,8 +186,8 @@ public class SystemManager {
         for (BikeSpot bikeSpot : bikeSpots) {
             spots.put(bikeSpot.getSpotID(), bikeSpot);
         }
-        for (TruckSpot truckSpot : truckSpots) {
-            spots.put(truckSpot.getSpotID(), truckSpot);
+        for (FourByFourSpot fourByFourSpot : fourByFourSpots) {
+            spots.put(fourByFourSpot.getSpotID(), fourByFourSpot);
         }
 
         // Load other components
@@ -191,17 +205,4 @@ public class SystemManager {
         feedbacksList = Feedback.loadFeedbacks();
     }
 
-    public static int getTotalSpots() {
-        return spots.size();
-    }
-    public static int getTotalOwners(){
-        return owners.size();
-    }
-    public static int getTotalReservations() {
-        int cnt = 0;
-        for (Reservation res : reservations.values()) {
-            cnt += (res.isActive() ? 1 : 0);
-        }
-        return cnt;
-    }
 }

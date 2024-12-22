@@ -1,29 +1,31 @@
 [
   {
     "ownerID": 1,
-    "licenseNumber": "5000",
+    "licenseNumber": "AS789456",
     "vehicles": [
       {
         "Type": "Car",
-        "licensePlate": "A-88"
+        "licensePlate": "AS-46"
+      },
+      {
+        "Type": "Bike",
+        "licensePlate": "SH-466"
       }
     ],
-    "reservations": [
-      1
-    ],
+    "reservations": [],
     "payment": {
       "ownerID": 1,
       "balance": 5000.0,
-      "penalty": 3.0,
+      "penalty": 0.0,
       "lastHours": {
         "Car": 0.0,
         "Bike": 0.0,
-        "Truck": 0.0
+        "FourByFour": 0.0
       },
       "REWARD_HOURS": 7,
       "PENALTY_AMOUNT": 3.0
     },
-    "userName": "fadyH",
+    "userName": "fady",
     "password": "123456"
   }
 ]

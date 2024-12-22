@@ -31,14 +31,15 @@ public abstract class Spot {
     public boolean isSlotExists(int slotID) {
         return slots.containsKey(slotID);
     }
+
+    public Slot getSlot(int slotID) {
+        return slots.get(slotID);
+    }
+
     public void addSlot(Slot slot) {
         slots.put(slot.getSlotID(), slot);
     }
     public void removeSlot(int slotID) {
         slots.remove(slotID);
-    }
-
-    public Slot getSlot(int slotID) {
-        return slots.get(slotID);
     }
 }

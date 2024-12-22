@@ -2,19 +2,18 @@ package com.example.parking.gui;
 
 import com.example.parking.spot.*;
 import com.example.parking.*;
-import com.sun.javafx.charts.Legend;
 import javafx.beans.property.*;
-import javafx.event.ActionEvent;
+import javafx.event.*;
 import javafx.fxml.*;
-import javafx.geometry.Insets;
+import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.*;
-import javafx.util.Pair;
+import javafx.util.*;
 import org.controlsfx.control.*;
 import java.io.*;
-import java.net.URL;
+import java.net.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -85,15 +84,6 @@ public class AdminPageController {
         pane.setVisible(true);
         lastPane = pane;
     }
-    private  void switchToPane(ScrollPane pane) {
-        backPane.setVisible(false);
-
-        lastPane.setVisible(false);
-        lastScrollPane.setVisible(false);
-        pane.setVisible(true);
-        lastScrollPane = pane;
-    }
-
     private void showAlert(String title, String header, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
@@ -111,7 +101,6 @@ public class AdminPageController {
 
         alert.showAndWait();
     }
-
     public void handleBackButton() {
         if (lastClickedPane == LastClickedPane.SpotsPane) {
             goToChooseCarPageFromSpots();
@@ -132,7 +121,7 @@ public class AdminPageController {
     public void homeView() {
         int totalSpots = SystemManager.getTotalSpots();
         int totalOwners = SystemManager.getTotalOwners();
-        int totalReservations = SystemManager.getTotalReservations();
+        int totalReservations = SystemManager.getTotalAvailableReservations();
 
 
         totalSpotsLabel.setText("Spots\n" + totalSpots);
@@ -328,7 +317,6 @@ public class AdminPageController {
         }
         return ids;
     }
-
     public void addSlot() {
         Tab selectedTab = SpotTabPane.getSelectionModel().getSelectedItem();
         if (selectedTab == null)
@@ -473,58 +461,42 @@ public class AdminPageController {
         return dialog;
     }
 
-
     public void removeSlot() {
-        // Step 1: Prompt the user to select a Spot ID
-        ChoiceDialog<String> spotDialog = new ChoiceDialog<>(null, getSpotIds());
-        spotDialog.setTitle("Remove Slot");
-        spotDialog.setHeaderText("Select a Spot ID:");
-        spotDialog.setContentText("Spot ID:");
+        Tab selectedTab = SpotTabPane.getSelectionModel().getSelectedItem();
+        if (selectedTab == null)
+            return;
 
-        spotDialog.getDialogPane().getStyleClass().add("owner-alert");
-        URL cssFile = getClass().getResource("/css/adminStyle.css");
-        if (cssFile != null) {
-            spotDialog.getDialogPane().getStylesheets().add(cssFile.toExternalForm());
+        String selectedTabText = selectedTab.getText(); // Get the tab text (e.g., "Spot ID: 1")
+        int selectedSpotId = Integer.parseInt(selectedTabText.replace("Spot ID: ", ""));
+
+        // Step 2: Get the Slot IDs for the selected Spot
+        List<String> slotIds = getSlotIdsForSpot(selectedSpotId);
+        // Step 3: Prompt the user to select a Slot ID
+        ChoiceDialog<String> slotDialog = new ChoiceDialog<>(null, slotIds);
+        slotDialog.setTitle("Remove Slot");
+        slotDialog.setHeaderText("Select a Slot ID to remove:");
+        slotDialog.setContentText("Slot ID:");
+
+        slotDialog.getDialogPane().getStyleClass().add("owner-alert");
+        URL cssFilee = getClass().getResource("/css/adminStyle.css");
+        if (cssFilee != null) {
+            slotDialog.getDialogPane().getStylesheets().add(cssFilee.toExternalForm());
         } else {
             System.out.println("CSS file not found.");
         }
 
-        spotDialog.showAndWait().ifPresent(spotId -> {
-            // Step 2: Get the Slot IDs for the selected Spot
-            int selectedSpotId = Integer.parseInt(spotId);
-            List<String> slotIds = getSlotIdsForSpot(selectedSpotId);
-
-
-            // Step 3: Prompt the user to select a Slot ID
-            ChoiceDialog<String> slotDialog = new ChoiceDialog<>(null, slotIds);
-            slotDialog.setTitle("Remove Slot");
-            slotDialog.setHeaderText("Select a Slot ID to remove:");
-            slotDialog.setContentText("Slot ID:");
-
-            slotDialog.getDialogPane().getStyleClass().add("owner-alert");
-            URL cssFilee = getClass().getResource("/css/adminStyle.css");
-            if (cssFilee != null) {
-                slotDialog.getDialogPane().getStylesheets().add(cssFilee.toExternalForm());
-            } else {
-                System.out.println("CSS file not found.");
-            }
-
-            slotDialog.showAndWait().ifPresent(slotId -> {
-                // Step 4: Remove the selected Slot
-                admin.removeSlot(Integer.parseInt(slotId));
-                refreshSpotView(); // Refresh the view of slots for the spot
-            });
+        slotDialog.showAndWait().ifPresent(slotId -> {
+            // Step 4: Remove the selected Slot
+            admin.removeSlot(Integer.parseInt(slotId));
+            refreshSpotView(); // Refresh the view of slots for the spot
         });
     }
     // Helper method to get the Slot IDs for a given Spot ID
     public List<String> getSlotIdsForSpot(int spotId) {
         ArrayList<String> slotIds = new ArrayList<>();
-        Spot spot = SystemManager.getSpot(spotId); // Assuming a method to get Spot by ID exists
-
-        if (spot != null) {
-            for (Slot slot : spot.getSlots()) { // Assuming Spot has a method getSlots()
-                slotIds.add(String.valueOf(slot.getSlotID()));
-            }
+        ArrayList<Slot> slots = SystemManager.getSlotsBySpotID(spotId);
+        for (Slot slot : slots) { // Assuming Spot has a method getSlots()
+            slotIds.add(String.valueOf(slot.getSlotID()));
         }
         return slotIds;
     }
@@ -612,7 +584,7 @@ public class AdminPageController {
         }
     }
     public void truckSelection() {
-        currentVehicleType = VehicleType.Truck;
+        currentVehicleType = VehicleType.FourByFour;
         if (lastClickedPane == LastClickedPane.SpotsPane) {
             headerText.setText("Four By Four Spots");
             goToSpotsPage();
@@ -649,7 +621,7 @@ public class AdminPageController {
     }
     public ArrayList<String> getReservationIds() {
         ArrayList<String> reservationIds = new ArrayList<>();
-        ArrayList<Reservation> reservations = SystemManager.getReservationsWithType(currentVehicleType);
+        ArrayList<Reservation> reservations = SystemManager.getReservationsByType(currentVehicleType);
 
         for (Reservation reservation : reservations) {
             if (reservation.isActive())
@@ -665,12 +637,11 @@ public class AdminPageController {
         ReservationTable.getItems().clear();
         ReservationTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        ArrayList<Reservation> reservations = SystemManager.getReservationsWithType(currentVehicleType);
+        ArrayList<Reservation> reservations = SystemManager.getReservationsByType(currentVehicleType);
 
         double totalAmount = admin.calculateTotalAmountByType(currentVehicleType);
         String formattedTotalAmount = String.format("%.2f", totalAmount);
         totalAmountLabel.setText(formattedTotalAmount);
-
 
         TableColumn<Reservation, String> ownerIdCol = new TableColumn<>("Owner ID");
         ownerIdCol.setCellValueFactory(param ->
@@ -691,16 +662,13 @@ public class AdminPageController {
             return new SimpleStringProperty(formattedAmount);
         });
 
-
         // To Show The Start Date , End Date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
         // Start Date Column
         TableColumn<Reservation, String> dateCol = new TableColumn<>("Date");
         dateCol.setCellValueFactory(param ->
                 new SimpleStringProperty(param.getValue().getReservationDate().format(formatter))
         );
-
         TableColumn<Reservation, String> statusCol = new TableColumn<>("Status");
         statusCol.setCellValueFactory(param ->
                 new SimpleStringProperty((param.getValue().isActive() ? "Confirmed" : "Canceled"))

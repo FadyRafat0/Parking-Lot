@@ -56,6 +56,7 @@ public class Payment {
         setLastHours(vehicleType, newHours);
     }
 
+    // Penalty
     public double getPenalty() {
         return penalty;
     }
@@ -69,14 +70,13 @@ public class Payment {
     private static double calcFees(double hours, double hour_rate) {
         return hours * hour_rate;
     }
-
-    // Difference Between (SlotAmount , ResAmount) is in ResAmount I Consider FreeHours
+    // Basic Slot Amount
     public static double slotAmount(Slot slot) {
         Spot spot = slot.getSpot();
         return calcFees(slot.getHours(), spot.getHourRate());
     }
 
-    // Not Static Because It Specific To Owner
+    // Reservation Amount Consider Free Hours
     public double reservationAmount(Slot slot) {
         Spot spot = slot.getSpot();
         double amount = slot.getAmount();
@@ -85,6 +85,7 @@ public class Payment {
         freeHours = Math.floor(freeHours);
         return amount - calcFees(freeHours, spot.getHourRate());
     }
+
     // While He is Choosing The Slots
     public static double totalAmount(Payment payment, ArrayList<Slot> slots) {
         double total = 0;
@@ -99,26 +100,28 @@ public class Payment {
     public void confirmReservation(Reservation reservation) {
         Slot slot = reservation.getSlot();
 
-        double amount = reservation.getAmount();
+        double amount = reservation.getAmount() + getPenalty();
         addHours(slot.getVehicleType(), slot.getHours());
         withdraw(amount);
         resetPenalty();
     }
     // Owner Cancel Reservation
-    // Admin Cancel My Reservation
     public void ownerCancelReservation(Reservation reservation) {
         Slot slot = reservation.getSlot();
-
         double amount = reservation.getAmount();
         minusHours(slot.getVehicleType(), slot.getHours());
         deposit(reservation.getAmount());
         addPenalty(PENALTY_AMOUNT);
     }
+    // Admin Cancel My Reservation -> don't Apply Penalty On Owner
     public void adminCancelReservation(Reservation reservation) {
         Slot slot = reservation.getSlot();
-
         double amount = reservation.getAmount();
         minusHours(slot.getVehicleType(), slot.getHours());
+        deposit(reservation.getAmount());
+    }
+    // When He Update Reservation , He Get The Money Back
+    public void updateReservation(Reservation reservation) {
         deposit(reservation.getAmount());
     }
 }

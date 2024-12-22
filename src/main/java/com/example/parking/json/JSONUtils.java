@@ -3,8 +3,6 @@ package com.example.parking.json;
 import com.example.parking.spot.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
@@ -18,7 +16,7 @@ public class JSONUtils {
         RuntimeTypeAdapterFactory<Spot> spotAdapterFactory = RuntimeTypeAdapterFactory.of(Spot.class, "type")
                 .registerSubtype(CarSpot.class, "CarSpot")
                 .registerSubtype(BikeSpot.class, "BikeSpot")
-                .registerSubtype(TruckSpot.class, "TruckSpot");
+                .registerSubtype(FourByFourSpot.class, "FourByFourSpot");
 
         gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())  // Register LocalDateTime serializer

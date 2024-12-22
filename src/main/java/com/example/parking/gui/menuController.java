@@ -1,31 +1,21 @@
 package com.example.parking.gui;
 
-import com.example.parking.Owner;
-import com.example.parking.Vehicle;
-import com.example.parking.VehicleType;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import com.example.parking.*;
+import javafx.animation.*;
+import javafx.collections.*;
+import javafx.event.*;
+import javafx.fxml.*;
+import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Objects;
+import javafx.scene.layout.*;
+import javafx.stage.*;
+import java.io.*;
+import java.net.*;
+import javafx.util.*;
+import java.util.*;
 
 public class menuController {
-    private static Owner currentOwner = Owner.getOwnerByUsername("fady");
+    private static Owner currentOwner;
 
     @FXML
     private TextField usernameField;
@@ -137,18 +127,16 @@ public class menuController {
         showPasswordBox.setSelected(false);
         PasswordVisible.clear();
     }
-
-    public void goToLoginPage() {
-        switchToPane(loginPage);
-    }
-    public void goToSignUpPage() {
-        switchToPane(signUpPage);
-    }
+    // Go To Menu
     public void goToMenu() {
         resetFields();
         switchToPane(buttonHolder);
     }
 
+    // Login Page
+    public void goToLoginPage() {
+        switchToPane(loginPage);
+    }
     public void loginButton(ActionEvent event) throws IOException {
         // check the User_name And Password ->
         String username = usernameField.getText().trim();
@@ -175,7 +163,7 @@ public class menuController {
         if (Owner.isOwnerExist(username, password)) {
             // Set The Current Owner
             Owner owner = Owner.getOwnerByUsername(username);
-            setOwner(owner);
+            setCurrentOwner(owner);
             showAlert("Message", "Logged Successfully","Welcome " + owner.getUserName() + "!");
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/example/parking/UserPageFXML.fxml")));
             Scene scene = new Scene(root);
@@ -188,13 +176,11 @@ public class menuController {
         // Not Found
         displayTemporaryMessage(login_msg, "Wrong Username/Password");
     }
-    static public void setOwner(Owner owner) {
-        currentOwner = owner;
-    }
-    static public Owner getOwner() {
-        return currentOwner;
-    }
 
+    // Sign Up Page
+    public void goToSignUpPage() {
+        switchToPane(signUpPage);
+    }
     @FXML
     public void handleAddVehicle() {
         // Get input values
@@ -216,7 +202,7 @@ public class menuController {
             return;
         }
 
-        if (!licensePlateValid(licensePlate)) {
+        if (!Vehicle.isValidLicensePlate(licensePlate)) {
             displayTemporaryMessage(signup_msg, "Please enter a valid license plate.");
             return;
         }
@@ -246,27 +232,6 @@ public class menuController {
         vehiclesString.remove(selectedIndex);
         vehicles.remove(selectedIndex);
     }
-
-    // Validations
-    private boolean licensePlateValid(String licensePlate) {
-        return Vehicle.isValidLicensePlate(licensePlate);
-    }
-    private boolean userNameValid(String userName) {
-        return !(Owner.isOwnerExist(userName));
-    }
-    private boolean passwordValid(String password) {
-        return (password.length() >= 6);
-    }
-    private boolean balanceValid(String balanceText) {
-        try {
-            double balanceDouble = Double.parseDouble(balanceText);
-            // Check Greater Than 0
-            return balanceDouble >= 0;
-        } catch (NumberFormatException e) {
-            // If Not Number
-            return false;
-        }
-    }
     // Sign Up Button
     public void signUpButton(ActionEvent event) {
         // Get input values
@@ -281,17 +246,17 @@ public class menuController {
         }
 
         // if the Username Taken Error
-        if (!userNameValid(userName)) {
+        if (!Owner.userNameValid(userName)) {
             displayTemporaryMessage(signup_msg, "This Username Is Taken");
             return;
         }
 
-        if(!passwordValid(password)) {
+        if(!Owner.passwordValid(password)) {
             displayTemporaryMessage(signup_msg, "Password must be at least 6 characters long!");
             return;
         }
 
-        if (!balanceValid(balanceText)) {
+        if (!Owner.balanceValid(balanceText)) {
             displayTemporaryMessage(signup_msg, "Enter A Valid Balance");
             return;
         }
@@ -304,6 +269,13 @@ public class menuController {
 
         // Go LoginPage
         goToMenu();
+    }
+
+    static public void setCurrentOwner(Owner owner) {
+        currentOwner = owner;
+    }
+    static public Owner getCurrentOwner() {
+        return currentOwner;
     }
 
     private void showAlert(String title,String header, String message) {

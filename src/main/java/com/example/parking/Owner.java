@@ -2,13 +2,12 @@ package com.example.parking;
 import com.example.parking.json.JSONUtils;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class Owner extends Person {
     private final int ownerID;
     private String licenseNumber;
-    private ArrayList<Vehicle> vehicles;
+    private final ArrayList<Vehicle> vehicles;
     private final ArrayList<Integer> reservations;
     private final Payment payment;
 
@@ -89,8 +88,8 @@ public class Owner extends Person {
     }
     public void updateReservation(Reservation reservation, ArrayList<Slot> slots) {
         reservation.cancelReservation();
+        payment.updateReservation(reservation);
         removeReservation(reservation);
-
         for (Slot slot1 : slots) {
             makeReservation(slot1);
         }
@@ -131,6 +130,24 @@ public class Owner extends Person {
             }
         }
         return null;
+    }
+
+    // Validations
+    public static boolean userNameValid(String userName) {
+        return !(isOwnerExist(userName));
+    }
+    public static boolean passwordValid(String password) {
+        return (password.length() >= 6);
+    }
+    public static boolean balanceValid(String balanceText) {
+        try {
+            double balanceDouble = Double.parseDouble(balanceText);
+            // Check Greater Than 0
+            return balanceDouble >= 0;
+        } catch (NumberFormatException e) {
+            // If Not Number
+            return false;
+        }
     }
 
     // Save all Owners to a JSON file

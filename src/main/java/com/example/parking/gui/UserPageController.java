@@ -68,7 +68,7 @@ public class UserPageController {
     private GridPane gridPaneSlots;
 
     public void initialize() {
-        owner = menuController.getOwner();
+        owner = menuController.getCurrentOwner();
         homePane.setVisible(false);
         reservationPane.setVisible(false);
         depositPane.setVisible(false);
@@ -422,7 +422,7 @@ public class UserPageController {
         gridPaneSlots.getChildren().clear(); // Clear all previous content
         selectedSlots = new ArrayList<>();
 
-        ArrayList<Slot> slots = SystemManager.getSlotWithSpotType(selectedReservation.getVehicleType());
+        ArrayList<Slot> slots = SystemManager.getSlotsByType(selectedReservation.getVehicleType());
         int columns = 3; // Slots per row
 
         // Create a label to display the Total Amount

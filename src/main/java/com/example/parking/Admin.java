@@ -1,8 +1,7 @@
 package com.example.parking;
-import com.example.parking.spot.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import com.example.parking.spot.*;
+import java.time.*;
 
 public class Admin extends Person {
     public Admin() {
@@ -12,7 +11,7 @@ public class Admin extends Person {
     // Slots
     public void addSlot(int spotID, LocalDateTime startDate, LocalDateTime endDate) {
         Slot slot = new Slot(SystemManager.nextSlotID, spotID, startDate, endDate);
-        SystemManager.spots.get(slot.getSpotID()).addSlot(slot);
+        SystemManager.spots.get(spotID).addSlot(slot);
         SystemManager.nextSlotID++;
     }
     public void removeSlot(int slotID) {
@@ -31,6 +30,7 @@ public class Admin extends Person {
     // Spots
     public void addSpot(VehicleType vehicleType) {
         Spot spot;
+        // -> children
         if (vehicleType == VehicleType.Car) {
             spot = new CarSpot(SystemManager.nextSpotID);
         }
@@ -38,7 +38,7 @@ public class Admin extends Person {
             spot = new BikeSpot(SystemManager.nextSpotID);
         }
         else {
-            spot = new TruckSpot(SystemManager.nextSpotID);
+            spot = new FourByFourSpot(SystemManager.nextSpotID);
         }
         SystemManager.spots.put(spot.getSpotID(), spot);
         SystemManager.nextSpotID++;
@@ -49,16 +49,15 @@ public class Admin extends Person {
 
     // Reservations
     public void cancelReservation(int reservationID) {
-        Reservation reservation = SystemManager.reservations.get(reservationID);
+        Reservation reservation = SystemManager.getReservation(reservationID);
         reservation.cancelReservation();
-        Owner owner = SystemManager.owners.get(reservation.getOwnerID());
+        Owner owner = SystemManager.getOwner(reservation.getOwnerID());
         // Return Payment
         owner.getPayment().adminCancelReservation(reservation);
     }
-
     public double calculateTotalAmountByType(VehicleType vehicleType) {
         double totalAmount = 0;
-        for (Reservation reservation : SystemManager.reservations.values()) {
+        for (Reservation reservation : SystemManager.getReservations()) {
             if (reservation.isActive()  && reservation.getVehicleType() == vehicleType)
                 totalAmount += reservation.getAmount();
         }
