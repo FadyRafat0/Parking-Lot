@@ -22,9 +22,15 @@ The Parking Lot Application is a Java-based system designed to simulate and mana
 - **Git**: For cloning the repository.
 - (Optional) A build tool like **Maven** or **Gradle**, if used in the project.
 
-## Project Structure
-- `/src`: Contains the Java source code for the parking lot logic.
-- `/css`: Contains CSS files for styling the user interface.
+## Parking-Lot
+├── src/
+│   ├── main/
+│   │   ├── java/           # Java source files (models, logic, main classes)
+│   │   └── resources/      # (if any)
+│   └── test/               # (if tests exist)
+├── css/                    # (if front-end assets exist)
+├── .gitignore
+└── README.md
 
 ## Contact
 For questions or feedback, reach out to [FadyRafat0](https://github.com/FadyRafat0) on GitHub.
