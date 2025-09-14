@@ -33,12 +33,6 @@ The Parking Lot Application is a Java-based system designed to simulate and mana
    ```bash
    cd Parking-Lot
    ```
-3. (If applicable) Install dependencies using the build tool:
-   ```bash
-   mvn install  # If using Maven
-   # OR
-   gradle build  # If using Gradle
-   ```
 4. Configure JavaFX:
    - Ensure the JavaFX SDK is added to your project or included in your JDK.
    - If using Maven/Gradle, verify JavaFX dependencies are in the build file.
@@ -71,13 +65,6 @@ Parking-Lot
 ├── .gitignore
 └── README.md
 ```
-
-## Contributing
-Contributions are welcome! To contribute:
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Make your changes and test thoroughly.
-4. Submit a pull request on GitHub with a clear description of your changes.
 
 ## Contact
 For questions or feedback, reach out to [FadyRafat0](https://github.com/FadyRafat0) on GitHub.
